@@ -3,6 +3,7 @@
 
       <DeliveryInfoStripe />
       <SlideSection />
+      <SectionCarousel />
   </div>
 </template>
 
@@ -11,11 +12,12 @@
 
 import DeliveryInfoStripe from '../components/DeliveryInfoStripe'
 import SlideSection from '../components/SlideSection'
+import SectionCarousel from '../components/SectionCarousel'
 
 export default {
   name: 'Home',
   components: {
-    DeliveryInfoStripe, SlideSection
+    DeliveryInfoStripe, SlideSection, SectionCarousel
   }
 }
 </script>

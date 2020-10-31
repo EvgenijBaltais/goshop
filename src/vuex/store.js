@@ -29,6 +29,21 @@ const store = createStore({
                 console.log(e)
                 return e
             })
+        },
+
+        getMoreCatalogItems({commit}) {
+            console.log('добавление товаров в каталог')
+
+            return axios('http://localhost:3000/moreCatalogItems', {
+                method: 'GET'
+            }).then((catalogItems) => {
+                console.log('вызов мутации')
+                commit('SET_MORE_ITEMS_TO_STATE', catalogItems.data)
+                return catalogItems
+            }).catch(e => {
+                console.log(e)
+                return e
+            })
         }
     },
 
