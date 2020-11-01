@@ -12,18 +12,18 @@
 
     <div class = "category-slider-wrapper">
 
-        <div class = "category-slider__item active-item">1
+        <div class = "category-slider__item active-item" style = "background-color: green;">1
             <img class="category-slider__pic" src = "" alt="">
             <div>
                 <span class = "category-slider__title"></span>
                 <span class = "category-slider__price"></span>
             </div>
         </div>
-        <div class = "category-slider__item">2</div>
-        <div class = "category-slider__item">3</div>
-        <div class = "category-slider__item">4</div>
-        <div class = "category-slider__item">5</div>
-        <div class = "category-slider__item">6</div>
+        <div class = "category-slider__item" style = "background-color: blue;">2</div>
+        <div class = "category-slider__item" style = "background-color: grey;">3</div>
+        <div class = "category-slider__item" style = "background-color: yellow;">4</div>
+        <div class = "category-slider__item" style = "background-color: pink;">5</div>
+        <div class = "category-slider__item" style = "background-color: orange;">6</div>
         <div class = "category-slider__item">7</div>
         <div class = "category-slider__item">8</div>
         <div class = "category-slider__item">9</div>
@@ -49,95 +49,94 @@
 export default {
     name: 'SectionCarousel',
     data(){
-        return {}
+        return {
+
+            activeElement: 0    // Активный элемент состояния слайдера
+        }
     },
     methods: {
 
         slideLeft: function(){
 
             const slider = event.target.parentNode
+            const sliderItems = slider.querySelectorAll('.category-slider__item')
             const sliderWrapper = slider.querySelector('.category-slider-wrapper')
 
             if (sliderWrapper.classList.contains('moving')) return false
-
-            // Добавить класс анимации движения
-
-            sliderWrapper.classList.add('moving')
-
-            const sliderItems = slider.querySelectorAll('.category-slider__item')
-            let activeItem = slider.querySelector('.active-item')
-
-            // Определить номер активного элемента в общем массиве
-
-            let index = (() => {
-                for (let i = 0; i <  sliderItems.length; i++) {
-                    if (activeItem == sliderItems[i]) return i;
-                }
-            })()
-
-            if (index >= sliderItems.length - 3) return false
-
-            let scrollSize = 0
-
-            for (let i = 0; i < index; i++) {
-                scrollSize += sliderItems[i].offsetWidth
-                scrollSize += parseFloat(getComputedStyle(sliderItems[i], null).marginRight)
-            }
+            if (this.activeElement >= sliderItems.length - 4) return false
 
             new Promise((resolve) => {
 
-                // Поменять активный класс
+                // Добавить класс анимации движения
 
-                activeItem.nextSibling.classList.add('active-item')
-                activeItem.classList.remove('active-item')
+                sliderWrapper.classList.add('moving')
+
+                // Сохранить в переменную длительность анимации для удобства
+
+                this.animationDuration = parseFloat(getComputedStyle(document.querySelector('.moving'), null).transitionDuration) * 1000
+
+                this.activeElement++
+
+                let scrollSize = 0
+
+                for (let i = 0; i < this.activeElement; i++) {
+                    scrollSize += sliderItems[i].offsetWidth
+                    scrollSize += parseFloat(getComputedStyle(sliderItems[i], null).marginRight)
+                }
+
+                // Поменять активный класс
+                slider.querySelector('.active-item').classList.remove('active-item')
+                sliderItems[this.activeElement].classList.add('active-item')
 
                 sliderWrapper.style.marginLeft = -scrollSize + 'px'
 
-                resolve()
+                setTimeout(() => {
+                    resolve()
+                }, this.animationDuration)
+
             }).then(() => {
                 // Удаление класса анимации
                 sliderWrapper.classList.remove('moving')
             })
         },
         slideRight: function(){
+
             const slider = event.target.parentNode
+            const sliderItems = slider.querySelectorAll('.category-slider__item')
             const sliderWrapper = slider.querySelector('.category-slider-wrapper')
 
             if (sliderWrapper.classList.contains('moving')) return false
-            // Добавить класс анимации движения
-
-            sliderWrapper.classList.add('moving')
-
-            const sliderItems = slider.querySelectorAll('.category-slider__item')
-            let activeItem = slider.querySelector('.active-item')
-
-            // Определить номер активного элемента в общем массиве
-
-            let index = (() => {
-                for (let i = 0; i < sliderItems.length; i++) {
-                    if (activeItem == sliderItems[i]) return i;
-                }
-            })()
-
-            if (index <= 0) return false
-
-            let scrollSize = 0
-
-            for (let i = 0; i < index - 2; i++) {
-                scrollSize += sliderItems[i].offsetWidth
-                scrollSize += parseFloat(getComputedStyle(sliderItems[i], null).marginRight)
-            }
+            if (this.activeElement <= 0) return false
 
             new Promise((resolve) => {
 
-                // Поменять активный класс
+                // Добавить класс анимации движения
 
-                activeItem.previousSibling.classList.add('active-item')
-                activeItem.classList.remove('active-item')
+                sliderWrapper.classList.add('moving')
+
+                // Сохранить в переменную длительность анимации для удобства
+
+                this.animationDuration = parseFloat(getComputedStyle(document.querySelector('.moving'), null).transitionDuration) * 1000
+
+                this.activeElement--
+
+                let scrollSize = 0
+
+                for (let i = 0; i < this.activeElement; i++) {
+                    scrollSize += sliderItems[i].offsetWidth
+                    scrollSize += parseFloat(getComputedStyle(sliderItems[i], null).marginRight)
+                }
+
+                // Поменять активный класс
+                slider.querySelector('.active-item').classList.remove('active-item')
+                sliderItems[this.activeElement].classList.add('active-item')
 
                 sliderWrapper.style.marginLeft = -scrollSize + 'px'
 
-                resolve()
+                setTimeout(() => {
+                    resolve()
+                }, this.animationDuration)
+
             }).then(() => {
                 // Удаление класса анимации
                 sliderWrapper.classList.remove('moving')
@@ -150,7 +149,8 @@ export default {
 <style scoped>
 
 .moving {
-    transition: margin-left 2s;
+    will-change: transform;
+    transition: margin .3s;
 }
 
 .category-section {
