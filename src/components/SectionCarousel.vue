@@ -55,8 +55,7 @@ export default {
         }
     },
     methods: {
-
-        slideLeft: function(){
+        slideRight: function(){
 
             const slider = event.target.parentNode
             const sliderItems = slider.querySelectorAll('.category-slider__item')
@@ -99,7 +98,7 @@ export default {
                 sliderWrapper.classList.remove('moving')
             })
         },
-        slideRight: function(){
+        slideLeft: function(){
 
             const slider = event.target.parentNode
             const sliderItems = slider.querySelectorAll('.category-slider__item')

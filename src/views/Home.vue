@@ -3,7 +3,13 @@
 
       <DeliveryInfoStripe />
       <SlideSection />
-      <SectionCarousel />
+      <SectionCarousel 
+        v-for = 'item in items'
+        v-bind:key = 'item.id'
+        v-bind:items = "item"
+      />
+
+      {{items}}
   </div>
 </template>
 
@@ -18,6 +24,11 @@ export default {
   name: 'Home',
   components: {
     DeliveryInfoStripe, SlideSection, SectionCarousel
+  },
+  computed: {
+    items(){
+      return {'1':1, '2':2, '3':3, '4':4}
+    }
   }
 }
 </script>
