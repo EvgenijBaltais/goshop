@@ -5,11 +5,12 @@
       <SlideSection />
       <SectionCarousel 
         v-for = 'item in items'
-        v-bind:key = 'item.id'
-        v-bind:items = "item"
+        :key = 'item.id'
+        :items = "item"
       />
 
-      {{items}}
+      <SubscribeBlock />
+
   </div>
 </template>
 
@@ -19,11 +20,12 @@
 import DeliveryInfoStripe from '../components/DeliveryInfoStripe'
 import SlideSection from '../components/SlideSection'
 import SectionCarousel from '../components/SectionCarousel'
+import SubscribeBlock from '../components/SubscribeBlock'
 
 export default {
   name: 'Home',
   components: {
-    DeliveryInfoStripe, SlideSection, SectionCarousel
+    DeliveryInfoStripe, SlideSection, SectionCarousel, SubscribeBlock
   },
   computed: {
     items(){

@@ -204,10 +204,6 @@ export default {
     margin-right: 0;
 }
 
-.category-slider__pic {
-
-}
-
 .category-slider__arrow {
     position: absolute;
     top: 0;
