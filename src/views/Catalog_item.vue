@@ -4,12 +4,22 @@
     <div class = "product-carousel">
         <div class="product-slider">
             <div class="product-slider__mainview">
-                <img src="" alt="" class = "product-slider__bimg">
+                <img src="../assets/pics/bouquets/1/1.jpg" alt="" class = "product-slider__bimg">
             </div>
             <div class="product-slider__navigation">
-                <img src="" alt="" class = "product-slider__simg">
-                <img src="" alt="" class = "product-slider__simg">
-                <img src="" alt="" class = "product-slider__simg">
+                <div @click = "changeSliderPic" :class = "[product-slider__simg, product-slider__active-img]" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}"></div>
+                <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "1"></div>
+                <div @click = "changeSliderPic" class = "product-slider__simg" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "1"></div>
+                <div @click = "changeSliderPic" class = "product-slider__simg" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "1"></div>
+                <div @click = "changeSliderPic" class = "product-slider__simg" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "1"></div>
+                <div @click = "changeSliderPic" class = "product-slider__simg" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "1"></div>
+                <div @click = "changeSliderPic" class = "product-slider__simg" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "1"></div>
+                <div @click = "changeSliderPic" class = "product-slider__simg" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "1"></div>
+                <div @click = "changeSliderPic" class = "product-slider__simg" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "1"></div>
+                <div @click = "changeSliderPic" class = "product-slider__simg" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "1"></div>
+                <div @click = "changeSliderPic" class = "product-slider__simg" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "1"></div>
+                <div @click = "changeSliderPic" class = "product-slider__simg" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "1"></div>
+                <div @click = "changeSliderPic" class = "product-slider__simg" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "1"></div>
             </div>
         </div>
     </div>
@@ -58,22 +68,41 @@
     outline: 1px solid green;
 }
 
+.product-slider__mainview {
+    padding-bottom: 30px;
+}
+
 .product-slider__bimg {
     display: block;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 .product-slider__simg {
-    display: block;
-    width: 60px;
-    margin-right: 10px;
+    flex-basis: 100px;
+    width: 100px;
+    height: 100px;
+    margin-bottom: 12px;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center;
+    cursor: pointer;
 }
 
-.product-slider__simg:last-child {
-    margin-right: 0;
+.product-slider__active-img {
+    outline: 1px solid rgb(139,191,211);
 }
 
 .product-slider__navigation {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.product-slider__navigation:after{
+    flex-basis: 100px;
+    content: "";
 }
 
 .product-description {
@@ -174,6 +203,31 @@ export default {
             productContains.classList.remove('product-contains-opened') : 
             productContains.classList.add('product-contains-opened')
         },
+
+        changeSliderPic: function(){
+            console.log(event.target)
+
+            if (event.target.classList.contains('product-slider__active-img')) {
+                return false
+            }
+
+            event.target.parentNode.children.forEach(el => {
+                el.classList.remove('product-slider__active-img')
+            });
+
+            // Замена большой картинки
+
+            if (document.querySelector('.product-slider__bimg')) {
+
+                console.log(event.target.getAttribute('data-category'))
+                console.log(event.target.getAttribute('data-item'))
+
+                //document.querySelector('.product-slider__bimg').setAttribute('src', '../assets/pics/bouquets/1/1.jpg')
+            }
+
+            event.target.classList.add('product-slider__active-img')
+        },
+
         getParent: function(el, cls){
             while ((el = el.parentElement) && !el.classList.contains(cls));
             return el;
