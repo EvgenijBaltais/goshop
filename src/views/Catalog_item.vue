@@ -4,22 +4,22 @@
     <div class = "product-carousel">
         <div class="product-slider">
             <div class="product-slider__mainview">
-                <img src="../assets/pics/bouquets/1/1.jpg" alt="" class = "product-slider__bimg">
+                <img :src = "mainPic" alt="" class = "product-slider__bimg">
             </div>
             <div class="product-slider__navigation">
-                <div @click = "changeSliderPic" :class = "[product-slider__simg, product-slider__active-img]" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}"></div>
+                <div @click = "changeSliderPic" :class = "['product-slider__simg', 'product-slider__active-img']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}"></div>
                 <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "1"></div>
-                <div @click = "changeSliderPic" class = "product-slider__simg" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "1"></div>
-                <div @click = "changeSliderPic" class = "product-slider__simg" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "1"></div>
-                <div @click = "changeSliderPic" class = "product-slider__simg" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "1"></div>
-                <div @click = "changeSliderPic" class = "product-slider__simg" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "1"></div>
-                <div @click = "changeSliderPic" class = "product-slider__simg" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "1"></div>
-                <div @click = "changeSliderPic" class = "product-slider__simg" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "1"></div>
-                <div @click = "changeSliderPic" class = "product-slider__simg" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "1"></div>
-                <div @click = "changeSliderPic" class = "product-slider__simg" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "1"></div>
-                <div @click = "changeSliderPic" class = "product-slider__simg" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "1"></div>
-                <div @click = "changeSliderPic" class = "product-slider__simg" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "1"></div>
-                <div @click = "changeSliderPic" class = "product-slider__simg" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "1"></div>
+                <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "3"></div>
+                <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "2"></div>
+                <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "1"></div>
+                <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "3"></div>
+                <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "1"></div>
+                <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "2"></div>
+                <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "3"></div>
+                <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "1"></div>
+                <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "2"></div>
+                <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "3"></div>
+                <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "3"></div>
             </div>
         </div>
     </div>
@@ -47,10 +47,112 @@
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis consequuntur numquam fuga! Dolorum sapiente necessitatibus, dicta totam eaque sit laborum quasi quas, deserunt natus saepe fugiat. Molestiae praesentium accusantium eius?
             </div>
         </div>
+        
+        <datepicker-lite 
+          :id-attr="datepickerSetting.id"
+          :name-attr="datepickerSetting.name"
+          :class-attr="datepickerSetting.class"
+          :value-attr="datepickerSetting.value"
+          :year-minus="datepickerSetting.yearMinus"
+          :from="datepickerSetting.fromDate"
+          :to="datepickerSetting.toDate"
+          :disabled-date="datepickerSetting.disabledDate"
+          :locale="datepickerSetting.locale"
+          @value-changed="datepickerSetting.changeEvent"
+        />
+
     </div>
 </div>
     
 </template>
+
+<script>
+
+import DatepickerLite from 'vue3-datepicker-lite';
+
+export default {
+    name: 'Catalog_item',
+    components: { DatepickerLite },
+    data(){
+        return {
+            mainPic: require("../assets/pics/bouquets/1/1.jpg"),
+
+            datepickerSetting: {
+              id: "birthday",
+              name: "birthday",
+              class: "myDateInput",
+              value: "2020/10/01",
+              yearMinus: 0,
+              fromDate: "2010/02/10",
+              toDate: "2030/12/10",
+              disabledDate: [
+                "2020/10/02",
+                "2020/10/03",
+                "2020/10/04",
+                "2020/10/05",
+                "2020/10/06",
+              ],
+              locale: {
+                weekday: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+                todayBtn: "Today",
+                clearBtn: "Clear",
+                closeBtn: "Close",
+              },
+              changeEvent: (value) => {
+                console.log(value + " selected!");
+              }
+            }
+        }
+    },
+    methods: {
+
+        openContainer: function(){
+
+        if (!(event.target.classList.contains('product-contains') || this.getParent(event.target, 'product-contains'))) {
+           return false
+        }
+
+        let productContains = document.querySelector('.product-contains')
+
+            productContains.classList.contains('product-contains-opened') ? 
+            productContains.classList.remove('product-contains-opened') : 
+            productContains.classList.add('product-contains-opened')
+        },
+
+        changeSliderPic: function(){
+            console.log(event.target)
+
+            if (event.target.classList.contains('product-slider__active-img')) {
+                return false
+            }
+
+            event.target.parentNode.children.forEach(el => {
+                el.classList.remove('product-slider__active-img')
+            });
+
+            // Замена большой картинки
+
+            if (document.querySelector('.product-slider__bimg')) {
+
+                let category = event.target.getAttribute('data-category'),
+                    item = event.target.getAttribute('data-item')
+
+                console.log(event.target.getAttribute('data-category'))
+                console.log(event.target.getAttribute('data-item'))
+
+                this.mainPic = require(`../assets/pics/bouquets/${category}/${item}.jpg`)
+            }
+
+            event.target.classList.add('product-slider__active-img')
+        },
+
+        getParent: function(el, cls){
+            while ((el = el.parentElement) && !el.classList.contains(cls));
+            return el;
+        }
+    }
+}
+</script>
 
 <style>
 
@@ -59,6 +161,7 @@
 }
 
 .catalog-item {
+    align-items: flex-start;
     display: flex;
     justify-content: space-between;
 }
@@ -69,7 +172,9 @@
 }
 
 .product-slider__mainview {
-    padding-bottom: 30px;
+    height: 370px;
+    padding: 0 30px 30px 30px;
+    box-sizing: border-box;
 }
 
 .product-slider__bimg {
@@ -83,7 +188,7 @@
     flex-basis: 100px;
     width: 100px;
     height: 100px;
-    margin-bottom: 12px;
+    margin-bottom: 5px;
     background-repeat: no-repeat;
     background-size: 100%;
     background-position: center;
@@ -95,6 +200,8 @@
 }
 
 .product-slider__navigation {
+    padding: 0 20px;
+    box-sizing: border-box;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -181,57 +288,3 @@
 }
 
 </style>
-
-<script>
-
-export default {
-    name: 'Catalog_item',
-    data(){
-        return {}
-    },
-    methods: {
-
-        openContainer: function(){
-
-        if (!(event.target.classList.contains('product-contains') || this.getParent(event.target, 'product-contains'))) {
-           return false
-        }
-
-        let productContains = document.querySelector('.product-contains')
-
-            productContains.classList.contains('product-contains-opened') ? 
-            productContains.classList.remove('product-contains-opened') : 
-            productContains.classList.add('product-contains-opened')
-        },
-
-        changeSliderPic: function(){
-            console.log(event.target)
-
-            if (event.target.classList.contains('product-slider__active-img')) {
-                return false
-            }
-
-            event.target.parentNode.children.forEach(el => {
-                el.classList.remove('product-slider__active-img')
-            });
-
-            // Замена большой картинки
-
-            if (document.querySelector('.product-slider__bimg')) {
-
-                console.log(event.target.getAttribute('data-category'))
-                console.log(event.target.getAttribute('data-item'))
-
-                //document.querySelector('.product-slider__bimg').setAttribute('src', '../assets/pics/bouquets/1/1.jpg')
-            }
-
-            event.target.classList.add('product-slider__active-img')
-        },
-
-        getParent: function(el, cls){
-            while ((el = el.parentElement) && !el.classList.contains(cls));
-            return el;
-        }
-    }
-}
-</script>
