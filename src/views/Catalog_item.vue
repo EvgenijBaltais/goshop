@@ -7,7 +7,7 @@
                 <img :src = "mainPic" alt="" class = "product-slider__bimg">
             </div>
             <div class="product-slider__navigation">
-                <div @click = "changeSliderPic" :class = "['product-slider__simg', 'product-slider__active-img']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}"></div>
+                <div @click = "changeSliderPic" :class = "['product-slider__simg', 'product-slider__active-img']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "1"></div>
                 <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "1"></div>
                 <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "3"></div>
                 <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "2"></div>
@@ -60,7 +60,10 @@
           :locale="datepickerSetting.locale"
           @value-changed="datepickerSetting.changeEvent"
         />
-
+        
+        <div>
+            <button class="item-order">Оформить заказ</button>
+        </div>
     </div>
 </div>
     
@@ -285,6 +288,28 @@ export default {
 
 .product-contains-opened .product-contains__inside {
     display: block;
+}
+
+.item-order {
+    display: block;
+    margin: 20px 0;
+    border-radius: 3px;
+    width: 100%;
+    height: 90px;
+    font-size: 20px;
+    line-height: 90px;
+    color: #292B2C;
+    font-weight: bold;
+    cursor: pointer;
+    border: 0;
+    outline: 0;
+    background: #AFD7BB;
+    transition: background-color .2s;
+}
+
+.item-order:hover {
+    background: #BCE4C8;
+    transition: background-color .2s;
 }
 
 </style>
