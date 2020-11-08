@@ -1,31 +1,31 @@
 <template>
 <div>
-<button class = "get-items" @click = "addPreloader()">Получить товары</button>
-<div class = "catalog">
+    <button class = "get-items" @click = "getMaxObjId()">Получить товары</button>
 
+    <div class = "catalog">
 
-<Catalog_item
-    v-for = 'item in items'
-    :key = 'item.id'
-    v-bind:items = 'item'
-/>
-
-
+        <Catalog_item
+            v-for = 'item in items'
+            :key = 'item.id'
+            v-bind:items = 'item'
+        />
+    </div>
+    <div class = "preloader-wrapper"></div>
 </div>
-
-</div>
-
 </template>
 
 <script>
 
 //import axios from 'axios'
 import Catalog_item from '../components/Catalog_item'
+import { mapActions } from 'vuex'
 
 export default {
 
     data(){
-        return {}
+        return {
+            preloader: require('../assets/icons/2.gif')
+        }
     },
     components: {
         Catalog_item
@@ -37,38 +37,66 @@ export default {
         }
     },
     methods: {
-
+        ...mapActions([
+            'getMoreCatalogItems'
+        ]),
+        onClick(){
+            console.log(this.getMaxObjId())
+        },
         getProducts(){
             // Удалить этот метод
             console.log(this.items)
         },
         getMaxObjId(){
             let maxObjId = 0    // Поиск наибольшего id из объекта товаров каталога в хранилище
-            for (let k in this.items) {
-                maxObjId < this.items[k].id ? maxObjId = this.items[k].id : ''
-            }
+            let products = document.querySelectorAll('.catalog__item')
+            let lastProductId = products[products.length - 1].getAttribute('data-id')
+
+            console.log(lastProductId)
+
+            maxObjId < lastProductId ? maxObjId = lastProductId : ''
             return maxObjId
         },
         addPreloader(){
 
             let preloader = document.createElement('img')
                 preloader.classList.add('catalog-preloader')
-                preloader.setAttribute('src', '/assets/icons/2.gif')
+                preloader.setAttribute('src', this.preloader)
 
             //preloader.insertAdjacentElement('beforeEnd', document.querySelector('.catalog'))
             //preloader.insertBefore(document.querySelector('.catalog'))
-            document.querySelector('.catalog').append(preloader)
+            document.querySelector('.preloader-wrapper').append(preloader)
         },
-
-        getMoreCatalogItems(){
+        removePreloaders(){
+            for (let i = 0; i < document.querySelectorAll('.catalog-preloader').length; i++) {
+                document.querySelectorAll('.catalog-preloader')[i].remove()
+            }
+        },
+        getMoreItems(){
 
             let items = document.querySelectorAll('.catalog__item')
 
-            if (this.isInViewport(document.querySelectorAll('.catalog__item')[items.length - 10])) {
-                window.removeEventListener('scroll', this.getMoreCatalogItems)
+            console.log(items[items.length - 10])
+
+            if (this.isInViewport(items[items.length - 10])) {
+                console.log(1111)
+                window.removeEventListener('scroll', this.getMoreItems)
                 this.addPreloader()
             }
 
+            new Promise((resolve) => {
+                setTimeout(() => {
+
+                    this.getMoreCatalogItems(this.getMaxObjId())
+                    resolve()
+
+                }, 1000)
+            }).then(() => {
+
+                this.removePreloaders()
+                window.addEventListener('scroll', this.getMoreItems)
+
+            })
         },
         isInViewport(element) {
             let rect = element.getBoundingClientRect();
@@ -82,8 +110,7 @@ export default {
         }
     },
   created() {
-    window.addEventListener('scroll', this.getMoreCatalogItems)
-
+    window.addEventListener('scroll', this.getMoreItems)
     this.$store.dispatch('get_catalog')
   }
 }
@@ -93,15 +120,24 @@ export default {
 <style scoped>
 
 .catalog {
+    position: relative;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+}
+
+.preloader-wrapper {
+    width: 100%;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.catalog-preloader {
+
 }
 
 .catalog::after {
   content: "";
   flex-basis: 250px;
 }
-
-
 </style>

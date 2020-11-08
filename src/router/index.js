@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Contacts from '../views/Contacts.vue'
 import Catalog from '../views/Catalog.vue'
-import Catalog_item from '../views/Catalog_item.vue'
+import Single_product from '../views/Single_product.vue'
 
 const routes = [
   {
@@ -13,9 +13,6 @@ const routes = [
   {
     path: '/contacts',
     name: 'Contacts',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: Contacts
   },
   {
@@ -25,8 +22,8 @@ const routes = [
   },
   {
     path: '/item',
-    name: 'Catalog_item',
-    component: Catalog_item
+    name: 'Single_product',
+    component: Single_product
   }
 ]
 

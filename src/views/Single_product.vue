@@ -1,6 +1,5 @@
 <template>
-    
-<div class = "catalog-item">
+<div class = "single-product">
     <div class = "product-carousel">
         <div class="product-slider">
             <div class="product-slider__mainview">
@@ -32,12 +31,10 @@
                 <span class="product-description__span">£32</span>
             </div>
         </div>
-
         <div class = "product-text">
             <p class = "product-text__p">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Impedit, laborum minus et nesciunt qui voluptate quis ipsa voluptatem soluta sed, ad iure provident aspernatur corrupti odit dolore sint quas dicta.</p>
             <p class = "product-text__p">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Impedit, laborum minus et nesciunt qui voluptate quis ipsa voluptatem soluta sed, ad iure provident aspernatur corrupti odit dolore sint quas dicta.</p>
         </div>
-
         <div class="product-contains" v-on:click = "openContainer()">
             <div class="product-contains__title">
                 <span>Состав букета</span>
@@ -66,15 +63,13 @@
         </div>
     </div>
 </div>
-    
 </template>
 
 <script>
-
 import DatepickerLite from 'vue3-datepicker-lite';
 
 export default {
-    name: 'Catalog_item',
+    name: 'Single_product',
     components: { DatepickerLite },
     data(){
         return {
@@ -163,7 +158,7 @@ export default {
     font-weight: bold;
 }
 
-.catalog-item {
+.single-product {
     align-items: flex-start;
     display: flex;
     justify-content: space-between;

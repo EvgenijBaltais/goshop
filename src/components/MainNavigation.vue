@@ -1,5 +1,4 @@
 <template>
-
 		<div class="main-navigation">
 			<div class = "main-navigation__item">
         <router-link :to = "{name: 'Home'}" class = "main-navigation__link">Главная</router-link>
@@ -14,7 +13,6 @@
         <router-link :to = "{name: 'Contacts'}" class = "main-navigation__link">Контакты</router-link>
 			</div>
 		</div>
-
 		<div class="main-navigation">
 			<div class = "main-navigation__item">
         <router-link :to = "{name: 'Home'}" class = "main-navigation__link">Главная</router-link>
@@ -29,7 +27,7 @@
         <router-link :to = "{name: 'Contacts'}" class = "main-navigation__link">Контакты</router-link>
 			</div>
             <div class = "main-navigation__item">
-                <router-link :to = "{name: 'Catalog_item'}" class = "main-navigation__link">Test</router-link>
+                <router-link :to = "{name: 'Single_product'}" class = "main-navigation__link">Test</router-link>
             </div>
 		</div>
 

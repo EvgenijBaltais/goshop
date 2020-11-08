@@ -4,15 +4,19 @@ import axios from 'axios'
 const store = createStore({
     state () {
         return {
-        catalogItems: [],
-        cart: [],
-        categories: []
+            catalogItems: [],
+            cart: [],
+            categories: []
         }
     },
     mutations: {
-
         SET_ITEMS_TO_STATE: (state, catalogItems) => {
             state.catalogItems = catalogItems
+        },
+        SET_MORE_ITEMS_TO_STATE: (state, items) => {
+            for (let i = 0; i < items.length; i++) {
+                state.catalogItems.push(items[i])
+            }
         }
     },
     actions: {
@@ -31,11 +35,14 @@ const store = createStore({
             })
         },
 
-        getMoreCatalogItems({commit}) {
-            console.log('добавление товаров в каталог')
+        getMoreCatalogItems({commit}, value) {
+            console.log('добавление товаров в каталог '  + value)
 
-            return axios('http://localhost:3000/moreCatalogItems', {
-                method: 'GET'
+            return axios('http://localhost:3000/getMoreCatalogItems', {
+                method: 'GET', params: {
+                    'from': value,
+                    'limit': 10
+                }
             }).then((catalogItems) => {
                 console.log('вызов мутации')
                 commit('SET_MORE_ITEMS_TO_STATE', catalogItems.data)

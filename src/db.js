@@ -65,9 +65,11 @@ app.get('/prices', (req, res) => {
 })
 
 // Get more products
-app.get('/getMoreProducts', (req, res) => {
-    pool.query('SELECT * from products where id > ' + req.query.from + ' limit 6', (err, rows, fields) => {
+app.get('/getMoreCatalogItems', (req, res) => {
+    console.log(req.query.from)
+    pool.query('SELECT * from products where id > ' + req.query.from + ' limit ' + req.query.limit, (err, rows, fields) => {
         if (!err) {
+            console.log(rows)
             res.send(rows)
         }
         else {
@@ -75,6 +77,7 @@ app.get('/getMoreProducts', (req, res) => {
         }
     })
 })
+
 
 // Get selected products
 app.get('/selectProducts', (req, res) => {

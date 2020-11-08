@@ -1,9 +1,9 @@
 <template>
 
-<div class = "catalog__item">
+<div class = "catalog__item" :data-id = 'items.id'>
 
-    <div class = "catalog__pic" :style = "{backgroundImage: `url('.pics/img/bouquets/1/1.jpg')`}"></div>
-
+    <div class = "catalog__pic" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/' + items.img + '/1.jpg')})`}"></div>
+  
     <div class = "catalog__title">{{items.title}}</div>
     <div class = "catalog__price">{{items.price}}</div>
 
