@@ -24,7 +24,8 @@ export default {
 
     data(){
         return {
-            preloader: require('../assets/icons/2.gif')
+            preloader: require('../assets/icons/2.gif'),
+            loading: 0
         }
     },
     components: {
@@ -74,28 +75,31 @@ export default {
         },
         getMoreItems(){
 
+            this.loading++
+
             let items = document.querySelectorAll('.catalog__item')
 
-            console.log(items[items.length - 10])
-
             if (this.isInViewport(items[items.length - 10])) {
-                console.log(1111)
                 window.removeEventListener('scroll', this.getMoreItems)
                 this.addPreloader()
+
+                this.loading = 0
             }
+
+            if (this.loading > 0) return false
+
+            console.log(this.getMaxObjId())
 
             new Promise((resolve) => {
                 setTimeout(() => {
 
                     this.getMoreCatalogItems(this.getMaxObjId())
                     resolve()
-
                 }, 1000)
             }).then(() => {
 
                 this.removePreloaders()
                 window.addEventListener('scroll', this.getMoreItems)
-
             })
         },
         isInViewport(element) {
