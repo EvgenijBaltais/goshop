@@ -6,7 +6,8 @@ const store = createStore({
         return {
             catalogItems: [],
             cart: [],
-            categories: []
+            categories: [],
+            productsByCategories: []
         }
     },
     mutations: {
@@ -17,13 +18,20 @@ const store = createStore({
             for (let i = 0; i < items.length; i++) {
                 state.catalogItems.push(items[i])
             }
+        },
+        SET_CATEGORIES: (state, items) => {
+            for (let i = 0; i < items.length; i++) {
+                state.categories.push(items[i])
+            }
+        },
+        SET_PRODUCTS_BY_CATEGORIES: (state, products) => {
+            state.productsByCategories.push(products)
         }
     },
     actions: {
-
         get_catalog({commit}) {
             console.log('вызов экшна')
-            return axios('http://localhost:3000/catalogItems', {
+            return axios('//localhost:3000/catalogItems', {
                 method: 'GET'
             }).then((catalogItems) => {
                 console.log('вызов мутации')
@@ -38,7 +46,7 @@ const store = createStore({
         getMoreCatalogItems({commit}, value) {
             console.log('добавление товаров в каталог '  + value)
 
-            return axios('http://localhost:3000/getMoreCatalogItems', {
+            return axios('//localhost:3000/getMoreCatalogItems', {
                 method: 'GET', params: {
                     'from': value,
                     'limit': 10
@@ -50,6 +58,33 @@ const store = createStore({
             }).catch(e => {
                 console.log(e)
                 return e
+            })
+        },
+
+        get_categories_data({commit}) {
+
+            return axios('//localhost:3000/getCategories', {
+                method: 'GET'
+            }).then(items => {
+
+                commit('SET_CATEGORIES', items.data)
+
+                if (items.data.length == 0) return false
+
+                console.log(items.data.length)
+
+                for (let i = 0; i < items.data.length; i++) {
+                    console.log(items.data[i])
+                    return axios('//localhost:3000/getAllProductsByCategories', {
+                        method: 'GET',
+                        params: {
+                            'category': items.data[i].id
+                        }
+                    }).then(products => {
+                        console.log(products.data)
+                        commit('SET_PRODUCTS_BY_CATEGORIES', products.data)
+                    })
+                }
             })
         }
     },

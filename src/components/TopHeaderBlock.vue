@@ -1,5 +1,4 @@
 <template>
-
 		<div class = "top-stripe">
 			<div class = "main-basket">
 				<p class = "main-basket__text">
@@ -10,12 +9,9 @@
 				<a href="+79057777777" class = "main-phone__number">+7 (905) 777-77-77</a>
 			</div>
 		</div>
-
 </template>
 
 <script>
-
-
 export default {
   name: 'TopHeaderBlock',
   components: {

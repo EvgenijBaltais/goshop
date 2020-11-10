@@ -42,7 +42,6 @@
     </div>
 
 </section>
-
 </template>
 
 <script>
@@ -50,7 +49,6 @@ export default {
     name: 'SectionCarousel',
     data(){
         return {
-
             activeElement: 0    // Активный элемент состояния слайдера
         }
     },

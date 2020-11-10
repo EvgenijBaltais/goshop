@@ -30,7 +30,6 @@
                 <router-link :to = "{name: 'Single_product'}" class = "main-navigation__link">Test</router-link>
             </div>
 		</div>
-
 </template>
 
 <script>

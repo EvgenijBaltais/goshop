@@ -1,10 +1,12 @@
 <template>
   <div>
 
+    {{products}}
+
       <DeliveryInfoStripe />
       <SlideSection />
       <SectionCarousel 
-        v-for = 'item in items'
+        v-for = 'item in products'
         :key = 'item.id'
         :items = "item"
       />
@@ -30,7 +32,16 @@ export default {
   computed: {
     items(){
       return {'1':1, '2':2, '3':3, '4':4}
+    },
+    categories(){
+      return this.$store.state.categories
+    },
+    products(){
+      return this.$store.state.productsByCategories[0]
     }
+  },
+  created() {
+      this.$store.dispatch('get_categories_data')
   }
 }
 </script>

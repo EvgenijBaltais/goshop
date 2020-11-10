@@ -36,6 +36,32 @@ app.get('/products', (req, res) => {
     })
 })
 
+// Get categories
+
+app.get('/getCategories', (req, res) => {
+    pool.query('SELECT * from product_category', (err, rows, fields) => {
+        if (!err) {
+            res.send(rows)
+        }
+        else {
+            console.log(err)
+        }
+    })
+})
+
+// Get all products by categories
+
+app.get('/getAllProductsByCategories', (req, res) => {
+    pool.query(`SELECT * from products where category = ${req.query.category}`, (err, rows, fields) => {
+        if (!err) {
+            res.send(rows)
+        }
+        else {
+            console.log(err)
+        }
+    })
+})
+
 // Получить данные для отображения каталога
 
 app.get('/catalogItems', (req, res) => {

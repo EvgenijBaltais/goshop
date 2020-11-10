@@ -116,6 +116,9 @@ export default {
   created() {
     window.addEventListener('scroll', this.getMoreItems)
     this.$store.dispatch('get_catalog')
+  },
+    unmounted(){
+    window.removeEventListener('scroll', this.getMoreItems)
   }
 }
 

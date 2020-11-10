@@ -3,6 +3,7 @@
     <div class = "main-slider__wrapper">
         <div class = "main-slider">
             <div class = "main-slider__carousel">
+                <img :src="require('../assets/pics/bouquets/1/1.jpg')" alt="" class = "main-slider__mainpic">
             </div>
             <div class = "main-slider__title">
                 <p class = "slider-title">Golden Sunshine</p>
@@ -10,31 +11,35 @@
             </div>
             <div class = "main-slider__text">
                 <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua.</span>
+                    tempor incididunt ut labore et dolore magna aliqua.</span>
             </div>
         </div>
     </div>
     <div class = "info-banners">
         <div class = "info-banner">
             <div class="info-banner__pic">
+                <img :src="require('../assets/pics/bouquets/2/1.jpg')" alt="" class = "main-slider__minipic">
             </div>
             <p class = "info-banner__title">Lorem ipsum dolor</p>
             <p class = "info-banner__price">25000р</p>
         </div>
         <div class = "info-banner">
             <div class="info-banner__pic">
+                <img :src="require('../assets/pics/bouquets/3/1.jpg')" alt="" class = "main-slider__minipic">
             </div>
             <p class = "info-banner__title">Lorem ipsum dolor</p>
             <p class = "info-banner__price">25000р</p>
         </div>
         <div class = "info-banner">
             <div class="info-banner__pic">
+                <img :src="require('../assets/pics/bouquets/4/1.jpg')" alt="" class = "main-slider__minipic">
             </div>
             <p class = "info-banner__title">Lorem ipsum dolor</p>
             <p class = "info-banner__price">25000р</p>
         </div>
         <div class = "info-banner">
-            <div class="info-banner__pic">	
+            <div class="info-banner__pic">
+                <img :src="require('../assets/pics/bouquets/5/1.jpg')" alt="" class = "main-slider__minipic">
             </div>
             <p class = "info-banner__title">Lorem ipsum dolor</p>
             <p class = "info-banner__price">25000р</p>
@@ -60,9 +65,16 @@ export default {
         justify-content: space-between;
     }
 
+    .main-slider__carousel {
+    }
+
+    .main-slider__mainpic {
+        max-width: 100%;
+        display: block;
+    }
+
     .main-slider__wrapper {
         width: calc(50% - 15px);
-        outline: 1px solid red;
         min-height: 300px;
     }
 
@@ -72,17 +84,31 @@ export default {
         justify-content: space-between;
         flex-wrap: wrap;
         width: calc(50% - 15px);
-        outline: 1px solid red;
         min-height: 300px;
     }
 
     .info-banner {
         width: calc(50% - 15px);
         margin-bottom: 30px;
-        outline: 1px solid red;
         min-height: 250px;
     }
     
+    .info-banner__pic {
+        height: 255px;
+        position: relative;
+    }
+
+    .main-slider__minipic {
+        display: block;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+    }
 
     .main-slider__title {
         display: flex;
@@ -92,7 +118,6 @@ export default {
     }
 
     .slider-title {
-        outline: 1px solid red;
         color: #363D40;
         font-size: 24px;
         line-height: 30px;
@@ -105,7 +130,6 @@ export default {
         font-size: 24px;
         line-height: 30px;
         color: #576167;
-        outline: 1px solid red;
     }
 
     .main-slider__text {
@@ -118,7 +142,7 @@ export default {
     .info-banner__title {
         padding-top: 5px;
         font-size: 16px;
-        line-height: 20px;
+        line-height: 18px;
         font-weight: bold;
         text-align: center;
     }

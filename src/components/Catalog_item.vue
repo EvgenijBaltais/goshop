@@ -1,5 +1,4 @@
 <template>
-
 <div class = "catalog__item" :data-id = 'items.id'>
 
     <div class = "catalog__pic" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/' + items.img + '/1.jpg')})`}"></div>
@@ -8,10 +7,7 @@
     <div class = "catalog__price">{{items.price}}</div>
 
     <div class = "catalog__text">{{items.title}}</div>
-
-
 </div>
-
 </template>
 
 

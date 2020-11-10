@@ -170,7 +170,6 @@ export default {
 }
 
 .product-slider__mainview {
-    height: 370px;
     padding: 0 30px 30px 30px;
     box-sizing: border-box;
 }

@@ -1,9 +1,8 @@
 <template>
-
 		<div class = "logo-block">
 			<div class = "logo-block__search">
 				<div class = "logo-block__input">
-					<input type="text" name = "main-search" class = "main-search">
+					<input type="text" name = "main-search" class = "main-search" placeholder="Поиск...">
 					<button class = "main-search-btn"></button>
 				</div>
 			</div>
@@ -18,8 +17,6 @@
 </template>
 
 <script>
-
-
 export default {
   name: 'TopHeaderLogoBlock',
   components: {
@@ -59,6 +56,7 @@ export default {
         font-size: 18px;
         line-height: 18px;
         border: 0!important;
+        border-radius: 3px;
         outline: 0!important;
     }
 
@@ -74,12 +72,16 @@ export default {
         background-position: center;
         border: 0!important;
         outline: 0!important;
-        background-color: #fff;
+        background-color: transparent;
         cursor: pointer;
     }
-    
-    .logo-block__main-logo {
 
+    .main-search                       {font-size: 15px;}
+    .main-search::-moz-placeholder     {font-size: 15px;}
+    .main-search:-moz-placeholder      {font-size: 15px;}
+    .main-search:-ms-input-placeholder {font-size: 15px;}
+
+    .logo-block__main-logo {
         width: 40%;
     }
 
