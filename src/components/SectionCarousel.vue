@@ -2,7 +2,7 @@
 
 <section class = "category-section">
 
-    <h2 class = "section-slider-title">Праздничные букеты <a href = '' class = 'section-slider-link'>Смотреть все</a></h2>
+    <h2 class = "section-slider-title">{{products}}<a href = '' class = 'section-slider-link'>Смотреть все</a></h2>
     <hr class = "section-hr">
 
     <div class = "category-slider">
@@ -10,35 +10,17 @@
         <div class = "category-slider__arrow category-slider__left" v-on:click = "slideLeft()"></div>
         <div class = "category-slider__arrow category-slider__right" v-on:click = "slideRight()"></div>
 
-    <div class = "category-slider-wrapper">
-
-        <div class = "category-slider__item active-item" style = "background-color: green;">1
-            <img class="category-slider__pic" src = "" alt="">
-            <div>
-                <span class = "category-slider__title"></span>
-                <span class = "category-slider__price"></span>
+        <div class = "category-slider-wrapper">
+            <div class = "category-slider__item active-item" style = "background-color: green;">1
+                <img class="category-slider__pic" src = "" alt="">
+                <div>
+                    <span class = "category-slider__title"></span>
+                    <span class = "category-slider__price"></span>
+                </div>
             </div>
+            <div class = "category-slider__item" style = "background-color: blue;">2</div>
+            <div class = "category-slider__item" style = "background-color: grey;">3</div>
         </div>
-        <div class = "category-slider__item" style = "background-color: blue;">2</div>
-        <div class = "category-slider__item" style = "background-color: grey;">3</div>
-        <div class = "category-slider__item" style = "background-color: yellow;">4</div>
-        <div class = "category-slider__item" style = "background-color: pink;">5</div>
-        <div class = "category-slider__item" style = "background-color: orange;">6</div>
-        <div class = "category-slider__item">7</div>
-        <div class = "category-slider__item">8</div>
-        <div class = "category-slider__item">9</div>
-        <div class = "category-slider__item">10</div>
-
-        <div class = "category-slider__item">11</div>
-        <div class = "category-slider__item">12</div>
-        <div class = "category-slider__item">13</div>
-        <div class = "category-slider__item">14</div>
-        <div class = "category-slider__item">15</div>
-        <div class = "category-slider__item">16</div>
-        <div class = "category-slider__item">17</div>
-        <div class = "category-slider__item">18</div>
-        <div class = "category-slider__item">19</div>
-    </div>
     </div>
 
 </section>
@@ -47,6 +29,12 @@
 <script>
 export default {
     name: 'SectionCarousel',
+    props: {
+        products: {
+            type: Object(),
+            default(){}
+        }
+    },
     data(){
         return {
             activeElement: 0    // Активный элемент состояния слайдера
@@ -195,7 +183,6 @@ export default {
     width: 270px;
     min-height: 270px;
     margin-right: 10px;
-    outline: 1px solid green;
 }
 
 .category-slider__item:last-child {

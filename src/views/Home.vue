@@ -6,7 +6,7 @@
       <DeliveryInfoStripe />
       <SlideSection />
       <SectionCarousel 
-        v-for = 'item in products'
+        v-for = 'item in categories'
         :key = 'item.id'
         :items = "item"
       />
@@ -26,13 +26,13 @@ import SubscribeBlock from '../components/SubscribeBlock'
 
 export default {
   name: 'Home',
+  data(){
+    return {}
+  },
   components: {
     DeliveryInfoStripe, SlideSection, SectionCarousel, SubscribeBlock
   },
   computed: {
-    items(){
-      return {'1':1, '2':2, '3':3, '4':4}
-    },
     categories(){
       return this.$store.state.categories
     },

@@ -14,11 +14,10 @@
 <script>
 
 export default {
-
     name: 'Catalog_item',
     props: {
         items: {
-            type: Object,
+            type: Object(),
             default(){}
         }
     },

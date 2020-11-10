@@ -139,9 +139,7 @@ export default {
     padding: 20px 0;
 }
 
-.catalog-preloader {
 
-}
 
 .catalog::after {
   content: "";
