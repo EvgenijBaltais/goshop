@@ -30,11 +30,9 @@ const store = createStore({
     },
     actions: {
         get_catalog({commit}) {
-            console.log('вызов экшна')
             return axios('//localhost:3000/catalogItems', {
                 method: 'GET'
             }).then((catalogItems) => {
-                console.log('вызов мутации')
                 commit('SET_ITEMS_TO_STATE', catalogItems.data)
                 return catalogItems
             }).catch(e => {
@@ -44,7 +42,6 @@ const store = createStore({
         },
 
         getMoreCatalogItems({commit}, value) {
-            console.log('добавление товаров в каталог '  + value)
 
             return axios('//localhost:3000/getMoreCatalogItems', {
                 method: 'GET', params: {
@@ -52,7 +49,6 @@ const store = createStore({
                     'limit': 10
                 }
             }).then((catalogItems) => {
-                console.log('вызов мутации')
                 commit('SET_MORE_ITEMS_TO_STATE', catalogItems.data)
                 return catalogItems
             }).catch(e => {
@@ -71,17 +67,13 @@ const store = createStore({
 
                 if (items.data.length == 0) return false
 
-                console.log(items.data.length)
-
                 for (let i = 0; i < items.data.length; i++) {
-                    console.log(items.data[i])
                     return axios('//localhost:3000/getAllProductsByCategories', {
                         method: 'GET',
                         params: {
                             'category': items.data[i].id
                         }
                     }).then(products => {
-                        console.log(products.data)
                         commit('SET_PRODUCTS_BY_CATEGORIES', products.data)
                     })
                 }

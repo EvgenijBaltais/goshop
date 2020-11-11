@@ -2,7 +2,7 @@
 <section class = "category-section">
     <h2 class = "section-slider-title">
         <span class = "products-title">{{categories.name}}</span>
-        <a href = '' class = 'section-slider-link'>Смотреть все</a>
+        <router-link :to = "{name: 'Catalog'}" class = 'section-slider-link'>Смотреть все</router-link>
     </h2>
     <hr class = "section-hr">
     <div class = "category-slider">
@@ -11,7 +11,9 @@
         <div class = "category-slider__arrow category-slider__right" v-on:click = "slideRight()"></div>
         
         <div class = "category-slider-wrapper">
-            <div class = "category-slider__item" v-for = "item in products" :key = "item.id">
+            <div :class = "['category-slider__item', {'active-item': index == 0}]"
+                    v-for = "(item, index) in products"
+                    :key = "item.id">
                 <div class="category-slider__picwrapper">
                     <img class="category-slider__pic" :src = 'require("../assets/pics/bouquets/" + item.img + "/1.jpg")' alt="">
                 </div>
@@ -20,7 +22,6 @@
                     <p class = "category-slider__price">{{item.price}}</p>
                 </div>
             </div>
-
         </div>
     </div>
 </section>

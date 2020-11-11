@@ -1,17 +1,31 @@
 <template>
-<div>
-    <button class = "get-items" @click = "getMaxObjId()">Получить товары</button>
+
+<button class = "get-items" @click = "getMaxObjId()">Получить товары</button>
+
+<div class = "catalog-wrapper">
+    <div class = "catalog-dashboard">
+
+        <div class="filters-section__1">
+            <span class = "filters-text">Фильтры:</span>
+            <a class = "clear-text">Сбросить все</a>
+        </div>
+
+        <div class="filters-section__2 has-inside-content">
+            <a class = "filters-section__title">Цветы</a>
+        </div>
+    </div>
 
     <div class = "catalog">
 
         <Catalog_item
             v-for = 'item in items'
             :key = 'item.id'
-            v-bind:items = 'item'
+            :items = 'item'
         />
+
     </div>
-    <div class = "preloader-wrapper"></div>
 </div>
+    <div class = "preloader-wrapper"></div>
 </template>
 
 <script>
@@ -126,11 +140,32 @@ export default {
 
 <style scoped>
 
+.catalog-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.catalog-dashboard {
+    width: 180px;
+    outline: 1px solid grey;
+}
+
 .catalog {
+    width: calc(100% - 200px);
     position: relative;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+}
+
+.has-inside-content {
+    position: relative;
+    padding-right: 30px;
+    box-sizing: border-box;
+}
+
+.has-inside-content:after {
+    
 }
 
 .preloader-wrapper {
@@ -139,10 +174,33 @@ export default {
     padding: 20px 0;
 }
 
-
-
 .catalog::after {
   content: "";
   flex-basis: 250px;
 }
+
+.filters-text {
+    font-weight: bold;
+}
+
+.clear-text {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.filters-section__1 {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+}
+
+.filters-section__title {
+    display: block;
+    padding: 10px 0;
+    border-top: 1px solid #CED0D2;
+    font-size: 20px;
+    line-height: 30px;
+    cursor: pointer;
+}
+
 </style>
