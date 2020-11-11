@@ -1,28 +1,28 @@
 <template>
-
 <section class = "category-section">
-
-    <h2 class = "section-slider-title">{{products}}<a href = '' class = 'section-slider-link'>Смотреть все</a></h2>
+    <h2 class = "section-slider-title">
+        <span class = "products-title">{{categories.name}}</span>
+        <a href = '' class = 'section-slider-link'>Смотреть все</a>
+    </h2>
     <hr class = "section-hr">
-
     <div class = "category-slider">
-        
+
         <div class = "category-slider__arrow category-slider__left" v-on:click = "slideLeft()"></div>
         <div class = "category-slider__arrow category-slider__right" v-on:click = "slideRight()"></div>
-
+        
         <div class = "category-slider-wrapper">
-            <div class = "category-slider__item active-item" style = "background-color: green;">1
-                <img class="category-slider__pic" src = "" alt="">
+            <div class = "category-slider__item" v-for = "item in products" :key = "item.id">
+                <div class="category-slider__picwrapper">
+                    <img class="category-slider__pic" :src = 'require("../assets/pics/bouquets/" + item.img + "/1.jpg")' alt="">
+                </div>
                 <div>
-                    <span class = "category-slider__title"></span>
-                    <span class = "category-slider__price"></span>
+                    <p class = "category-slider__title">{{item.title}}</p>
+                    <p class = "category-slider__price">{{item.price}}</p>
                 </div>
             </div>
-            <div class = "category-slider__item" style = "background-color: blue;">2</div>
-            <div class = "category-slider__item" style = "background-color: grey;">3</div>
+
         </div>
     </div>
-
 </section>
 </template>
 
@@ -30,8 +30,12 @@
 export default {
     name: 'SectionCarousel',
     props: {
+        categories: {
+            type: Object,
+            default(){}
+        },
         products: {
-            type: Object(),
+            type: Object,
             default(){}
         }
     },
@@ -41,6 +45,10 @@ export default {
         }
     },
     methods: {
+        test: function(){
+            console.log(this.props)
+        },
+
         slideRight: function(){
 
             const slider = event.target.parentNode
@@ -138,6 +146,10 @@ export default {
     transition: margin .3s;
 }
 
+.products-title {
+    padding-right: 15px;
+}
+
 .category-section {
     text-align: center;
     padding: 30px 0;
@@ -174,6 +186,7 @@ export default {
 }
 
 .category-slider-wrapper {
+    position: relative;
     display: flex;
     width: max-content;
     margin-left: 0;
@@ -181,8 +194,21 @@ export default {
 
 .category-slider__item {
     width: 270px;
-    min-height: 270px;
     margin-right: 10px;
+}
+
+.category-slider__picwrapper {
+    height: 270px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.category-slider__pic {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
 }
 
 .category-slider__item:last-child {
@@ -191,8 +217,7 @@ export default {
 
 .category-slider__arrow {
     position: absolute;
-    top: 0;
-    bottom: 0;
+    top: 142px;
     margin: auto;
     width: 45px;
     height: 45px;
@@ -215,8 +240,8 @@ export default {
     text-align: center;
     padding: 10px 5px 5px 5px;
     color: rgb(54,61,64);
-    font-size: 24px;
-    line-height: 24px;
+    font-size: 18px;
+    line-height: 20px;
 }
 
 .category-slider__price {

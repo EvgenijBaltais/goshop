@@ -1,14 +1,15 @@
 <template>
   <div>
 
-    {{products}}
+    {{categories}}
 
       <DeliveryInfoStripe />
       <SlideSection />
       <SectionCarousel 
         v-for = 'item in categories'
         :key = 'item.id'
-        :items = "item"
+        :categories = "item"
+        :products = "products"
       />
 
       <SubscribeBlock />
