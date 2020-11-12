@@ -5,13 +5,65 @@
 <div class = "catalog-wrapper">
     <div class = "catalog-dashboard">
 
-        <div class="filters-section__1">
-            <span class = "filters-text">Фильтры:</span>
-            <a class = "clear-text">Сбросить все</a>
+        <div class="filters-title-section">
+            <div class = "filters-title-wrapper">
+                <span class = "filters-text">Фильтры:</span>
+                <a class = "clear-text">Сбросить все</a>
+            </div>
+            <div class = "choosen-filters" id = "choosen-filters"></div>
         </div>
-
-        <div class="filters-section__2 has-inside-content">
-            <a class = "filters-section__title">Цветы</a>
+        <div :class="['filters-section', 'has-inside-content']">
+            <div class = "filters-section__wrapper">
+                <a class = "filters-section__title">Выбрать цветы</a>
+                <img :src="bottom_pic" alt="" class = "bottom_pic">
+            </div>
+            <ul class = "filter-items-list">
+                <li class = "filter-item">
+                    <a href = "#" class = "filter-link">Jiwufqwke</a>
+                </li>
+                <li class = "filter-item">
+                    <a href = "#" class = "filter-link">Jiwufqwke</a>
+                </li>
+                <li class = "filter-item">
+                    <a href = "#" class = "filter-link">Jiwufqwke</a>
+                </li>
+                <li class = "filter-item">
+                    <a href = "#" class = "filter-link">Jiwufqwke</a>
+                </li>
+                <li class = "filter-item">
+                    <a href = "#" class = "filter-link">Jiwufqwke</a>
+                </li>
+                <li class = "filter-item">
+                    <a href = "#" class = "filter-link">Jiwufqwke</a>
+                </li>
+                <li class = "filter-item">
+                    <a href = "#" class = "filter-link">Jiwufqwke</a>
+                </li>
+            </ul>
+        </div>
+        <div class="filters-section has-inside-content">
+            <div class = "filters-section__wrapper">
+                <a class = "filters-section__title">Категория</a>
+                <img :src="bottom_pic" alt="" class = "bottom_pic">
+            </div>
+        </div>
+        <div class="filters-section has-inside-content">
+            <div class = "filters-section__wrapper">
+                <a class = "filters-section__title">Выбор по цвету</a>
+                <img :src="bottom_pic" alt="" class = "bottom_pic">
+            </div>
+        </div>
+        <div class="filters-section has-inside-content">
+            <div class = "filters-section__wrapper">
+                <a class = "filters-section__title">Повод</a>
+                <img :src="bottom_pic" alt="" class = "bottom_pic">
+            </div>
+        </div>
+        <div class="filters-section has-inside-content">
+            <div class = "filters-section__wrapper">
+                <a class = "filters-section__title">Категория</a>
+                <img :src="bottom_pic" alt="" class = "bottom_pic">
+            </div>
         </div>
     </div>
 
@@ -39,6 +91,7 @@ export default {
     data(){
         return {
             preloader: require('../assets/icons/2.gif'),
+            bottom_pic: require('../assets/icons/to-bottom-pic.svg'),
             loading: 0
         }
     },
@@ -125,6 +178,11 @@ export default {
                 rect.bottom <= (window.innerHeight || html.clientHeight) &&
                 rect.right <= (window.innerWidth || html.clientWidth)
             )
+        },
+        listVisibility(e){
+            console.log(e.target)
+
+            return false;
         }
     },
   created() {
@@ -160,12 +218,7 @@ export default {
 
 .has-inside-content {
     position: relative;
-    padding-right: 30px;
     box-sizing: border-box;
-}
-
-.has-inside-content:after {
-    
 }
 
 .preloader-wrapper {
@@ -188,19 +241,55 @@ export default {
     cursor: pointer;
 }
 
-.filters-section__1 {
+.filters-title-wrapper {
     display: flex;
     justify-content: space-between;
-    padding: 15px 0;
+    padding: 14px 0;
+}
+
+.filters-section {
+    border-top: 1px solid #CED0D2;
+    cursor: pointer;
+}
+.filters-section__wrapper {
+    padding-right: 30px;
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 0;
 }
 
 .filters-section__title {
     display: block;
-    padding: 10px 0;
-    border-top: 1px solid #CED0D2;
-    font-size: 20px;
-    line-height: 30px;
+    font-size: 18px;
+    line-height: 24px;
     cursor: pointer;
 }
+
+.bottom_pic {
+    display: block;
+    position: absolute;
+    top: 18px;
+    margin: auto;
+    right: 0;
+    width: 18px;
+    cursor: pointer;
+}
+
+.filter-items-list {
+    list-style-type: none;
+}
+
+.filter-item {
+    list-style-type: none;
+}
+
+.filter-link {
+    display: block;
+    font-size: 16px;
+    line-height: 24px;
+    padding: 5px 10px;
+    color: #000;
+}
+
 
 </style>
