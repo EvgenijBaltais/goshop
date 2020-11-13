@@ -7,7 +7,9 @@ const store = createStore({
             catalogItems: [],
             cart: [],
             categories: [],
-            productsByCategories: []
+            productsByCategories: [],
+            flowers: [],
+            colors: []
         }
     },
     mutations: {
@@ -26,11 +28,17 @@ const store = createStore({
         },
         SET_PRODUCTS_BY_CATEGORIES: (state, products) => {
             state.productsByCategories.push(products)
+        },
+        SET_FLOWERS: (state, items) => {
+            state.flowers = items
+        },
+        SET_COLORS: (state, items) => {
+            state.colors = items
         }
     },
     actions: {
         get_catalog({commit}) {
-            return axios('//localhost:3000/catalogItems', {
+            return axios('//localhost:3000/catalog_items', {
                 method: 'GET'
             }).then((catalogItems) => {
                 commit('SET_ITEMS_TO_STATE', catalogItems.data)
@@ -40,10 +48,9 @@ const store = createStore({
                 return e
             })
         },
+        get_more_catalog_items({commit}, value) {
 
-        getMoreCatalogItems({commit}, value) {
-
-            return axios('//localhost:3000/getMoreCatalogItems', {
+            return axios('//localhost:3000/get_more_catalog_items', {
                 method: 'GET', params: {
                     'from': value,
                     'limit': 10
@@ -56,10 +63,8 @@ const store = createStore({
                 return e
             })
         },
-
         get_categories_data({commit}) {
-
-            return axios('//localhost:3000/getCategories', {
+            return axios('//localhost:3000/get_categories', {
                 method: 'GET'
             }).then(items => {
 
@@ -68,7 +73,7 @@ const store = createStore({
                 if (items.data.length == 0) return false
 
                 for (let i = 0; i < items.data.length; i++) {
-                    return axios('//localhost:3000/getAllProductsByCategories', {
+                    return axios('//localhost:3000/get_all_products_by_categories', {
                         method: 'GET',
                         params: {
                             'category': items.data[i].id
@@ -77,6 +82,20 @@ const store = createStore({
                         commit('SET_PRODUCTS_BY_CATEGORIES', products.data)
                     })
                 }
+            })
+        },
+        get_flowers_types() {
+            return axios('//localhost:3000/get_flowers_types', {
+                methods: 'GET'
+            }).then(items => {
+                this.commit('SET_FLOWERS', items.data)
+            })
+        },
+        get_all_colors() {
+            return axios('//localhost:3000/get_all_colors', {
+                methods: 'GET'
+            }).then(items => {
+                this.commit('SET_COLORS', items.data)
             })
         }
     },

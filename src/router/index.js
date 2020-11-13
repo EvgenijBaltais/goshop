@@ -21,6 +21,10 @@ const routes = [
     component: Catalog
   },
   {
+    path: '/catalog/:id',
+    component: Catalog
+  },
+  {
     path: '/item',
     name: 'Single_product',
     component: Single_product

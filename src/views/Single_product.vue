@@ -143,7 +143,6 @@ export default {
 
             event.target.classList.add('product-slider__active-img')
         },
-
         getParent: function(el, cls){
             while ((el = el.parentElement) && !el.classList.contains(cls));
             return el;

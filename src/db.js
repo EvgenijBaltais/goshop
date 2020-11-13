@@ -38,8 +38,34 @@ app.get('/products', (req, res) => {
 
 // Get categories
 
-app.get('/getCategories', (req, res) => {
+app.get('/get_categories', (req, res) => {
     pool.query('SELECT * from product_category', (err, rows, fields) => {
+        if (!err) {
+            res.send(rows)
+        }
+        else {
+            console.log(err)
+        }
+    })
+})
+
+// Get all flowers
+
+app.get('/get_flowers_types', (req, res) => {
+    pool.query('SELECT * from flowers', (err, rows, fields) => {
+        if (!err) {
+            res.send(rows)
+        }
+        else {
+            console.log(err)
+        }
+    })
+})
+
+// Get all colors
+
+app.get('/get_all_colors', (req, res) => {
+    pool.query('SELECT * from color_variants', (err, rows, fields) => {
         if (!err) {
             res.send(rows)
         }
@@ -51,7 +77,7 @@ app.get('/getCategories', (req, res) => {
 
 // Get all products by categories
 
-app.get('/getAllProductsByCategories', (req, res) => {
+app.get('/get_all_products_by_categories', (req, res) => {
     pool.query(`SELECT * from products where category = ${req.query.category}`, (err, rows, fields) => {
         if (!err) {
             res.send(rows)
@@ -64,9 +90,8 @@ app.get('/getAllProductsByCategories', (req, res) => {
 
 // Получить данные для отображения каталога
 
-app.get('/catalogItems', (req, res) => {
+app.get('/catalog_items', (req, res) => {
     pool.query('SELECT * from products limit ' + 15 + '', (err, rows, fields) => {
-        
         if (!err) {
             res.send(rows)
         }
@@ -74,8 +99,6 @@ app.get('/catalogItems', (req, res) => {
             console.log(err)
         }
     })
-
-    //console.log(res)
 })
 
 // Get all prices
@@ -91,11 +114,9 @@ app.get('/prices', (req, res) => {
 })
 
 // Get more products
-app.get('/getMoreCatalogItems', (req, res) => {
-    console.log(req.query.from)
+app.get('/get_more_catalog_items', (req, res) => {
     pool.query('SELECT * from products where id > ' + req.query.from + ' limit ' + req.query.limit, (err, rows, fields) => {
         if (!err) {
-            console.log(rows)
             res.send(rows)
         }
         else {
@@ -106,7 +127,7 @@ app.get('/getMoreCatalogItems', (req, res) => {
 
 
 // Get selected products
-app.get('/selectProducts', (req, res) => {
+app.get('/select_products', (req, res) => {
     pool.query('SELECT * from products where color_variants = ?', [req.query.id], (err, rows, fields) => {
         if (!err) {
             res.send(rows)
@@ -141,7 +162,7 @@ app.get('/products/:id', (req, res) => {
     })
 })
 
-app.get('/getMenu', (req, res) => {
+app.get('/get_menu', (req, res) => {
     pool.query('SELECT * FROM menu', (err, rows, fields) => {
         if (!err) {
             res.send(rows)
@@ -152,7 +173,7 @@ app.get('/getMenu', (req, res) => {
     })
 })
 
-app.get('/getSubMenu', (req, res) => {
+app.get('/get_sub_menu', (req, res) => {
     pool.query('SELECT * FROM submenu', (err, rows, fields) => {
         if (!err) {
             res.send(rows)

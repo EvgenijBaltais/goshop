@@ -1,10 +1,8 @@
 <template>
 
 <button class = "get-items" @click = "getMaxObjId()">Получить товары</button>
-
 <div class = "catalog-wrapper">
     <div class = "catalog-dashboard">
-
         <div class="filters-title-section">
             <div class = "filters-title-wrapper">
                 <span class = "filters-text">Фильтры:</span>
@@ -12,56 +10,42 @@
             </div>
             <div class = "choosen-filters" id = "choosen-filters"></div>
         </div>
-        <div :class="['filters-section', 'has-inside-content']">
-            <div class = "filters-section__wrapper">
+        <div :class="[`filters-section`, flowers.length ? `has-inside-content` : '']">
+            <div class = "filters-section__wrapper" v-on:click = listVisibility>
                 <a class = "filters-section__title">Выбрать цветы</a>
                 <img :src="bottom_pic" alt="" class = "bottom_pic">
             </div>
-            <ul class = "filter-items-list">
-                <li class = "filter-item">
-                    <a href = "#" class = "filter-link">Jiwufqwke</a>
+            <ul class = "filter-items-list" v-if = flowers.length>
+                <li class = "filter-item" v-for = "item in flowers" :key = "item.id">
+                    <router-link :to = "{path: `/catalog/${item.id}`}" class = "filter-link">{{item.name}}</router-link>
                 </li>
-                <li class = "filter-item">
-                    <a href = "#" class = "filter-link">Jiwufqwke</a>
+            </ul>
+        </div>
+        <div :class="[`filters-section`, categories.length ? `has-inside-content` : '']">
+            <div class = "filters-section__wrapper" v-on:click = listVisibility>
+                <a class = "filters-section__title">Категория</a>
+                <img :src="bottom_pic" alt="" class = "bottom_pic">
+            </div>
+            <ul class = "filter-items-list" v-if = categories.length>
+                <li class = "filter-item" v-for = "item in categories" :key = "item.id">
+                    <router-link :to = "{path: `/catalog/${item.id}`}" class = "filter-link">{{item.name}}</router-link>
                 </li>
-                <li class = "filter-item">
-                    <a href = "#" class = "filter-link">Jiwufqwke</a>
-                </li>
-                <li class = "filter-item">
-                    <a href = "#" class = "filter-link">Jiwufqwke</a>
-                </li>
-                <li class = "filter-item">
-                    <a href = "#" class = "filter-link">Jiwufqwke</a>
-                </li>
-                <li class = "filter-item">
-                    <a href = "#" class = "filter-link">Jiwufqwke</a>
-                </li>
-                <li class = "filter-item">
-                    <a href = "#" class = "filter-link">Jiwufqwke</a>
+            </ul>
+        </div>
+        <div :class="[`filters-section`, colors.length ? `has-inside-content` : '']">
+            <div class = "filters-section__wrapper" v-on:click = listVisibility>
+                <a class = "filters-section__title">Выбор по цвету</a>
+                <img :src="bottom_pic" alt="" class = "bottom_pic">
+            </div>
+            <ul class = "filter-items-list" v-if = colors.length>
+                <li class = "filter-item" v-for = "item in colors" :key = "item.id">
+                    <router-link :to = "{path: `/catalog/${item.id}`}" class = "filter-link">{{item.value}}</router-link>
                 </li>
             </ul>
         </div>
         <div class="filters-section has-inside-content">
             <div class = "filters-section__wrapper">
-                <a class = "filters-section__title">Категория</a>
-                <img :src="bottom_pic" alt="" class = "bottom_pic">
-            </div>
-        </div>
-        <div class="filters-section has-inside-content">
-            <div class = "filters-section__wrapper">
-                <a class = "filters-section__title">Выбор по цвету</a>
-                <img :src="bottom_pic" alt="" class = "bottom_pic">
-            </div>
-        </div>
-        <div class="filters-section has-inside-content">
-            <div class = "filters-section__wrapper">
                 <a class = "filters-section__title">Повод</a>
-                <img :src="bottom_pic" alt="" class = "bottom_pic">
-            </div>
-        </div>
-        <div class="filters-section has-inside-content">
-            <div class = "filters-section__wrapper">
-                <a class = "filters-section__title">Категория</a>
                 <img :src="bottom_pic" alt="" class = "bottom_pic">
             </div>
         </div>
@@ -92,7 +76,8 @@ export default {
         return {
             preloader: require('../assets/icons/2.gif'),
             bottom_pic: require('../assets/icons/to-bottom-pic.svg'),
-            loading: 0
+            loading: 0,
+            id: 111
         }
     },
     components: {
@@ -102,11 +87,29 @@ export default {
         items(){
             console.log('вызов')
             return this.$store.state.catalogItems
+        },
+        categories(){
+            return this.$store.state.categories
+        },
+        flowers(){
+            return this.$store.state.flowers
+        },
+        colors(){
+
+            let items = this.$store.state.colors
+
+                for (let item in items) {
+                    if (!items[item].value) continue
+                    items[item].value = items[item].value[0].toUpperCase() + items[item].value.slice(1)
+                }
+
+            return items
         }
     },
     methods: {
         ...mapActions([
-            'getMoreCatalogItems'
+            'getMoreCatalogItems',
+            'getFlowersTypes'
         ]),
         onClick(){
             console.log(this.getMaxObjId())
@@ -179,18 +182,35 @@ export default {
                 rect.right <= (window.innerWidth || html.clientWidth)
             )
         },
-        listVisibility(e){
-            console.log(e.target)
+        listVisibility(){
+
+            let parent = this.getParent(event.target, 'filters-section')
+
+            if (!parent.classList.contains('has-inside-content')) return false
+
+            if (parent.querySelector('.filter-items-list').classList.contains('opened-list')){
+                parent.querySelector('.filter-items-list').classList.remove('opened-list')
+                return false
+            }
+            
+            parent.querySelector('.filter-items-list').classList.add('opened-list')
 
             return false;
+        },
+        getParent: function(el, cls){
+            while ((el = el.parentElement) && !el.classList.contains(cls));
+            return el;
         }
     },
-  created() {
-    window.addEventListener('scroll', this.getMoreItems)
-    this.$store.dispatch('get_catalog')
+    created() {
+        window.addEventListener('scroll', this.getMoreItems)
+        this.$store.dispatch('get_catalog')
+        this.$store.dispatch('get_flowers_types')
+        this.$store.dispatch('get_categories_data')
+        this.$store.dispatch('get_all_colors')
   },
     unmounted(){
-    window.removeEventListener('scroll', this.getMoreItems)
+        window.removeEventListener('scroll', this.getMoreItems)
   }
 }
 
@@ -262,6 +282,7 @@ export default {
     display: block;
     font-size: 18px;
     line-height: 24px;
+    user-select: none;
     cursor: pointer;
 }
 
@@ -273,10 +294,16 @@ export default {
     right: 0;
     width: 18px;
     cursor: pointer;
+    user-select: none;
 }
 
 .filter-items-list {
+    display: none;
     list-style-type: none;
+}
+
+.opened-list {
+    display: block!important;
 }
 
 .filter-item {
@@ -288,6 +315,7 @@ export default {
     font-size: 16px;
     line-height: 24px;
     padding: 5px 10px;
+    user-select: none;
     color: #000;
 }
 
