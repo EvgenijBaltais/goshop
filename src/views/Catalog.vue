@@ -108,8 +108,8 @@ export default {
     },
     methods: {
         ...mapActions([
-            'getMoreCatalogItems',
-            'getFlowersTypes'
+            'get_more_catalog_items',
+            'get_flowers_types'
         ]),
         onClick(){
             console.log(this.getMaxObjId())
@@ -163,7 +163,7 @@ export default {
             new Promise((resolve) => {
                 setTimeout(() => {
 
-                    this.getMoreCatalogItems(this.getMaxObjId())
+                    this.get_more_catalog_items(this.getMaxObjId())
                     resolve()
                 }, 1000)
             }).then(() => {
@@ -220,6 +220,7 @@ export default {
 
 .catalog-wrapper {
     display: flex;
+    align-items: flex-start;
     justify-content: space-between;
 }
 
