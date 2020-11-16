@@ -235,7 +235,7 @@ export default {
 
                 copiedElement.innerText = event.target.innerText
 
-                copiedElement.addEventListener('click', this.clearSelectedItem(event))
+                copiedElement.addEventListener('click', this.clearSelectedItem)
 
                 document.getElementById('choosen-filters').insertAdjacentElement('beforeend', copiedElement)
                 return false
@@ -245,8 +245,11 @@ export default {
 
             for (let i = 0; i < selectedItems.length; i++) {
                 if (selectedItems[i].innerText != event.target.innerText) continue
-                event.target.classList.remove('filter-link-choosen')
+
+                selectedItems[i].remove()
+                break
             }
+            event.target.classList.remove('filter-link-choosen')
         },
         clearAll: function(){
             document.getElementById('choosen-filters').innerHTML = ''
@@ -256,9 +259,8 @@ export default {
             })
         },
         clearSelectedItem: function(event){
-                console.log(22222)
+            console.log(22222)
             document.querySelectorAll('.filter-link').forEach(element => {
-                console.log(event.target.innerText)
                 if (element.innerText == event.target.innerText) {
                     element.classList.remove('filter-link-choosen')
                     return false
@@ -398,6 +400,7 @@ export default {
     background-repeat: no-repeat;
     background-size: 20px;
     background-position: 96% center;
+    cursor: pointer;
 }
 
 </style>
