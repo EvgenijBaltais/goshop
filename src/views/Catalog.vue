@@ -6,7 +6,11 @@
         <div class="filters-title-section">
             <div class = "filters-title-wrapper">
                 <span class = "filters-text">Фильтры:</span>
-                <a class = "clear-text">Сбросить все</a>
+                <a class = "clear-text"
+                    @click.prevent = clearAll
+                >
+                    Сбросить все
+                </a>
             </div>
             <div class = "choosen-filters" id = "choosen-filters"></div>
         </div>
@@ -17,7 +21,13 @@
             </div>
             <ul class = "filter-items-list" v-if = flowers.length>
                 <li class = "filter-item" v-for = "item in flowers" :key = "item.id">
-                    <router-link :to = "{path: `/catalog/${item.id}`}" class = "filter-link">{{item.name}}</router-link>
+                    <router-link
+                        :to = "{path: `/catalog/${item.id}`}" 
+                        :class = "['filter-link']"
+                        @click.prevent = getFilter
+                    >
+                            {{item.name}}
+                    </router-link>
                 </li>
             </ul>
         </div>
@@ -28,7 +38,13 @@
             </div>
             <ul class = "filter-items-list" v-if = categories.length>
                 <li class = "filter-item" v-for = "item in categories" :key = "item.id">
-                    <router-link :to = "{path: `/catalog/${item.id}`}" class = "filter-link">{{item.name}}</router-link>
+                    <router-link 
+                        :to = "{path: `/catalog/${item.id}`}"
+                        :class = "['filter-link']"
+                        @click.prevent = getFilter
+                    >
+                        {{item.name}}
+                    </router-link>
                 </li>
             </ul>
         </div>
@@ -39,7 +55,13 @@
             </div>
             <ul class = "filter-items-list" v-if = colors.length>
                 <li class = "filter-item" v-for = "item in colors" :key = "item.id">
-                    <router-link :to = "{path: `/catalog/${item.id}`}" class = "filter-link">{{item.value}}</router-link>
+                    <router-link
+                        :to = "{path: `/catalog/${item.id}`}"
+                        :class = "['filter-link']"
+                        @click.prevent = getFilter
+                        >
+                            {{item.value}}
+                        </router-link>
                 </li>
             </ul>
         </div>
@@ -197,6 +219,53 @@ export default {
 
             return false;
         },
+        getFilter: function() {
+
+            if (!document.getElementById('choosen-filters')) return false
+
+            let copiedElement = ''
+
+            if (!event.target.classList.contains('filter-link-choosen')) {
+                event.target.classList.add('filter-link-choosen')
+                copiedElement = document.createElement('a')
+
+                for (let i = 0; i < event.target.classList.length; i++) {
+                    copiedElement.classList.add(event.target.classList[i])
+                }
+
+                copiedElement.innerText = event.target.innerText
+
+                copiedElement.addEventListener('click', this.clearSelectedItem(event))
+
+                document.getElementById('choosen-filters').insertAdjacentElement('beforeend', copiedElement)
+                return false
+            }
+
+            let selectedItems = document.getElementById('choosen-filters').childNodes
+
+            for (let i = 0; i < selectedItems.length; i++) {
+                if (selectedItems[i].innerText != event.target.innerText) continue
+                event.target.classList.remove('filter-link-choosen')
+            }
+        },
+        clearAll: function(){
+            document.getElementById('choosen-filters').innerHTML = ''
+
+            document.querySelectorAll('.filter-link').forEach(element => {
+                element.classList.remove('filter-link-choosen')
+            })
+        },
+        clearSelectedItem: function(event){
+                console.log(22222)
+            document.querySelectorAll('.filter-link').forEach(element => {
+                console.log(event.target.innerText)
+                if (element.innerText == event.target.innerText) {
+                    element.classList.remove('filter-link-choosen')
+                    return false
+                }
+            })
+            event.target.remove()
+        },
         getParent: function(el, cls){
             while ((el = el.parentElement) && !el.classList.contains(cls));
             return el;
@@ -216,7 +285,7 @@ export default {
 
 </script>
 
-<style scoped>
+<style>
 
 .catalog-wrapper {
     display: flex;
@@ -312,6 +381,7 @@ export default {
 
 .filter-link {
     display: block;
+    margin-bottom: 3px;
     font-size: 16px;
     line-height: 24px;
     padding: 5px 10px;
@@ -319,5 +389,14 @@ export default {
     color: #000;
 }
 
+.filter-link-choosen {
+    display: block;
+    background: #f6f6f6;
+    border-radius: 3px;
+    background-image: url('../assets/icons/exit.svg');
+    background-repeat: no-repeat;
+    background-size: 20px;
+    background-position: 96% center;
+}
 
 </style>
