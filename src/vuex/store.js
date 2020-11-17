@@ -4,7 +4,7 @@ import axios from 'axios'
 const store = createStore({
     state () {
         return {
-            catalogItems: [],
+            products: [],
             cart: [],
             categories: [],
             productsByCategories: [],
@@ -13,13 +13,8 @@ const store = createStore({
         }
     },
     mutations: {
-        SET_ITEMS_TO_STATE: (state, catalogItems) => {
-            state.catalogItems = catalogItems
-        },
-        SET_MORE_ITEMS_TO_STATE: (state, items) => {
-            for (let i = 0; i < items.length; i++) {
-                state.catalogItems.push(items[i])
-            }
+        SET_PRODUCTS_TO_STATE: (state, products) => {
+            state.products = products
         },
         SET_CATEGORIES: (state, items) => {
             for (let i = 0; i < items.length; i++) {
@@ -38,26 +33,11 @@ const store = createStore({
     },
     actions: {
         get_catalog({commit}) {
-            return axios('//localhost:3000/catalog_items', {
+            return axios('//localhost:3000/catalog_products', {
                 method: 'GET'
-            }).then((catalogItems) => {
-                commit('SET_ITEMS_TO_STATE', catalogItems.data)
-                return catalogItems
-            }).catch(e => {
-                console.log(e)
-                return e
-            })
-        },
-        get_more_catalog_items({commit}, value) {
-
-            return axios('//localhost:3000/get_more_catalog_items', {
-                method: 'GET', params: {
-                    'from': value,
-                    'limit': 10
-                }
-            }).then((catalogItems) => {
-                commit('SET_MORE_ITEMS_TO_STATE', catalogItems.data)
-                return catalogItems
+            }).then(products => {
+                commit('SET_PRODUCTS_TO_STATE', products)
+                return products
             }).catch(e => {
                 console.log(e)
                 return e

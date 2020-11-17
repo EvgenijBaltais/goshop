@@ -90,8 +90,8 @@ app.get('/get_all_products_by_categories', (req, res) => {
 
 // Получить данные для отображения каталога
 
-app.get('/catalog_items', (req, res) => {
-    pool.query('SELECT * from products limit ' + 15 + '', (err, rows, fields) => {
+app.get('/catalog_products', (req, res) => {
+    pool.query('SELECT * from products', (err, rows, fields) => {
         if (!err) {
             res.send(rows)
         }
@@ -112,19 +112,6 @@ app.get('/prices', (req, res) => {
         }
     })
 })
-
-// Get more products
-app.get('/get_more_catalog_items', (req, res) => {
-    pool.query('SELECT * from products where id > ' + req.query.from + ' limit ' + req.query.limit, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows)
-        }
-        else {
-            console.log(err)
-        }
-    })
-})
-
 
 // Get selected products
 app.get('/select_products', (req, res) => {

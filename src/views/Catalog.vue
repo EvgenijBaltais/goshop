@@ -1,6 +1,5 @@
 <template>
-
-<button class = "get-items" @click = "getMaxObjId()">Получить товары</button>
+<button @click = getMoreItems>{{count}}</button>
 <div class = "catalog-wrapper">
     <div class = "catalog-dashboard">
         <div class="filters-title-section">
@@ -19,7 +18,7 @@
                 <a class = "filters-section__title">Выбрать цветы</a>
                 <img :src="bottom_pic" alt="" class = "bottom_pic">
             </div>
-            <ul class = "filter-items-list" v-if = flowers.length>
+            <ul :class = "['filter-items-list', 'opened-list']" v-if = flowers.length>
                 <li class = "filter-item" v-for = "item in flowers" :key = "item.id">
                     <router-link
                         :to = "{path: `/catalog/${item.id}`}" 
@@ -76,7 +75,7 @@
     <div class = "catalog">
 
         <Catalog_item
-            v-for = 'item in items'
+            v-for = 'item in products'
             :key = 'item.id'
             :items = 'item'
         />
@@ -99,16 +98,17 @@ export default {
             preloader: require('../assets/icons/2.gif'),
             bottom_pic: require('../assets/icons/to-bottom-pic.svg'),
             loading: 0,
-            id: 111
+            id: 111,
+            count: 2
         }
     },
     components: {
         Catalog_item
     },
     computed: {
-        items(){
-            console.log('вызов')
-            return this.$store.state.catalogItems
+        products(){
+            let products = this.$store.state.products.data
+            return products
         },
         categories(){
             return this.$store.state.categories
@@ -118,27 +118,22 @@ export default {
         },
         colors(){
 
-            let items = this.$store.state.colors
+            let colors = this.$store.state.colors
 
-                for (let item in items) {
-                    if (!items[item].value) continue
-                    items[item].value = items[item].value[0].toUpperCase() + items[item].value.slice(1)
-                }
+                /*for (let item in colors) {
+                    if (!colors[products].value) continue
+                    colors[item].value = colors[item].value[0].toUpperCase() + colors[item].value.slice(1)
+                }*/
 
-            return items
+            return colors
         }
     },
     methods: {
         ...mapActions([
-            'get_more_catalog_items',
             'get_flowers_types'
         ]),
         onClick(){
             console.log(this.getMaxObjId())
-        },
-        getProducts(){
-            // Удалить этот метод
-            console.log(this.items)
         },
         getMaxObjId(){
             let maxObjId = 0    // Поиск наибольшего id из объекта товаров каталога в хранилище
@@ -166,8 +161,18 @@ export default {
             }
         },
         getMoreItems(){
-
+            
             this.loading++
+
+            this.count++
+
+            console.log(this.count)
+
+            //this.products = this.products.slice(0, 12)
+
+            //console.log(this.products)
+
+            /*
 
             let items = document.querySelectorAll('.catalog__item')
 
@@ -193,6 +198,8 @@ export default {
                 this.removePreloaders()
                 window.addEventListener('scroll', this.getMoreItems)
             })
+            */
+            
         },
         isInViewport(element) {
             let rect = element.getBoundingClientRect();
@@ -210,12 +217,12 @@ export default {
 
             if (!parent.classList.contains('has-inside-content')) return false
 
-            if (parent.querySelector('.filter-items-list').classList.contains('opened-list')){
-                parent.querySelector('.filter-items-list').classList.remove('opened-list')
+            if (parent.classList.contains('opened-list')){
+                parent.classList.remove('opened-list')
                 return false
             }
             
-            parent.querySelector('.filter-items-list').classList.add('opened-list')
+            parent.classList.add('opened-list')
 
             return false;
         },
@@ -274,14 +281,14 @@ export default {
         }
     },
     created() {
-        window.addEventListener('scroll', this.getMoreItems)
+       // window.addEventListener('scroll', this.getMoreItems)
         this.$store.dispatch('get_catalog')
         this.$store.dispatch('get_flowers_types')
         this.$store.dispatch('get_categories_data')
         this.$store.dispatch('get_all_colors')
   },
     unmounted(){
-        window.removeEventListener('scroll', this.getMoreItems)
+        //window.removeEventListener('scroll', this.getMoreItems)
   }
 }
 
@@ -297,7 +304,6 @@ export default {
 
 .catalog-dashboard {
     width: 180px;
-    outline: 1px solid grey;
 }
 
 .catalog {
@@ -374,8 +380,13 @@ export default {
     list-style-type: none;
 }
 
-.opened-list {
+
+.opened-list .filter-items-list {
     display: block!important;
+}
+
+.opened-list .bottom_pic {
+    transform: rotate(180deg);
 }
 
 .filter-item {
@@ -401,6 +412,10 @@ export default {
     background-size: 20px;
     background-position: 96% center;
     cursor: pointer;
+}
+
+.choosen-filters .filter-link-choosen {
+    background-color: #dbddde;
 }
 
 </style>

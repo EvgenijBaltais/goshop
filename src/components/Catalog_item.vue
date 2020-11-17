@@ -1,6 +1,5 @@
 <template>
 <div class = "catalog__item" :data-id = 'items.id'>
-
     <div class = "catalog__pic" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/' + items.img + '/1.jpg')})`}"></div>
   
     <div class = "catalog__title">{{items.title}}</div>
@@ -15,7 +14,7 @@
 export default {
     name: 'Catalog_item',
     props: {
-        items: {
+            items: {
             type: Object,
             default(){}
         }
@@ -34,9 +33,8 @@ export default {
 <style scoped>
 
 .catalog__item {
-    border: 1px solid grey;
     box-sizing: border-box;
-    flex-basis: 265px;
+    flex-basis: 295px;
     margin-bottom: 25px;
 }
 
@@ -59,7 +57,7 @@ export default {
     font-weight: bold;
 }
 
-.catalog__text {
+.catalog__description {
     text-align: center;
 }
 
