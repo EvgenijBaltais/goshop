@@ -169,13 +169,6 @@ export default {
             let allProducts = this.$store.state.products.data,
                 items = document.querySelectorAll('.catalog__item')
 
-                console.log(allProducts.length)
-
-            if (this.visibleProduct == allProducts.length) {
-                window.removeEventListener('scroll', this.getMoreItems)
-                return false
-            }
-
             if (this.isInViewport(items[items.length - 8])) {
                 return false
             }
@@ -201,10 +194,11 @@ export default {
             }).then(() => {
 
                 this.removePreloaders()
-                window.addEventListener('scroll', this.getMoreItems)
+
+                if (this.visibleProduct != allProducts.length) {
+                    window.addEventListener('scroll', this.getMoreItems)
+                }
             })
-            
-            
         },
         isInViewport(element) {
             let rect = element.getBoundingClientRect();
