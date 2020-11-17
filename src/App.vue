@@ -15,7 +15,7 @@ export default {
     MainLayout
   },
   created() {
-
+    this.$store.dispatch('get_catalog')
   }
 }
 

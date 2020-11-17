@@ -1,5 +1,5 @@
 <template>
-<button @click = getMoreItems>{{count}}</button>
+<button @click = getMoreItems>{{visibleProduct}}</button>
 <div class = "catalog-wrapper">
     <div class = "catalog-dashboard">
         <div class="filters-title-section">
@@ -80,9 +80,10 @@
             :items = 'item'
         />
 
+        <div class = "preloader-wrapper"></div>
+
     </div>
 </div>
-    <div class = "preloader-wrapper"></div>
 </template>
 
 <script>
@@ -98,8 +99,7 @@ export default {
             preloader: require('../assets/icons/2.gif'),
             bottom_pic: require('../assets/icons/to-bottom-pic.svg'),
             loading: 0,
-            id: 111,
-            count: 2
+            visibleProduct: 12
         }
     },
     components: {
@@ -107,8 +107,12 @@ export default {
     },
     computed: {
         products(){
-            let products = this.$store.state.products.data
-            return products
+
+            let items = this.$store.state.products.data
+
+            if (items != undefined) items = items.slice(0, this.visibleProduct)
+
+            return items
         },
         categories(){
             return this.$store.state.categories
@@ -161,36 +165,37 @@ export default {
             }
         },
         getMoreItems(){
+
+            let allProducts = this.$store.state.products.data,
+                items = document.querySelectorAll('.catalog__item')
+
+                console.log(allProducts.length)
+
+            if (this.visibleProduct == allProducts.length) {
+                window.removeEventListener('scroll', this.getMoreItems)
+                return false
+            }
+
+            if (this.isInViewport(items[items.length - 8])) {
+                return false
+            }
             
             this.loading++
 
-            this.count++
-
-            console.log(this.count)
-
-            //this.products = this.products.slice(0, 12)
-
-            //console.log(this.products)
-
-            /*
-
-            let items = document.querySelectorAll('.catalog__item')
-
-            if (this.isInViewport(items[items.length - 10])) {
                 window.removeEventListener('scroll', this.getMoreItems)
                 this.addPreloader()
-
                 this.loading = 0
-            }
 
             if (this.loading > 0) return false
-
-            console.log(this.getMaxObjId())
 
             new Promise((resolve) => {
                 setTimeout(() => {
 
-                    this.get_more_catalog_items(this.getMaxObjId())
+                    this.visibleProduct < allProducts.length - 6
+                    ? this.visibleProduct += 6
+                    : this.visibleProduct = allProducts.length
+
+                    console.log(allProducts.length)
                     resolve()
                 }, 1000)
             }).then(() => {
@@ -198,7 +203,7 @@ export default {
                 this.removePreloaders()
                 window.addEventListener('scroll', this.getMoreItems)
             })
-            */
+            
             
         },
         isInViewport(element) {
@@ -281,14 +286,13 @@ export default {
         }
     },
     created() {
-       // window.addEventListener('scroll', this.getMoreItems)
-        this.$store.dispatch('get_catalog')
+        window.addEventListener('scroll', this.getMoreItems)
         this.$store.dispatch('get_flowers_types')
         this.$store.dispatch('get_categories_data')
         this.$store.dispatch('get_all_colors')
   },
     unmounted(){
-        //window.removeEventListener('scroll', this.getMoreItems)
+        window.removeEventListener('scroll', this.getMoreItems)
   }
 }
 
