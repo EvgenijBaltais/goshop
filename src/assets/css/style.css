@@ -4,7 +4,9 @@
 }
 
 .wrapper {
-    position: relative;
     max-width: 1110px;
     margin: 0 auto;
+}
+#app {
+    position: relative;
 }

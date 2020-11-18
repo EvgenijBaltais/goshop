@@ -1,8 +1,7 @@
 <template>
-    <div>
         <div class = "wrapper">
 
-            <div :class = "['site-header', 'site-header-fixed']">
+            <div :class = "['site-header']">
                 <TopHeaderBlock />
                 <TopHeaderLogoBlock />
                 <MainNavigation />
@@ -12,7 +11,6 @@
         </div>
 
         <Footer />
-    </div>
 </template>
 
 <script>
@@ -26,7 +24,9 @@ export default {
 
     name: "Mainlayout",
     data(){
-        return {}
+        return {
+            fixedHeader: 0
+        }
     },
     components: {
         TopHeaderBlock, TopHeaderLogoBlock, MainNavigation, Footer
@@ -35,19 +35,23 @@ export default {
 
         makeNavbarFixedAgain(){
 
-            //let navBar = document.querySelector('.site-header')
+            let navBar = document.querySelector('.site-header')
 
-            /*return false
+            console.log(pageYOffset + ' pageYOffset')
+            console.log(navBar.offsetHeight + ' navBar.offsetHeight')
 
-            if (pageYOffset > navBar.offsetHeight) {
-                
-                if (navBar.classList.contains('site-header-fixed')) return false
+            if (pageYOffset >= navBar.offsetHeight) {
+
+                if (this.fixedHeader == 1) return false
+
                 navBar.classList.add('site-header-fixed')
+                this.fixedHeader = 1
             }
             else {
-                if (navBar.classList.contains('site-header-fixed')) navBar.classList.remove('site-header-fixed')
-                return false
-            }*/
+                if (this.fixedHeader == 0) return false
+                //navBar.classList.remove('site-header-fixed')
+                this.fixedHeader = 0
+            }
 
         }
     },
@@ -60,12 +64,18 @@ export default {
 <style>
 .site-header-fixed {
     position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    margin: auto;
+    padding: 0 calc((100% - 1110px) / 2);
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     background-color: #fff;
     z-index: 5;
+    box-shadow: 0 0 3px 0 rgba(0,0,0,.1);
 }
 .site-header-fixed .logo-block__search {
     display: none;
