@@ -2,7 +2,9 @@
 		<div class = "top-stripe">
 			<div class = "main-basket">
 				<p class = "main-basket__text">
+                    <a href="" class = "main-basket__link">
 					<span>Корзина товаров</span><span class = "main-basket__value">(3)</span>
+                    </a>
 				</p>
 			</div>
 			<div class = "main-phone">
@@ -28,16 +30,12 @@ export default {
 .top-stripe {
     display: flex;
     justify-content: flex-end;
-    padding: 10px 0;
+    align-items: center;
+    padding: 20px 0 10px 0;
     box-sizing: border-box;
 }
 
 .main-basket {
-    background-image: url('../assets/icons/cart.svg');
-    background-repeat: no-repeat;
-    background-size: 18px;
-    padding-left: 24px;
-    box-sizing: border-box;
     font-size: 16px;
     line-height: 20px;
     padding-right: 7px;
@@ -50,6 +48,16 @@ export default {
     position: relative;
 }
 
+.main-basket__link {
+    padding-left: 26px;
+    background-image: url('../assets/icons/cart.svg');
+    background-repeat: no-repeat;
+    background-size: 18px;
+    box-sizing: border-box;
+    color: #000!important;
+    text-decoration: none!important;
+}
+
 .main-basket__value {
     padding: 0 3px;
     box-sizing: border-box;
@@ -59,21 +67,19 @@ export default {
     color: green;
 }
 
-.main-phone {
-    background-image: url('../assets/icons/phone.svg');
-    background-repeat: no-repeat;
-    background-size: 16px;
-    background-position: left center;
-    padding-left: 24px;
-    box-sizing: border-box;
-}
-
 .main-phone__number {
-    font-size: 20px;
-    line-height: 20px;
+    padding-left: 28px;
+    box-sizing: border-box;
+    font-size: 24px;
+    line-height: 24px;
+    font-weight: bold;
     color: #000;
     text-decoration: none;
     color: #576167;
+    background-image: url('../assets/icons/phone.svg');
+    background-repeat: no-repeat;
+    background-size: 20px;
+    background-position: left center;
 }
 
 </style>

@@ -1,19 +1,21 @@
 <template>
-		<div class = "logo-block">
-			<div class = "logo-block__search">
-				<div class = "logo-block__input">
-					<input type="text" name = "main-search" class = "main-search" placeholder="Поиск...">
-					<button class = "main-search-btn"></button>
-				</div>
-			</div>
-			<div class="logo-block__main-logo">
-				<p class = "logo-title">ЦВЕТЫ И БУКЕТЫ</p>
-				<p class = "logo-title-text">Лучшие цветы в Подмосковье</p>
-			</div>
-			<div class = "logo-block__top-info">
-				<span>Бесплатная доставка по Красногорску от 1500 рублей!</span>
-			</div>
-		</div>
+    <div class = "logo-block">
+        <div class = "logo-block__search">
+            <div class = "logo-block__input">
+                <input type="text" name = "main-search" class = "main-search" placeholder="Поиск...">
+                <button class = "main-search-btn"></button>
+            </div>
+        </div>
+        <div class="logo-block__main-logo">
+            <p class = "logo-title">
+                <router-link :to = "{path: '/'}" class = "logo-link">ЦВЕТЫ И БУКЕТЫ</router-link>
+            </p>
+            <p class = "logo-title-text">Лучшие цветы в Подмосковье</p>
+        </div>
+        <div class = "logo-block__top-info">
+            <span>Бесплатная доставка по Красногорску от 1500 рублей!</span>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -93,6 +95,12 @@ export default {
         text-align: center;
         font-size: 40px;
         line-height: 50px;
+    }
+
+    .logo-link {
+        color: #000!important;
+        text-decoration: none!important;
+        font-weight: bold;
     }
 
     .logo-title-text {

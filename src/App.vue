@@ -16,6 +16,9 @@ export default {
   },
   created() {
     this.$store.dispatch('get_catalog')
+    this.$store.dispatch('get_flowers_types')
+    this.$store.dispatch('get_categories_data')
+    this.$store.dispatch('get_all_colors')
   }
 }
 

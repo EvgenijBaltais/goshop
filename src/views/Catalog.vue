@@ -1,5 +1,4 @@
 <template>
-<button @click = getMoreItems>{{visibleProduct}}</button>
 <div class = "catalog-wrapper">
     <div class = "catalog-dashboard">
         <div class="filters-title-section">
@@ -24,6 +23,7 @@
                         :to = "{path: `/catalog/${item.id}`}" 
                         :class = "['filter-link']"
                         @click.prevent = getFilter
+                        data-flowers = ''
                     >
                             {{item.name}}
                     </router-link>
@@ -81,7 +81,6 @@
         />
 
         <div class = "preloader-wrapper"></div>
-
     </div>
 </div>
 </template>
@@ -136,33 +135,22 @@ export default {
         ...mapActions([
             'get_flowers_types'
         ]),
-        onClick(){
-            console.log(this.getMaxObjId())
-        },
-        getMaxObjId(){
-            let maxObjId = 0    // Поиск наибольшего id из объекта товаров каталога в хранилище
-            let products = document.querySelectorAll('.catalog__item')
-            let lastProductId = products[products.length - 1].getAttribute('data-id')
-
-            console.log(lastProductId)
-
-            maxObjId < lastProductId ? maxObjId = lastProductId : ''
-            return maxObjId
-        },
         addPreloader(){
 
             let preloader = document.createElement('img')
                 preloader.classList.add('catalog-preloader')
                 preloader.setAttribute('src', this.preloader)
 
-            //preloader.insertAdjacentElement('beforeEnd', document.querySelector('.catalog'))
-            //preloader.insertBefore(document.querySelector('.catalog'))
             document.querySelector('.preloader-wrapper').append(preloader)
         },
         removePreloaders(){
             for (let i = 0; i < document.querySelectorAll('.catalog-preloader').length; i++) {
                 document.querySelectorAll('.catalog-preloader')[i].remove()
             }
+        },
+        getFilteredProducts(){
+
+
         },
         getMoreItems(){
 
@@ -187,8 +175,6 @@ export default {
                     this.visibleProduct < allProducts.length - 6
                     ? this.visibleProduct += 6
                     : this.visibleProduct = allProducts.length
-
-                    console.log(allProducts.length)
                     resolve()
                 }, 1000)
             }).then(() => {
@@ -265,7 +251,6 @@ export default {
             })
         },
         clearSelectedItem: function(event){
-            console.log(22222)
             document.querySelectorAll('.filter-link').forEach(element => {
                 if (element.innerText == event.target.innerText) {
                     element.classList.remove('filter-link-choosen')
@@ -281,9 +266,6 @@ export default {
     },
     created() {
         window.addEventListener('scroll', this.getMoreItems)
-        this.$store.dispatch('get_flowers_types')
-        this.$store.dispatch('get_categories_data')
-        this.$store.dispatch('get_all_colors')
   },
     unmounted(){
         window.removeEventListener('scroll', this.getMoreItems)
@@ -377,7 +359,6 @@ export default {
     display: none;
     list-style-type: none;
 }
-
 
 .opened-list .filter-items-list {
     display: block!important;

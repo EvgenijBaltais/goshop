@@ -1,41 +1,24 @@
 <template>
-		<div class="main-navigation">
-			<div class = "main-navigation__item">
-        <router-link :to = "{name: 'Home'}" class = "main-navigation__link">Главная</router-link>
-			</div>
-			<div class = "main-navigation__item">
-        <router-link :to = "{name: 'Catalog'}" class = "main-navigation__link">Каталог</router-link>
-			</div>
-			<div class = "main-navigation__item">
-				<a class = "main-navigation__link">О компании</a>
-			</div>
-			<div class = "main-navigation__item">
-        <router-link :to = "{name: 'Contacts'}" class = "main-navigation__link">Контакты</router-link>
-			</div>
-		</div>
-		<div class="main-navigation">
-			<div class = "main-navigation__item">
-        <router-link :to = "{name: 'Home'}" class = "main-navigation__link">Главная</router-link>
-			</div>
-			<div class = "main-navigation__item">
-				<router-link :to = "{name: 'Catalog'}" class = "main-navigation__link">Каталог</router-link>
-			</div>
-			<div class = "main-navigation__item">
-				<a class = "main-navigation__link">О компании</a>
-			</div>
-			<div class = "main-navigation__item">
-        <router-link :to = "{name: 'Contacts'}" class = "main-navigation__link">Контакты</router-link>
-			</div>
-            <div class = "main-navigation__item">
-                <router-link :to = "{name: 'Single_product'}" class = "main-navigation__link">Test</router-link>
-            </div>
-		</div>
+    <div :class="['main-navigation']">
+        <div class = "main-navigation__item">
+            <router-link :to = "{name: 'Home'}" class = "main-navigation__link">Главная</router-link>
+        </div>
+        <div class = "main-navigation__item">
+            <router-link :to = "{name: 'Catalog'}" class = "main-navigation__link">Каталог</router-link>
+        </div>
+        <div class = "main-navigation__item">
+            <a class = "main-navigation__link">О компании</a>
+        </div>
+        <div class = "main-navigation__item">
+            <router-link :to = "{name: 'Contacts'}" class = "main-navigation__link">Контакты</router-link>
+        </div>
+        <div class = "main-navigation__item">
+            <router-link :to = "{name: 'Single_product'}" class = "main-navigation__link">Test</router-link>
+        </div>
+    </div>
 </template>
 
 <script>
-
-
-
 export default {
   name: 'MainNavigation',
   components: {
@@ -47,7 +30,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
     .main-navigation {
         margin-bottom: 20px;
