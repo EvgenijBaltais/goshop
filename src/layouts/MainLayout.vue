@@ -2,7 +2,7 @@
     <div>
         <div class = "wrapper">
 
-            <div :class = "['site-header']">
+            <div :class = "['site-header', 'site-header-fixed']">
                 <TopHeaderBlock />
                 <TopHeaderLogoBlock />
                 <MainNavigation />
@@ -15,12 +15,57 @@
     </div>
 </template>
 
+<script>
+
+import TopHeaderBlock from '../components/TopHeaderBlock.vue'
+import TopHeaderLogoBlock from '../components/TopHeaderLogoBlock.vue'
+import MainNavigation from '../components/MainNavigation.vue'
+import Footer from '../components/Footer.vue'
+
+export default {
+
+    name: "Mainlayout",
+    data(){
+        return {}
+    },
+    components: {
+        TopHeaderBlock, TopHeaderLogoBlock, MainNavigation, Footer
+    },
+    methods: {
+
+        makeNavbarFixedAgain(){
+
+            //let navBar = document.querySelector('.site-header')
+
+            /*return false
+
+            if (pageYOffset > navBar.offsetHeight) {
+                
+                if (navBar.classList.contains('site-header-fixed')) return false
+                navBar.classList.add('site-header-fixed')
+            }
+            else {
+                if (navBar.classList.contains('site-header-fixed')) navBar.classList.remove('site-header-fixed')
+                return false
+            }*/
+
+        }
+    },
+    created(){
+        window.addEventListener('scroll', this.makeNavbarFixedAgain)
+    }
+}
+</script>
+
 <style>
 .site-header-fixed {
+    position: fixed;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
+    background-color: #fff;
+    z-index: 5;
 }
 .site-header-fixed .logo-block__search {
     display: none;
@@ -82,22 +127,3 @@
 }
 
 </style>
-
-<script>
-
-import TopHeaderBlock from '../components/TopHeaderBlock.vue'
-import TopHeaderLogoBlock from '../components/TopHeaderLogoBlock.vue'
-import MainNavigation from '../components/MainNavigation.vue'
-import Footer from '../components/Footer.vue'
-
-export default {
-
-    name: "Mainlayout",
-    data(){
-        return {}
-    },
-    components: {
-        TopHeaderBlock, TopHeaderLogoBlock, MainNavigation, Footer
-    }
-}
-</script>

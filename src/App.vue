@@ -26,8 +26,8 @@ export default {
 
 <style>
 @import 'assets/css/style.css';
-@import url('https://fonts.googleapis.com/css2?family=Pangolin&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Neucha&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pangolin&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Andika&display=swap');
 
 /*body {font-family: 'Pangolin', cursive;}
