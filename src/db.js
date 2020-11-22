@@ -49,6 +49,18 @@ app.get('/get_categories', (req, res) => {
     })
 })
 
+app.get('/get_occasions', (req, res) => {
+    pool.query('SELECT * from occasions', (err, rows, fields) => {
+
+        if (!err) {
+            res.send(rows)
+        }
+        else {
+            console.log(err)
+        }
+    })
+})
+
 // Get all flowers
 
 app.get('/get_flowers_types', (req, res) => {
@@ -138,7 +150,7 @@ app.get('/colors', (req, res) => {
 })
 
 // Get a product
-app.get('/products/:id', (req, res) => {
+app.get('/products/id', (req, res) => {
     pool.query('SELECT * from products WHERE id = ?',[req.query.id], (err, rows, fields) => {
         if (!err) {
             res.send(rows)

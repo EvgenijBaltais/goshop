@@ -3,7 +3,7 @@
     <div class = "product-carousel">
         <div class="product-slider">
             <div class="product-slider__mainview">
-                <img :src = "mainPic" alt="" class = "product-slider__bimg">
+                <img :src = "require('../assets/pics/bouquets/' + [product.img ? product.img : 1] + '/1.jpg')" alt="" class = "product-slider__bimg">
             </div>
             <div class="product-slider__navigation">
                 <div @click = "changeSliderPic" :class = "['product-slider__simg', 'product-slider__active-img']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "1"></div>
@@ -25,15 +25,14 @@
     <div class = "product-description">
         <div class = "product-title">
             <div class="product-description__title">
-                <span class = "product-description__span bold-text">Autumn Freesias & Roses</span>
+                <span class = "product-description__span bold-text">{{product.title}}</span>
             </div>
             <div class="product-description__price">
-                <span class="product-description__span">£32</span>
+                <span class="product-description__span">{{product.price}} р</span>
             </div>
         </div>
         <div class = "product-text">
-            <p class = "product-text__p">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Impedit, laborum minus et nesciunt qui voluptate quis ipsa voluptatem soluta sed, ad iure provident aspernatur corrupti odit dolore sint quas dicta.</p>
-            <p class = "product-text__p">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Impedit, laborum minus et nesciunt qui voluptate quis ipsa voluptatem soluta sed, ad iure provident aspernatur corrupti odit dolore sint quas dicta.</p>
+            <p class = "product-text__p">{{product.description}}</p>
         </div>
         <div class="product-contains" v-on:click = "openContainer()">
             <div class="product-contains__title">
@@ -67,14 +66,14 @@
 
 <script>
 import DatepickerLite from 'vue3-datepicker-lite';
+import axios from 'axios'
 
 export default {
     name: 'Single_product',
     components: { DatepickerLite },
     data(){
         return {
-            mainPic: require("../assets/pics/bouquets/1/1.jpg"),
-
+            product: {},
             datepickerSetting: {
               id: "birthday",
               name: "birthday",
@@ -147,6 +146,18 @@ export default {
             while ((el = el.parentElement) && !el.classList.contains(cls));
             return el;
         }
+    },
+    mounted(){
+
+            axios
+            .get('//localhost:3000/products/id', {
+                method: 'GET',
+                params: {
+                    'id': this.$route.params.id
+                }
+            }).then(response => {
+                this.product = response.data[0]
+            })
     }
 }
 </script>
@@ -165,7 +176,6 @@ export default {
 
 .product-carousel {
     width: calc(50% - 30px);
-    outline: 1px solid green;
 }
 
 .product-slider__mainview {
@@ -210,7 +220,6 @@ export default {
 
 .product-description {
     width: 50%;
-    outline: 1px solid green;
 }
 
 .product-title {

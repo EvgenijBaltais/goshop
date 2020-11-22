@@ -22,7 +22,8 @@ const routes = [
   },
   {
     path: '/catalog/:id',
-    component: Catalog
+    name: 'Item',
+    component: Single_product
   },
   {
     path: '/item',
@@ -33,7 +34,10 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
+  routes,
+  scrollBehavior () {
+    document.getElementById('app').scrollIntoView();
+  }
 })
 
 export default router

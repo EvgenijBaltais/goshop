@@ -13,7 +13,7 @@
             <div class = "choosen-filters" id = "choosen-filters"></div>
         </div>
         <div :class="[`filters-section`, flowers.length ? `has-inside-content` : '']">
-            <div class = "filters-section__wrapper" v-on:click = listVisibility>
+            <div class = "filters-section__wrapper" @click = listVisibility>
                 <a class = "filters-section__title">Выбрать цветы</a>
                 <img :src="bottom_pic" alt="" class = "bottom_pic">
             </div>
@@ -22,6 +22,8 @@
                     <router-link
                         :to = "{path: `/catalog/${item.id}`}" 
                         :class = "['filter-link']"
+                        :data-filter = "1"
+                        :data-flowertype = item.id
                         @click.prevent = getFilter
                         data-flowers = ''
                     >
@@ -31,7 +33,7 @@
             </ul>
         </div>
         <div :class="[`filters-section`, categories.length ? `has-inside-content` : '']">
-            <div class = "filters-section__wrapper" v-on:click = listVisibility>
+            <div class = "filters-section__wrapper" @click = listVisibility>
                 <a class = "filters-section__title">Категория</a>
                 <img :src="bottom_pic" alt="" class = "bottom_pic">
             </div>
@@ -40,6 +42,8 @@
                     <router-link 
                         :to = "{path: `/catalog/${item.id}`}"
                         :class = "['filter-link']"
+                        :data-filter = "1"
+                        :data-category = item.id
                         @click.prevent = getFilter
                     >
                         {{item.name}}
@@ -48,7 +52,7 @@
             </ul>
         </div>
         <div :class="[`filters-section`, colors.length ? `has-inside-content` : '']">
-            <div class = "filters-section__wrapper" v-on:click = listVisibility>
+            <div class = "filters-section__wrapper" @click = listVisibility>
                 <a class = "filters-section__title">Выбор по цвету</a>
                 <img :src="bottom_pic" alt="" class = "bottom_pic">
             </div>
@@ -57,6 +61,8 @@
                     <router-link
                         :to = "{path: `/catalog/${item.id}`}"
                         :class = "['filter-link']"
+                        :data-filter = "1"
+                        :data-color = item.id
                         @click.prevent = getFilter
                         >
                             {{item.value}}
@@ -64,11 +70,24 @@
                 </li>
             </ul>
         </div>
-        <div class="filters-section has-inside-content">
-            <div class = "filters-section__wrapper">
+        <div :class="[`filters-section`, occasions.length ? `has-inside-content` : '']">
+            <div class = "filters-section__wrapper" @click = listVisibility>
                 <a class = "filters-section__title">Повод</a>
                 <img :src="bottom_pic" alt="" class = "bottom_pic">
             </div>
+            <ul class = "filter-items-list" v-if = occasions.length>
+                <li class = "filter-item" v-for = "item in occasions" :key = "item.id">
+                    <router-link
+                        :to = "{path: `/catalog/${item.id}`}"
+                        :class = "['filter-link']"
+                        :data-filter = "1"
+                        :data-occasiontype = item.id
+                        @click.prevent = "getFilter();getFilteredProducts(e)"
+                        >
+                            {{item.name}}
+                        </router-link>
+                </li>
+            </ul>
         </div>
     </div>
 
@@ -119,6 +138,9 @@ export default {
         flowers(){
             return this.$store.state.flowers
         },
+        occasions(){
+            return this.$store.state.occasions
+        },
         colors(){
 
             let colors = this.$store.state.colors
@@ -150,14 +172,19 @@ export default {
         },
         getFilteredProducts(){
 
+            //let items = this.$store.state.products.data
 
+            //console.log(event.target)
+
+            //console.log(items.length)
         },
         getMoreItems(){
 
-            let allProducts = this.$store.state.products.data,
-                items = document.querySelectorAll('.catalog__item')
+            console.log(11111)
 
-            if (this.isInViewport(items[items.length - 8])) {
+            let allProducts = this.$store.state.products.data
+
+            if (this.isInViewport(document.querySelector('.preloader-wrapper'))) {
                 return false
             }
             
@@ -225,6 +252,10 @@ export default {
                     copiedElement.classList.add(event.target.classList[i])
                 }
 
+                for (let key in event.target.dataset) {
+                    copiedElement.setAttribute('data-' + key.toLowerCase(), event.target.dataset[key])
+                }
+
                 copiedElement.innerText = event.target.innerText
 
                 copiedElement.addEventListener('click', this.clearSelectedItem)
@@ -264,11 +295,13 @@ export default {
             return el;
         }
     },
-    created() {
-        window.addEventListener('scroll', this.getMoreItems)
-  },
+    mounted() {
+        // https://www.jonportella.com/you-are-using-browser-events-wrong/ - потом проверить, надо передать не анаонимную фкнкцию, а именованную. Иначе событие не удаляется
+
+        //window.addEventListener('scroll', this.getMoreItems)
+    },
     unmounted(){
-        window.removeEventListener('scroll', this.getMoreItems)
+        //window.removeEventListener('scroll', this.getMoreItems)
   }
 }
 

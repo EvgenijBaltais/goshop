@@ -1,9 +1,12 @@
 <template>
 <div class = "catalog__item" :data-id = 'items.id'>
-    <div class = "catalog__pic" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/' + items.img + '/1.jpg')})`}"></div>
-  
-    <div class = "catalog__title">{{items.title}}</div>
-    <div class = "catalog__description">{{items.short_description}}</div>
+    <router-link :to = "{path: `/catalog/${items.id}`}" class = "catalog__piclink">
+        <div class = "catalog__pic" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/' + items.img + '/1.jpg')})`}"></div>
+    </router-link>
+    <router-link :to = "{path: `/catalog/${items.id}`}" class = "catalog__titlelink">
+        <div class = "catalog__title">{{items.title}}</div>
+    </router-link>
+        <div class = "catalog__description">{{items.short_description}}</div>
     <div class = "catalog__price">{{items.price}}</div>
 </div>
 </template>
@@ -36,6 +39,15 @@ export default {
     box-sizing: border-box;
     flex-basis: 295px;
     margin-bottom: 25px;
+}
+
+.catalog__piclink {
+    color: #000;
+    text-decoration: none;
+}
+.catalog__titlelink {
+    color: #000;
+    text-decoration: none;
 }
 
 .catalog__pic {

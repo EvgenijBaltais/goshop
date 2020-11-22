@@ -15,10 +15,12 @@
                     v-for = "(item, index) in products"
                     :key = "item.id">
                 <div class="category-slider__picwrapper">
-                    <img class="category-slider__pic" :src = 'require("../assets/pics/bouquets/" + item.img + "/1.jpg")' alt="">
+                    <router-link :to = "{path: `/catalog/${item.id}`}" class = "category-slider__link">
+                        <img class="category-slider__pic" :src = 'require("../assets/pics/bouquets/" + item.img + "/1.jpg")' alt="">
+                    </router-link>
                 </div>
                 <div>
-                    <p class = "category-slider__title">{{item.title}}</p>
+                    <router-link :to = "{path: `/catalog/${item.id}`}" class = "category-slider__title">{{item.title}}</router-link>
                     <p class = "category-slider__price">{{item.price}}</p>
                 </div>
             </div>
@@ -200,6 +202,7 @@ export default {
 
 .category-slider__picwrapper {
     height: 270px;
+    padding-bottom: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -251,6 +254,12 @@ export default {
     color: rgb(54,61,64);
     font-size: 14px;
     line-height: 16px;
+}
+
+.category-slider__link {
+    display: flex;
+    align-items: center;
+    height: 100%;
 }
 
 </style>

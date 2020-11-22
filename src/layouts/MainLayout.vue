@@ -38,25 +38,27 @@ export default {
             let navBar = document.querySelector('.site-header')
 
             console.log(pageYOffset + ' pageYOffset')
-            console.log(navBar.offsetHeight + ' navBar.offsetHeight')
+            console.log(document.querySelector('.site-header').offsetHeight + ' navBar.offsetHeight')
 
-            if (pageYOffset >= navBar.offsetHeight) {
+            //console.log(this.fixedHeader)
 
-                if (this.fixedHeader == 1) return false
+            if (pageYOffset > document.querySelector('.site-header').offsetHeight && this.fixedHeader == 0) {
+
+                console.log('1')
 
                 navBar.classList.add('site-header-fixed')
                 this.fixedHeader = 1
+                return false
             }
-            else {
-                if (this.fixedHeader == 0) return false
-                //navBar.classList.remove('site-header-fixed')
-                this.fixedHeader = 0
+            else if (pageYOffset <= document.querySelector('.site-header').offsetHeight && this.fixedHeader == 1) {
+                console.log('2')
+                navBar.classList.remove('site-header-fixed')
+                return false
             }
-
         }
     },
     created(){
-        window.addEventListener('scroll', this.makeNavbarFixedAgain)
+        //window.addEventListener('scroll', this.makeNavbarFixedAgain)
     }
 }
 </script>

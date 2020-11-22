@@ -9,7 +9,8 @@ const store = createStore({
             categories: [],
             productsByCategories: [],
             flowers: [],
-            colors: []
+            colors: [],
+            occasions: []
         }
     },
     mutations: {
@@ -29,6 +30,9 @@ const store = createStore({
         },
         SET_COLORS: (state, items) => {
             state.colors = items
+        },
+        SET_OCCASIONS: (state, items) => {
+            state.occasions = items
         }
     },
     actions: {
@@ -76,6 +80,13 @@ const store = createStore({
                 methods: 'GET'
             }).then(items => {
                 this.commit('SET_COLORS', items.data)
+            })
+        },
+        get_all_occasions() {
+            return axios('//localhost:3000/get_occasions', {
+                methods: 'GET'
+            }).then(items => {
+                this.commit('SET_OCCASIONS', items.data)
             })
         }
     },
