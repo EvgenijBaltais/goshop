@@ -127,7 +127,7 @@ app.get('/prices', (req, res) => {
 
 // Get selected products
 app.get('/select_products', (req, res) => {
-    pool.query('SELECT * from products where color_variants = ?', [req.query.id], (err, rows, fields) => {
+    pool.query('SELECT * from products where color = ?', [req.query.id], (err, rows, fields) => {
         if (!err) {
             res.send(rows)
         }

@@ -25,7 +25,6 @@
                         :data-filter = "1"
                         :data-flowertype = item.id
                         @click.prevent = getFilter
-                        data-flowers = ''
                     >
                             {{item.name}}
                     </router-link>
@@ -143,14 +142,15 @@ export default {
         },
         colors(){
 
-            let colors = this.$store.state.colors
+            let colors = this.$store.state.colors,
+                new_colors = ''
 
-                /*for (let item in colors) {
-                    if (!colors[products].value) continue
-                    colors[item].value = colors[item].value[0].toUpperCase() + colors[item].value.slice(1)
-                }*/
-
-            return colors
+            if (colors.length > 0) {
+                new_colors = colors.filter(function(key){
+                    if (key.value != undefined && key.value != '') return key
+                })
+            }
+            return new_colors
         }
     },
     methods: {
@@ -172,7 +172,19 @@ export default {
         },
         getFilteredProducts(){
 
-            //let items = this.$store.state.products.data
+            let items = this.$store.state.products.data
+            
+            console.log(items)
+
+            // data-category == category
+            // data-flowertype == flowers_category
+            // data-color == color_variants
+            // data-occasiontype == occasion
+
+            items.forEach(function(key){
+
+                console.log(key)
+            })
 
             //console.log(event.target)
 
