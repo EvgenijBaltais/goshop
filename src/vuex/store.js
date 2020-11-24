@@ -37,7 +37,7 @@ const store = createStore({
     },
     actions: {
         get_catalog({commit}) {
-            return axios('//localhost:3000/catalog_products', {
+            return axios('//localhost:3000/products', {
                 method: 'GET'
             }).then(products => {
                 commit('SET_PRODUCTS_TO_STATE', products)

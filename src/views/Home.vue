@@ -38,9 +38,6 @@ export default {
     products(){
       return this.$store.state.productsByCategories[0]
     }
-  },
-  created() {
-      this.$store.dispatch('get_categories_data')
   }
 }
 </script>

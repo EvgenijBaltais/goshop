@@ -93,7 +93,7 @@
     <div class = "catalog">
 
         <Catalog_item
-            v-for = 'item in products'
+            v-for = 'item in products.slice(0, visibleProduct)'
             :key = 'item.id'
             :items = 'item'
         />
@@ -108,6 +108,7 @@
 //import axios from 'axios'
 import Catalog_item from '../components/Catalog_item'
 import { mapActions } from 'vuex'
+import axios from 'axios'
 
 export default {
 
@@ -116,14 +117,15 @@ export default {
             preloader: require('../assets/icons/2.gif'),
             bottom_pic: require('../assets/icons/to-bottom-pic.svg'),
             loading: 0,
-            visibleProduct: 12
+            visibleProduct: 12,
+            products: []
         }
     },
     components: {
         Catalog_item
     },
     computed: {
-        products(){
+        productss(){
 
             let items = this.$store.state.products.data
 
@@ -155,7 +157,7 @@ export default {
     },
     methods: {
         ...mapActions([
-            'get_flowers_types'
+            'get_flowers_types'             //////////  (?????????????????)
         ]),
         addPreloader(){
 
@@ -170,23 +172,51 @@ export default {
                 document.querySelectorAll('.catalog-preloader')[i].remove()
             }
         },
-        getFilteredProducts(){
+           getFilteredProducts(){
 
-            let items = this.$store.state.products.data
+            let items = this.products,
+                newItems = [],
+                filters = document.getElementById('choosen-filters').querySelectorAll('.filter-link-choosen')
+                
+                console.log(filters)
             
-            console.log(items)
-
             // data-category == category
             // data-flowertype == flowers_category
             // data-color == color_variants
             // data-occasiontype == occasion
 
+            console.log(newItems)
+            
+            // категории
+            //if (event.target.getAttribute('data-category')) {
+
+            //}
+
             items.forEach(function(key){
 
-                console.log(key)
+                for (let i = 0; i < filters.length; i++) {
+
+                    //console.log(filters[i].getAttribute('data-category') + ' category')
+                    //console.log(filters[i].getAttribute('data-flowertype') + ' flowertype')
+                    //console.log(filters[i].getAttribute('data-category') + ' category')
+                    console.log(filters[i].getAttribute('data-occasiontype') + ' occasiontype')
+
+                    //console.log(key.category + ' key.category')
+                    //console.log(key.flowers_category + ' key.flowers_category')
+                    //console.log(key.category + ' key.category')
+                    console.log(key.occasion + ' key.occasion')
+
+                    if (filters[i].getAttribute('data-category') == key.category ||
+                        filters[i].getAttribute('data-flowertype') == key.flowers_category ||
+                        filters[i].getAttribute('data-category') == key.category ||
+                        filters[i].getAttribute('data-occasiontype') == key.occasion
+                    ) {
+                        newItems.push(key)
+                    }
+                }
             })
 
-            //console.log(event.target)
+            this.products = newItems
 
             //console.log(items.length)
         },
@@ -308,7 +338,13 @@ export default {
         }
     },
     mounted() {
-        // https://www.jonportella.com/you-are-using-browser-events-wrong/ - потом проверить, надо передать не анаонимную фкнкцию, а именованную. Иначе событие не удаляется
+
+        axios.get('//localhost:3000/catalog_products')
+            .then(response => {
+                console.log(response.data.length)
+                this.products = response.data 
+            })
+        // https://www.jonportella.com/you-are-using-browser-events-wrong/ - потом проверить, надо передать не анонимную функцию, а именованную. Иначе событие не удаляется
 
         //window.addEventListener('scroll', this.getMoreItems)
     },
