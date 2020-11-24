@@ -24,7 +24,7 @@
                         :class = "['filter-link']"
                         :data-filter = "1"
                         :data-flowertype = item.id
-                        @click.prevent = getFilter
+                        @click.prevent = "getFilter();getFilteredProducts(e)"
                     >
                             {{item.name}}
                     </router-link>
@@ -43,7 +43,7 @@
                         :class = "['filter-link']"
                         :data-filter = "1"
                         :data-category = item.id
-                        @click.prevent = getFilter
+                        @click.prevent = "getFilter();getFilteredProducts(e)"
                     >
                         {{item.name}}
                     </router-link>
@@ -62,7 +62,7 @@
                         :class = "['filter-link']"
                         :data-filter = "1"
                         :data-color = item.id
-                        @click.prevent = getFilter
+                        @click.prevent = "getFilter();getFilteredProducts(e)"
                         >
                             {{item.value}}
                         </router-link>
@@ -118,7 +118,8 @@ export default {
             bottom_pic: require('../assets/icons/to-bottom-pic.svg'),
             loading: 0,
             visibleProduct: 12,
-            products: []
+            products: [],
+            productsFullList: []
         }
     },
     components: {
@@ -174,7 +175,7 @@ export default {
         },
            getFilteredProducts(){
 
-            let items = this.products,
+            let items = this.productsFullList,
                 newItems = [],
                 filters = document.getElementById('choosen-filters').querySelectorAll('.filter-link-choosen')
                 
@@ -199,12 +200,12 @@ export default {
                     //console.log(filters[i].getAttribute('data-category') + ' category')
                     //console.log(filters[i].getAttribute('data-flowertype') + ' flowertype')
                     //console.log(filters[i].getAttribute('data-category') + ' category')
-                    console.log(filters[i].getAttribute('data-occasiontype') + ' occasiontype')
+                   // console.log(filters[i].getAttribute('data-occasiontype') + ' occasiontype')
 
                     //console.log(key.category + ' key.category')
                     //console.log(key.flowers_category + ' key.flowers_category')
                     //console.log(key.category + ' key.category')
-                    console.log(key.occasion + ' key.occasion')
+                    //console.log(key.occasion + ' key.occasion')
 
                     if (filters[i].getAttribute('data-category') == key.category ||
                         filters[i].getAttribute('data-flowertype') == key.flowers_category ||
@@ -215,6 +216,8 @@ export default {
                     }
                 }
             })
+
+            console.log(newItems)
 
             this.products = newItems
 
@@ -322,6 +325,8 @@ export default {
             document.querySelectorAll('.filter-link').forEach(element => {
                 element.classList.remove('filter-link-choosen')
             })
+
+            this.products = this.productsFullList
         },
         clearSelectedItem: function(event){
             document.querySelectorAll('.filter-link').forEach(element => {
@@ -342,7 +347,8 @@ export default {
         axios.get('//localhost:3000/catalog_products')
             .then(response => {
                 console.log(response.data.length)
-                this.products = response.data 
+                this.products = response.data
+                this.productsFullList = response.data
             })
         // https://www.jonportella.com/you-are-using-browser-events-wrong/ - потом проверить, надо передать не анонимную функцию, а именованную. Иначе событие не удаляется
 
