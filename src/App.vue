@@ -18,6 +18,7 @@ export default {
     this.$store.dispatch('get_categories_data')
     this.$store.dispatch('get_all_colors')
     this.$store.dispatch('get_all_occasions')
+    this.$store.dispatch('get_all_bestsellers')
   }
 }
 

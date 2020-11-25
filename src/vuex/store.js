@@ -10,7 +10,8 @@ const store = createStore({
             productsByCategories: [],
             flowers: [],
             colors: [],
-            occasions: []
+            occasions: [],
+            bestsellers: []
         }
     },
     mutations: {
@@ -33,6 +34,9 @@ const store = createStore({
         },
         SET_OCCASIONS: (state, items) => {
             state.occasions = items
+        },
+        SET_BESTSELLERS: (state, items) => {
+            state.bestsellers = items
         }
     },
     actions: {
@@ -87,6 +91,13 @@ const store = createStore({
                 methods: 'GET'
             }).then(items => {
                 this.commit('SET_OCCASIONS', items.data)
+            })
+        },
+        get_all_bestsellers(){
+            return axios('//localhost:3000/get_all_bestsellers', {
+                method: 'GET'
+            }).then(items => {
+                this.commit('SET_BESTSELLERS', items.data)
             })
         }
     },

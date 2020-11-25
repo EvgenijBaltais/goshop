@@ -25,7 +25,7 @@ app.listen(3000, () => console.log('Express server is running at post 3000'))
 
 // Get all items
 app.get('/products', (req, res) => {
-    pool.query('SELECT * from products limit ' + req.query.limit + '', (err, rows, fields) => {
+    pool.query('SELECT * from products', (err, rows, fields) => {
 
         if (!err) {
             res.send(rows)
@@ -91,6 +91,19 @@ app.get('/get_all_colors', (req, res) => {
 
 app.get('/get_all_products_by_categories', (req, res) => {
     pool.query(`SELECT * from products where category = ${req.query.category}`, (err, rows, fields) => {
+        if (!err) {
+            res.send(rows)
+        }
+        else {
+            console.log(err)
+        }
+    })
+})
+
+// Get all bestsellers
+
+app.get('/get_all_bestsellers', (req, res) => {
+    pool.query('SELECT * from bestsellers', (err, rows, fields) => {
         if (!err) {
             res.send(rows)
         }
