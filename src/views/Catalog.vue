@@ -1,6 +1,45 @@
 <template>
 <div class = "catalog-wrapper">
     <div class = "catalog-dashboard">
+
+        <div :class="[`one-option-section`, categories.length ? `has-inside-content` : '']">
+            <div class = "filters-section__wrapper" @click = listVisibility>
+                <a class = "filters-section__title">Категория</a>
+                <img :src="bottom_pic" alt="" class = "bottom_pic">
+            </div>
+            <ul class = "filter-items-list" v-if = categories.length>
+                <li class = "filter-item" v-for = "item in categories" :key = "item.id">
+                    <router-link 
+                        :to = "{path: `/catalog/${item.id}`}"
+                        :class = "['filter-link']"
+                        :data-category = item.id
+                        @click.prevent = "getFilter()"
+                    >
+                        {{item.name}}
+                    </router-link>
+                </li>
+            </ul>
+        </div>
+
+        <div :class="[occasions.length ? `has-inside-content` : '']">
+            <div class = "filters-section__wrapper" @click = listVisibility>
+                <a class = "filters-section__title">Повод</a>
+                <img :src="bottom_pic" alt="" class = "bottom_pic">
+            </div>
+            <ul class = "filter-items-list" v-if = occasions.length>
+                <li class = "filter-item" v-for = "item in occasions" :key = "item.id">
+                    <router-link
+                        :to = "{path: `/catalog/${item.id}`}"
+                        :class = "['filter-link']"
+                        :data-occasiontype = item.id
+                        @click.prevent = "getFilter()"
+                        >
+                            {{item.name}}
+                        </router-link>
+                </li>
+            </ul>
+        </div>
+
         <div class="filters-title-section">
             <div class = "filters-title-wrapper">
                 <span class = "filters-text">Фильтры:</span>
@@ -22,7 +61,6 @@
                     <router-link
                         :to = "{path: `/catalog/${item.id}`}" 
                         :class = "['filter-link']"
-                        :data-filter = "1"
                         :data-flowertype = item.id
                         @click.prevent = "getFilter();getFilteredProducts(e)"
                     >
@@ -31,26 +69,7 @@
                 </li>
             </ul>
         </div>
-        <div :class="[`filters-section`, categories.length ? `has-inside-content` : '']">
-            <div class = "filters-section__wrapper" @click = listVisibility>
-                <a class = "filters-section__title">Категория</a>
-                <img :src="bottom_pic" alt="" class = "bottom_pic">
-            </div>
-            <ul class = "filter-items-list" v-if = categories.length>
-                <li class = "filter-item" v-for = "item in categories" :key = "item.id">
-                    <router-link 
-                        :to = "{path: `/catalog/${item.id}`}"
-                        :class = "['filter-link']"
-                        :data-filter = "1"
-                        :data-category = item.id
-                        @click.prevent = "getFilter();getFilteredProducts(e)"
-                    >
-                        {{item.name}}
-                    </router-link>
-                </li>
-            </ul>
-        </div>
-        <div :class="[`filters-section`, colors.length ? `has-inside-content` : '']">
+        <div :class="[`filters-section`, `several-options-section`, colors.length ? `has-inside-content` : '']">
             <div class = "filters-section__wrapper" @click = listVisibility>
                 <a class = "filters-section__title">Выбор по цвету</a>
                 <img :src="bottom_pic" alt="" class = "bottom_pic">
@@ -60,30 +79,10 @@
                     <router-link
                         :to = "{path: `/catalog/${item.id}`}"
                         :class = "['filter-link']"
-                        :data-filter = "1"
                         :data-color = item.id
                         @click.prevent = "getFilter();getFilteredProducts(e)"
                         >
                             {{item.value}}
-                        </router-link>
-                </li>
-            </ul>
-        </div>
-        <div :class="[`filters-section`, occasions.length ? `has-inside-content` : '']">
-            <div class = "filters-section__wrapper" @click = listVisibility>
-                <a class = "filters-section__title">Повод</a>
-                <img :src="bottom_pic" alt="" class = "bottom_pic">
-            </div>
-            <ul class = "filter-items-list" v-if = occasions.length>
-                <li class = "filter-item" v-for = "item in occasions" :key = "item.id">
-                    <router-link
-                        :to = "{path: `/catalog/${item.id}`}"
-                        :class = "['filter-link']"
-                        :data-filter = "1"
-                        :data-occasiontype = item.id
-                        @click.prevent = "getFilter();getFilteredProducts(e)"
-                        >
-                            {{item.name}}
                         </router-link>
                 </li>
             </ul>
@@ -175,53 +174,78 @@ export default {
         },
            getFilteredProducts(){
 
-            let items = this.productsFullList,
-                newItems = [],
+            let newItems = [],
                 filters = document.getElementById('choosen-filters').querySelectorAll('.filter-link-choosen')
-                
-                console.log(filters)
-            
-            // data-category == category
-            // data-flowertype == flowers_category
-            // data-color == color_variants
-            // data-occasiontype == occasion
 
-            console.log(newItems)
-            
-            // категории
-            //if (event.target.getAttribute('data-category')) {
+            // категории фильтров
 
-            //}
+            let colors = [],
+                flowers = []
 
-            items.forEach(function(key){
+            for (let i = 0; i < filters.length; i++) {
 
-                for (let i = 0; i < filters.length; i++) {
-
-                    //console.log(filters[i].getAttribute('data-category') + ' category')
-                    //console.log(filters[i].getAttribute('data-flowertype') + ' flowertype')
-                    //console.log(filters[i].getAttribute('data-category') + ' category')
-                   // console.log(filters[i].getAttribute('data-occasiontype') + ' occasiontype')
-
-                    //console.log(key.category + ' key.category')
-                    //console.log(key.flowers_category + ' key.flowers_category')
-                    //console.log(key.category + ' key.category')
-                    //console.log(key.occasion + ' key.occasion')
-
-                    if (filters[i].getAttribute('data-category') == key.category ||
-                        filters[i].getAttribute('data-flowertype') == key.flowers_category ||
-                        filters[i].getAttribute('data-category') == key.category ||
-                        filters[i].getAttribute('data-occasiontype') == key.occasion
-                    ) {
-                        newItems.push(key)
-                    }
+                if (filters[i].getAttribute('data-flowertype')) {
+                    flowers.push(filters[i].getAttribute('data-flowertype'))
                 }
-            })
+                if (filters[i].getAttribute('data-color')) {
+                    colors.push(filters[i].getAttribute('data-color'))
+                }
+            }
 
-            console.log(newItems)
+            for (let i = 0; i < filters.length; i++) {
 
-            this.products = newItems
+                this.productsFullList.forEach(element => {
 
-            //console.log(items.length)
+                    if (filters[i].getAttribute('data-color')) {
+                        for (let i = 0; i < colors.length; i++) {
+                            if (element.color == colors[i]) {
+                                newItems.push(element)
+                                console.log(colors[i])
+                            }
+                        }
+                    }
+                    if (filters[i].getAttribute('data-flowertype')) {
+                        for (let i = 0; i < flowers.length; i++) {
+                            if (element.flowers_category == flowers[i]) {
+                                newItems.push(element)
+                            }
+                        }
+                    }
+                })
+            }
+
+            //console.log(newItems)
+
+
+
+            //category
+
+            // Перебор всех категорий
+
+            //for (let i = 0 ; i < )
+
+           // console.log(filterCategories)
+
+            //console.log(colors + 'colors')
+            //console.log(flowers + ' flowers')
+/*
+            for (let i = 0; i < filters.length; i++) {
+
+                newItems = this.productsFullList.filter(function(number){
+
+                    if (filters[i].getAttribute('data-category') == number.category ||
+                        filters[i].getAttribute('data-flowertype') == number.flowers_category ||
+                        filters[i].getAttribute('data-color') == number.color ||
+                        filters[i].getAttribute('data-occasiontype') == number.occasion
+                    ) {
+                        return number
+                    }
+                })
+            }
+*/
+            //console.log(newItems)
+
+            //this.products = newItems
         },
         getMoreItems(){
 
@@ -346,7 +370,6 @@ export default {
 
         axios.get('//localhost:3000/catalog_products')
             .then(response => {
-                console.log(response.data.length)
                 this.products = response.data
                 this.productsFullList = response.data
             })
@@ -387,6 +410,10 @@ export default {
 }
 
 .preloader-wrapper {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
     width: 100%;
     text-align: center;
     padding: 20px 0;
