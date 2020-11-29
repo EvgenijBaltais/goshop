@@ -2,7 +2,7 @@
 <div class = "catalog-wrapper">
     <div class = "catalog-dashboard">
 
-        <div :class="[`one-option-section`, categories.length ? `has-inside-content` : '']">
+        <div :class="[`filters-section`, `one-option-section`, categories.length ? `has-inside-content` : '']">
             <div class = "filters-section__wrapper" @click = listVisibility>
                 <a class = "filters-section__title">Категория</a>
                 <img :src="bottom_pic" alt="" class = "bottom_pic">
@@ -21,7 +21,7 @@
             </ul>
         </div>
 
-        <div :class="[occasions.length ? `has-inside-content` : '']">
+        <div :class="[`filters-section`, occasions.length ? `has-inside-content` : '']">
             <div class = "filters-section__wrapper" @click = listVisibility>
                 <a class = "filters-section__title">Повод</a>
                 <img :src="bottom_pic" alt="" class = "bottom_pic">
@@ -192,27 +192,37 @@ export default {
                 }
             }
 
-            for (let i = 0; i < filters.length; i++) {
-
                 this.productsFullList.forEach(element => {
 
-                    if (filters[i].getAttribute('data-color')) {
-                        for (let i = 0; i < colors.length; i++) {
-                            if (element.color == colors[i]) {
-                                newItems.push(element)
-                                console.log(colors[i])
+                    for (let i = 0; i < filters.length; i++) {
+                        if (filters[i].getAttribute('data-color')) {
+                            for (let k = 0; k < colors.length; k++) {
+                                if (element.color == colors[k]) {
+                                    let exists = newItems.some(function(el){
+                                        return el.id == element.id
+                                    })
+                                    console.log(exists)
+                                    if (!exists) newItems.push(element) 
+                                }
                             }
                         }
-                    }
-                    if (filters[i].getAttribute('data-flowertype')) {
-                        for (let i = 0; i < flowers.length; i++) {
-                            if (element.flowers_category == flowers[i]) {
-                                newItems.push(element)
+
+                        //console.log(element.flowers_category)
+                        
+                        if (filters[i].getAttribute('data-flowertype')) {
+                            for (let k = 0; k < flowers.length; k++) {
+                                if (element.flowers_category == flowers[k]) {
+                                    let exists = newItems.some(function(el){
+                                        return el.id == element.id
+                                    })
+                                    console.log(exists)
+                                    if (!exists) newItems.push(element) 
+                                }
                             }
                         }
                     }
                 })
-            }
+                console.log(newItems)
 
             //console.log(newItems)
 
