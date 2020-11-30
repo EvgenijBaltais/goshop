@@ -62,17 +62,28 @@ export default {
 
 @keyframes showBasket {
   0% {
-    width: 400px;
+    width: 480px;
     height: auto;
     opacity: 1;
-    top: 3px;
+    top: 20px;
   }
   100% {
-    width: 400px;
+    width: 480px;
     height: auto;
-    top: 20px;
+    top: 40px;
     opacity: 1;
   }
+}
+
+p.speech:after { 
+    content: ' '; 
+    position: absolute; 
+    width: 0; 
+    height: 0; 
+    left: 38px; 
+    top: 100px; 
+    border: 15px solid; 
+    border-color: #fff transparent transparent #fff; 
 }
 
 .main-basket:hover .basket-content-wrap  {
@@ -83,12 +94,12 @@ export default {
 }
 
 .basket-content-wrap {
-    display: block;
-    width: 400px;
+    display: none;
+    width: 480px;
     position: absolute;
     top: 100%;
     right: 0;
-    padding-top: 20px;
+    padding-top: 42px;
 }
 
 .basket-content {
@@ -98,14 +109,39 @@ export default {
     position: absolute;
     left: 0;
     right: 0;
-    top: 5px;
+    top: 20px;
     margin: auto;
     width: 100%;
+    box-sizing: border-box;
     padding: 20px;
     background: #fff;
     -webkit-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.3);
     -moz-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.3);
     box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.3);
+}
+
+.basket-content:before { 
+    content: ' '; 
+    position: absolute; 
+    width: 0; 
+    height: 0; 
+    right: 38px; 
+    top: -20px; 
+    border: 7px solid; 
+    border: 10px solid transparent;
+    border-bottom: 10px solid #E1E1E1;
+}
+
+.basket-content:after { 
+    content: ' '; 
+    position: absolute; 
+    width: 0; 
+    height: 0; 
+    right: 39px; 
+    top: -18px; 
+    border: 7px solid; 
+    border: 9px solid transparent;
+    border-bottom: 9px solid #fff;
 }
 
 .basket-remove {
@@ -116,8 +152,8 @@ export default {
 }
 
 .basket-pic {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
 }
 
 .basket-title {
