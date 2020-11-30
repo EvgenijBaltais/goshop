@@ -1,4 +1,5 @@
 <template>
+{{getCart}}
 		<div class = "top-stripe">
 			<div class = "main-basket">
                 <div class = "basket-content-wrap">
@@ -26,6 +27,8 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
+
 export default {
   name: 'TopHeaderBlock',
   components: {
@@ -36,6 +39,11 @@ export default {
   },
   methods: {
 
+  },
+  computed: {
+      ...mapGetters([
+          'getCart'
+      ])
   }
 }
 </script>

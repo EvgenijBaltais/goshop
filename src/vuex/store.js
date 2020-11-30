@@ -37,6 +37,10 @@ const store = createStore({
         },
         SET_BESTSELLERS: (state, items) => {
             state.bestsellers = items
+        },
+        ADD_ITEMS_TO_CART: (state, item) => {
+            state.cart.push(item)
+            console.log(state.cart)
         }
     },
     actions: {
@@ -99,11 +103,28 @@ const store = createStore({
             }).then(items => {
                 this.commit('SET_BESTSELLERS', items.data)
             })
-        }
+        },
+        addToCart({state}, id){
+            
+
+            let item = ''
+            for (let key in state.products.data) {
+                if (state.products.data[key].id == id.id) item = state.products.data[key]
+            }
+
+            this.commit('ADD_ITEMS_TO_CART', item)
+        },
+        //removeFromCart({commit}){
+
+        //}
     },
 
     getters: {
-
+        getCart: state => {
+           let cart = state.cart
+           console.log(cart)
+           return 100
+        }
     }
 
 })

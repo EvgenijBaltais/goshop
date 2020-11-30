@@ -57,7 +57,7 @@
           @value-changed="datepickerSetting.changeEvent"
         />
         
-        <div>
+        <div @click = "addToCart()">
             <button class="item-order">Оформить заказ</button>
         </div>
     </div>
@@ -133,18 +133,28 @@ export default {
 
                 let category = event.target.getAttribute('data-category'),
                     item = event.target.getAttribute('data-item')
-
-                console.log(event.target.getAttribute('data-category'))
-                console.log(event.target.getAttribute('data-item'))
-
                 this.mainPic = require(`../assets/pics/bouquets/${category}/${item}.jpg`)
             }
 
             event.target.classList.add('product-slider__active-img')
         },
+        addToCart() {
+
+            console.log(this.product_id)
+
+            this.$store.dispatch({
+                type: 'addToCart',
+                id: this.product_id
+            })
+        },
         getParent: function(el, cls){
             while ((el = el.parentElement) && !el.classList.contains(cls));
             return el;
+        }
+    },
+    computed: {
+        product_id(){
+            return this.$route.params.id
         }
     },
     mounted(){
