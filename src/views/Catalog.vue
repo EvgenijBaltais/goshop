@@ -1,7 +1,6 @@
 <template>
 <div class = "catalog-wrapper">
     <div class = "catalog-dashboard">
-
         <div :class="[`filters-section`, `one-option-section`, categories.length ? `has-inside-content` : '']">
             <div class = "filters-section__wrapper" @click = listVisibility>
                 <a class = "filters-section__title">Категория</a>
