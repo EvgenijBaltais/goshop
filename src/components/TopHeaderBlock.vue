@@ -4,14 +4,18 @@
 			<div class = "main-basket">
                 <div class = "basket-content-wrap">
                     <div class = "basket-content">
-                        <div class="basket-pic"></div>
-                        <div class="basket-title">
-                            <span>egerrhr r hrth rh rh rth trhr </span>
+                        <div class = "basket-item" v-for = "item in getCart" :key = "item.id">
+                            <div class="basket-pic"
+                            :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/' + item.img + '/1.jpg')})`}">
+                            </div>
+                            <div class="basket-title">
+                                <span>egerrhr r hrth rh rh rth trhr </span>
+                            </div>
+                            <div class="basket-price">
+                                <span>500 000 руб</span>
+                            </div>
+                            <a class="basket-remove" title = "Удалить"></a>
                         </div>
-                        <div class="basket-price">
-                            <span>500 000 руб</span>
-                        </div>
-                        <a class="basket-remove" title = "Удалить"></a>
                     </div>
                 </div>
 				<p class = "main-basket__text">
@@ -111,9 +115,6 @@ p.speech:after {
 }
 
 .basket-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     position: absolute;
     left: 0;
     right: 0;
@@ -152,6 +153,17 @@ p.speech:after {
     border-bottom: 9px solid #fff;
 }
 
+.basket-item {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.basket-item:last-child {
+    margin-bottom: 0;
+}
+
 .basket-remove {
     display: block;
     background-image: url('../assets/icons/trash.svg');
@@ -162,6 +174,8 @@ p.speech:after {
 .basket-pic {
     width: 40px;
     height: 40px;
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 .basket-title {
