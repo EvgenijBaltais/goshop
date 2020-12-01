@@ -38,9 +38,9 @@ const store = createStore({
         SET_BESTSELLERS: (state, items) => {
             state.bestsellers = items
         },
-        ADD_ITEMS_TO_CART: (state, item) => {
-            state.cart.push(item)
-            console.log(state.cart)
+        ADD_ITEMS_TO_CART: (state, arr) => {
+            state.cart = arr
+            //console.log(state.cart)
         }
     },
     actions: {
@@ -104,15 +104,40 @@ const store = createStore({
                 this.commit('SET_BESTSELLERS', items.data)
             })
         },
-        addToCart({state}, id){
-            
+        addToCart({state}, data){
 
-            let item = ''
-            for (let key in state.products.data) {
-                if (state.products.data[key].id == id.id) item = state.products.data[key]
+            let cart = state.cart,
+                keyExists = -1
+
+            // Ппроверить, есть ли уже элемент в корзине, если да то определить позицию и сохранить в переменную keyExists
+
+            for (let i = 0; i < cart.length; i++) {
+                if (data.id == cart[i].id) {
+                    keyExists = i
+                }
             }
 
-            this.commit('ADD_ITEMS_TO_CART', item)
+            // Если уже есть то прибавить количество просто
+
+            if (keyExists >= 0) {
+                cart[keyExists].amount += 1
+            }
+
+            // Если нету, то найти в хранилище товаров,добавить свойство amount - количество и добавить в корзину
+
+            else {
+                // Найти в массиве товаров заказанный товар
+                let item = ''
+                for (let key in state.products.data) {
+                    if (state.products.data[key].id == data.id) {
+                        item = state.products.data[key]
+                        item.amount = 1
+                    }
+                }
+                cart.push(item)
+            }
+
+            this.commit('ADD_ITEMS_TO_CART', cart)
         },
         //removeFromCart({commit}){
 
@@ -121,9 +146,16 @@ const store = createStore({
 
     getters: {
         getCart: state => {
-           let cart = state.cart
-           console.log(cart)
-           return cart.length
+
+           //for (let i = 0; i < state.cart.length; i++) {
+                // Если уже есть такая позиция (id) то прибавляется количество, в противном случае добавляется позиция
+           //     readyCard[state.cart[i].id] ? '' : readyCard[state.cart[i].id] = state.cart[i]
+            //    readyCard[state.cart[i].id].amount ? readyCard[state.cart[i].id].amount += 1 : readyCard[state.cart[i].id].amount = 1
+
+               //readyCard[state.cart[i].id].amount = 1
+            //    console.log(readyCard[state.cart[i].id])
+           //}
+           return state.cart
         }
     }
 

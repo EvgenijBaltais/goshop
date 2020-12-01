@@ -16,7 +16,7 @@
                 </div>
 				<p class = "main-basket__text">
                     <a href="" class = "main-basket__link" @click.prevent>
-					<span>Корзина товаров</span><span class = "main-basket__value">({{getCart}})</span>
+					<span>Корзина товаров</span><span class = "main-basket__value">({{getCart.length}})</span>
                     </a>
 				</p>
 			</div>
@@ -73,12 +73,12 @@ export default {
     width: 480px;
     height: auto;
     opacity: 1;
-    top: 20px;
+    top: 10px;
   }
   100% {
     width: 480px;
     height: auto;
-    top: 40px;
+    top: 30px;
     opacity: 1;
   }
 }
@@ -117,7 +117,7 @@ p.speech:after {
     position: absolute;
     left: 0;
     right: 0;
-    top: 20px;
+    top: 10px;
     margin: auto;
     width: 100%;
     box-sizing: border-box;
