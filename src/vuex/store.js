@@ -123,7 +123,7 @@ const store = createStore({
         getCart: state => {
            let cart = state.cart
            console.log(cart)
-           return 100
+           return cart.length
         }
     }
 

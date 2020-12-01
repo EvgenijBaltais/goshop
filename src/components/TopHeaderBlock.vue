@@ -16,7 +16,7 @@
                 </div>
 				<p class = "main-basket__text">
                     <a href="" class = "main-basket__link" @click.prevent>
-					<span>Корзина товаров</span><span class = "main-basket__value">(3)</span>
+					<span>Корзина товаров</span><span class = "main-basket__value">({{getCart}})</span>
                     </a>
 				</p>
 			</div>
