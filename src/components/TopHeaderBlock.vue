@@ -1,5 +1,4 @@
 <template>
-{{getCart}}
 		<div class = "top-stripe">
 			<div class = "main-basket">
                 <div class = "basket-content-wrap">
@@ -16,9 +15,17 @@
                             </div>
                             <a class="basket-remove" title = "Удалить"></a>
                         </div>
-                        <div class = "basket-item-final">
+                        <div class = "basket-item-final" v-if = getCart.length>
                             <div class = "basket-result-text">Итого:</div>
-                            <div class = "basket-result-price"><span class = "basket-final-number" id = "basket-final-number">{{basketFinalPrice}}</span> руб.</div>
+                            <div class = "basket-result-price">
+                                <span class = "basket-final-number" id = "basket-final-number">{{basketFinalPrice}}</span> руб.
+                            </div>
+                        </div>
+                        <div class = "basket-final-tocart-w" v-if = getCart.length>
+                            <router-link :to = "{name: 'Single_product'}" class = "basket-final-tocart">Перейти в корзину</router-link>
+                        </div>
+                        <div class = "empty-basket" v-if = !getCart.length>
+                            <span>Корзина пока пуста</span>
                         </div>
                     </div>
                 </div>
@@ -272,23 +279,46 @@ p.speech:after {
 .basket-item-final {
     display: flex;
     align-items: center;
-    padding-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+}
+
+.basket-final-tocart-w {
+    text-align: center;
+    padding: 10px 0;
+}
+
+.basket-final-tocart {
+    text-align: center;
+    padding: 10px 0;
+    color: rgb(87, 97, 103)!important;
+    font-size: 18px;
+    line-height: 20px;
+    text-decoration: underline;
+    font-weight: bold;
 }
 
 .basket-result-text {
     width: 305px;
+    font-weight: bold;
 }
 
 .basket-result-price {
     width: 100px;
     text-align: center;
     padding-left: 5px;
+    font-weight: bold;
 }
 
 .basket-final-number {
     font-size: 16px;
     line-height: 24px;
     font-weight: bold;
+}
+
+.empty-basket {
+    text-align: center;
 }
 
 </style>
