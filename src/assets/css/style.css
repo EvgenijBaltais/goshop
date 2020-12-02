@@ -10,3 +10,7 @@
 #app {
     position: relative;
 }
+
+.bold-text {
+    font-weight: bold;
+}

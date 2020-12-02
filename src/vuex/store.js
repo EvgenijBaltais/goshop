@@ -146,15 +146,6 @@ const store = createStore({
 
     getters: {
         getCart: state => {
-
-           //for (let i = 0; i < state.cart.length; i++) {
-                // Если уже есть такая позиция (id) то прибавляется количество, в противном случае добавляется позиция
-           //     readyCard[state.cart[i].id] ? '' : readyCard[state.cart[i].id] = state.cart[i]
-            //    readyCard[state.cart[i].id].amount ? readyCard[state.cart[i].id].amount += 1 : readyCard[state.cart[i].id].amount = 1
-
-               //readyCard[state.cart[i].id].amount = 1
-            //    console.log(readyCard[state.cart[i].id])
-           //}
            return state.cart
         }
     }

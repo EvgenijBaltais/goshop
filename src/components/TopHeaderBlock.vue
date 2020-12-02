@@ -10,6 +10,9 @@
                             <div class="basket-title">
                                 <span>{{item.title}}</span>
                             </div>
+                            <div class = "basket-amount">
+                                <span>Количество: <span class = "bold-text">{{item.amount}}</span></span>
+                            </div>
                             <div class="basket-price">
                                 <span>{{item.price}} руб</span>
                             </div>
@@ -18,11 +21,11 @@
                         <div class = "basket-item-final" v-if = getCart.length>
                             <div class = "basket-result-text">Итого:</div>
                             <div class = "basket-result-price">
-                                <span class = "basket-final-number" id = "basket-final-number">{{basketFinalPrice}}</span> руб.
+                                <span class = "basket-final-number" id = "basket-final-number">{{basketFinalPrice}}</span> руб
                             </div>
                         </div>
                         <div class = "basket-final-tocart-w" v-if = getCart.length>
-                            <router-link :to = "{name: 'Single_product'}" class = "basket-final-tocart">Перейти в корзину</router-link>
+                            <router-link :to = "{name: 'Cart'}" class = "basket-final-tocart">Перейти в корзину</router-link>
                         </div>
                         <div class = "empty-basket" v-if = !getCart.length>
                             <span>Корзина пока пуста</span>
@@ -94,13 +97,13 @@ export default {
 
 @keyframes showBasket {
   0% {
-    width: 480px;
+    width: 580px;
     height: auto;
     opacity: 1;
     top: 10px;
   }
   100% {
-    width: 480px;
+    width: 580px;
     height: auto;
     top: 30px;
     opacity: 1;
@@ -127,7 +130,7 @@ p.speech:after {
 
 .basket-content-wrap {
     display: none;
-    width: 480px;
+    width: 580px;
     position: absolute;
     top: 100%;
     right: 0;
@@ -291,16 +294,23 @@ p.speech:after {
 
 .basket-final-tocart {
     text-align: center;
-    padding: 10px 0;
-    color: rgb(87, 97, 103)!important;
+    margin-top: 10px;
+    padding: 10px 20px;
+    color: #fff!important;
     font-size: 18px;
     line-height: 20px;
-    text-decoration: underline;
-    font-weight: bold;
+    text-decoration: none!important;
+    background-color: #6cb8d5;
+    transition: background-color .3s;
+}
+
+.basket-final-tocart:hover {
+    transition: background-color .3s;
+    background-color: rgb(77,166,24);
 }
 
 .basket-result-text {
-    width: 305px;
+    width: 405px;
     font-weight: bold;
 }
 
@@ -315,6 +325,10 @@ p.speech:after {
     font-size: 16px;
     line-height: 24px;
     font-weight: bold;
+}
+
+.basket-amount {
+    width: 100px;
 }
 
 .empty-basket {
