@@ -5,16 +5,20 @@
                 <div class = "basket-content-wrap">
                     <div class = "basket-content">
                         <div class = "basket-item" v-for = "item in getCart" :key = "item.id">
-                            <div class="basket-pic"
-                            :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/' + item.img + '/1.jpg')})`}">
+                            <div class="basket-pic">
+                                <img :src="require('../assets/pics/bouquets/' + item.img + '/1.jpg')" alt="" class = "basket-pic-img">
                             </div>
                             <div class="basket-title">
-                                <span>egerrhr r hrth rh rh rth trhr </span>
+                                <span>{{item.title}}</span>
                             </div>
                             <div class="basket-price">
-                                <span>500 000 руб</span>
+                                <span>{{item.price}} руб</span>
                             </div>
                             <a class="basket-remove" title = "Удалить"></a>
+                        </div>
+                        <div class = "basket-item-final">
+                            <div class = "basket-result-text">Итого:</div>
+                            <div class = "basket-result-price"><span class = "basket-final-number" id = "basket-final-number">{{basketFinalPrice}}</span> руб.</div>
                         </div>
                     </div>
                 </div>
@@ -47,7 +51,16 @@ export default {
   computed: {
       ...mapGetters([
           'getCart'
-      ])
+      ]),
+      basketFinalPrice(){
+          let value = 0;
+          if (this.getCart.length > 0) {
+              for (let i = 0; i < this.getCart.length; i++) {
+                value += this.getCart[i].price * this.getCart[i].amount
+              }
+          }
+          return value
+      }
   }
 }
 </script>
@@ -112,6 +125,7 @@ p.speech:after {
     top: 100%;
     right: 0;
     padding-top: 42px;
+    z-index: 3;
 }
 
 .basket-content {
@@ -141,6 +155,7 @@ p.speech:after {
     border-bottom: 10px solid #E1E1E1;
 }
 
+
 .basket-content:after { 
     content: ' '; 
     position: absolute; 
@@ -157,9 +172,16 @@ p.speech:after {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    justify-content: space-between;
     margin-bottom: 10px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
 }
+
+.basket-item:first-child {
+    border-top: 0;
+    padding-top: 0;
+}
+
 .basket-item:last-child {
     margin-bottom: 0;
 }
@@ -169,6 +191,7 @@ p.speech:after {
     background-image: url('../assets/icons/trash.svg');
     background-repeat: no-repeat;
     background-size: 18px;
+    background-position: center;
 }
 
 .basket-pic {
@@ -178,17 +201,27 @@ p.speech:after {
     background-repeat: no-repeat;
 }
 
+.basket-pic-img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    max-height: 100%;
+}
+
 .basket-title {
+    width: 250px;
     font-size: 16px;
     line-height: 24px;
-    padding-left: 5px;
+    padding-left: 15px;
 }
 
 .basket-price {
+    width: 100px;
     font-size: 16px;
     line-height: 24px;
     font-weight: bold;
     padding-left: 5px;
+    text-align: center;
 }
 
 .basket-remove {
@@ -234,6 +267,28 @@ p.speech:after {
     background-repeat: no-repeat;
     background-size: 20px;
     background-position: left center;
+}
+
+.basket-item-final {
+    display: flex;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.basket-result-text {
+    width: 305px;
+}
+
+.basket-result-price {
+    width: 100px;
+    text-align: center;
+    padding-left: 5px;
+}
+
+.basket-final-number {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: bold;
 }
 
 </style>
