@@ -142,7 +142,6 @@ const store = createStore({
                 }
                 cart.push(item)
             }
-
             this.commit('ADD_ITEMS_TO_CART', cart)
         },
         changeCart({state}, data){
@@ -171,18 +170,14 @@ const store = createStore({
                     newCart.splice(i, 1)
                 }
             }
-            console.log(cart)
-            console.log(newCart)
             this.commit('REMOVE_FROM_CART', newCart)
         }
     },
-
     getters: {
         getCart: state => {
            return state.cart
         }
     }
-
 })
 
 export default store

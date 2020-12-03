@@ -109,7 +109,6 @@ import { mapActions } from 'vuex'
 import axios from 'axios'
 
 export default {
-
     data(){
         return {
             preloader: require('../assets/icons/2.gif'),
@@ -200,7 +199,6 @@ export default {
                                     let exists = newItems.some(function(el){
                                         return el.id == element.id
                                     })
-                                    console.log(exists)
                                     if (!exists) newItems.push(element) 
                                 }
                             }
@@ -214,16 +212,12 @@ export default {
                                     let exists = newItems.some(function(el){
                                         return el.id == element.id
                                     })
-                                    console.log(exists)
                                     if (!exists) newItems.push(element) 
                                 }
                             }
                         }
                     }
                 })
-
-            //console.log(newItems)
-
 
 
             //category
