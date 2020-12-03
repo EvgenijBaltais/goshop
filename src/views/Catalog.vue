@@ -221,7 +221,6 @@ export default {
                         }
                     }
                 })
-                console.log(newItems)
 
             //console.log(newItems)
 
@@ -257,8 +256,6 @@ export default {
             //this.products = newItems
         },
         getMoreItems(){
-
-            console.log(11111)
 
             let allProducts = this.$store.state.products.data
 

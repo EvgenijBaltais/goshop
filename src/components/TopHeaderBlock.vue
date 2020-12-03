@@ -3,7 +3,7 @@
 			<div class = "main-basket">
                 <div class = "basket-content-wrap">
                     <div class = "basket-content">
-                        <div class = "basket-item" v-for = "item in getCart" :key = "item.id">
+                        <div class = "basket-item" v-for = "item in getCart" :key = "item.id" :data-id = "item.id">
                             <div class="basket-pic">
                                 <img :src="require('../assets/pics/bouquets/' + item.img + '/1.jpg')" alt="" class = "basket-pic-img">
                             </div>
@@ -11,12 +11,20 @@
                                 <span>{{item.title}}</span>
                             </div>
                             <div class = "basket-amount">
-                                <span>Количество: <span class = "bold-text">{{item.amount}}</span></span>
+                                <div class = "cart-item-minus">
+                                    <a class = "cart-item-minus-a" @click = "changeCart('minus')">-</a>
+                                </div>
+                                <div class = "cart-item-amount">
+                                    <a class = "cart-item-amount-a">{{item.amount}}</a>
+                                </div>
+                                <div class = "cart-item-plus">
+                                    <a class = "cart-item-plus-a" @click = "changeCart('plus')">+</a>
+                                </div>
                             </div>
                             <div class="basket-price">
                                 <span>{{item.price}} руб</span>
                             </div>
-                            <a class="basket-remove" title = "Удалить"></a>
+                            <a class="basket-remove" title = "Удалить" @click = removeFromCart></a>
                         </div>
                         <div class = "basket-item-final" v-if = getCart.length>
                             <div class = "basket-result-text">Итого:</div>
@@ -56,7 +64,22 @@ export default {
       return {}
   },
   methods: {
+    changeCart: function(value){
 
+        this.$store.dispatch('changeCart', {
+            id: this.getParent(event.target, 'basket-item').getAttribute('data-id'),
+            value: value
+        })
+    },
+    removeFromCart: function(){
+        this.$store.dispatch('removeFromCart', {
+            id: this.getParent(event.target, 'basket-item').getAttribute('data-id')
+        })
+    },
+    getParent: function(el, cls){
+        while ((el = el.parentElement) && !el.classList.contains(cls));
+        return el;
+    }
   },
   computed: {
       ...mapGetters([
@@ -181,7 +204,6 @@ p.speech:after {
 .basket-item {
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
     margin-bottom: 10px;
     border-top: 1px solid #ccc;
     padding-top: 10px;
@@ -219,18 +241,21 @@ p.speech:after {
 }
 
 .basket-title {
-    width: 250px;
+    width: 280px;
     font-size: 16px;
     line-height: 24px;
     padding-left: 15px;
+    padding-right: 15px;
+    box-sizing: border-box;
 }
 
 .basket-price {
     width: 100px;
+    padding: 0 10px;
     font-size: 16px;
     line-height: 24px;
     font-weight: bold;
-    padding-left: 5px;
+    box-sizing: border-box;
     text-align: center;
 }
 
@@ -238,6 +263,7 @@ p.speech:after {
     width: 20px;
     height: 20px;
     cursor: pointer;
+    padding: 0;
 }
 
 .main-basket__text {
@@ -289,12 +315,11 @@ p.speech:after {
 
 .basket-final-tocart-w {
     text-align: center;
-    padding: 10px 0;
+    padding: 30px 0 10px 0;
 }
 
 .basket-final-tocart {
     text-align: center;
-    margin-top: 10px;
     padding: 10px 20px;
     color: #fff!important;
     font-size: 18px;
@@ -328,7 +353,48 @@ p.speech:after {
 }
 
 .basket-amount {
-    width: 100px;
+    width: 80px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.cart-item-minus {
+    text-align: center;
+}
+.cart-item-amount {
+    text-align: center;
+}
+.cart-item-plus {
+    text-align: center;
+}
+.cart-item-minus-a {
+    padding: 0 5px;
+    font-size: 30px;
+    line-height: 30px;
+    text-decoration: none!important;
+    color: #000;
+    cursor: pointer;
+    user-select: none;
+}
+.cart-item-plus-a {
+    padding: 0 5px;
+    font-size: 30px;
+    line-height: 30px;
+    text-decoration: none!important;
+    color: #000;
+    cursor: pointer;
+    user-select: none;
+}
+
+.cart-item-amount-a {
+    padding: 0 5px;
+    font-size: 20px;
+    line-height: 20px;
+    text-decoration: none!important;
+    color: #000;
+    user-select: none;
 }
 
 .empty-basket {

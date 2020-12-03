@@ -41,6 +41,12 @@ const store = createStore({
         ADD_ITEMS_TO_CART: (state, arr) => {
             state.cart = arr
             //console.log(state.cart)
+        },
+        CHANGE_CART: (state, arr) => {
+            state.cart = arr
+        },
+        REMOVE_FROM_CART: (state, arr) => {
+            state.cart = arr
         }
     },
     actions: {
@@ -123,7 +129,7 @@ const store = createStore({
                 cart[keyExists].amount += 1
             }
 
-            // Если нету, то найти в хранилище товаров,добавить свойство amount - количество и добавить в корзину
+            // Если нету, то найти в хранилище товаров, добавить свойство amount - количество и добавить в корзину
 
             else {
                 // Найти в массиве товаров заказанный товар
@@ -139,9 +145,36 @@ const store = createStore({
 
             this.commit('ADD_ITEMS_TO_CART', cart)
         },
-        //removeFromCart({commit}){
+        changeCart({state}, data){
+            let cart = state.cart
 
-        //}
+            for (let i = 0; i < state.cart.length; i++) {
+                if (cart[i].id == data.id) {
+
+                    if (data.value == 'minus') {
+                        cart[i].amount > 1 ? cart[i].amount-- : ''
+                    }
+                    else if (data.value == 'plus') {
+                        cart[i].amount < 100 ? cart[i].amount++ : ''
+                    }
+                }
+            }
+            this.commit('CHANGE_CART', cart)
+        },
+        removeFromCart({state}, data){
+
+            let cart = state.cart,
+                newCart = cart
+
+            for (let i = 0; i < cart.length; i++) {
+                if (cart[i].id == data.id) {
+                    newCart.splice(i, 1)
+                }
+            }
+            console.log(cart)
+            console.log(newCart)
+            this.commit('REMOVE_FROM_CART', newCart)
+        }
     },
 
     getters: {
