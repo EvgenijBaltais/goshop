@@ -22,9 +22,12 @@
         </div>
     </div>
 
-    <div class="cart-block-item">
+    <div class="cart-block-item" v-for = "item in cart" :key = "item.id">
 
         <div class = "cart-block-name">
+            <div class = "cart-block-pic">
+                <img :src="require('../assets/pics/bouquets/' + item.img + '/1.jpg')" alt="" class = "cart-block-img">
+            </div>
             <span>Товар</span>
         </div>
         <div class = "cart-block-itemprice">
@@ -33,9 +36,14 @@
             </span>
         </div>
         <div class = "cart-block-amount">
-            <span>
+            <div class = "cart-block-amount-text">
                 Количество
-            </span>
+            </div>
+            <div class = "cart-block-calc">
+                <span class = "cart-block-minus">-</span>
+                <span class = "cart-block-amount">1</span>
+                <span class = "cart-block-plus">+</span>
+            </div>
         </div>
         <div class = "cart-block-commonprice">
             <span>
@@ -54,6 +62,11 @@ export default {
     name: 'Cart',
     data(){
         return {}
+    },
+    computed: {
+        cart(){
+            return this.$store.state.cart
+        }
     }
 }
 </script>
@@ -68,26 +81,77 @@ export default {
     display: flex;
 }
 .cart-block-name {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
     width: 52%;
     outline: 1px solid red;
 }
 
+.cart-block-pic {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+    outline: 1px solid red;
+}
+
+.cart-block-img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
 .cart-block-itemprice {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
     width: 16%;
     outline: 1px solid red;
     text-align: center;
 }
 
 .cart-block-amount {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
     width: 16%;
     outline: 1px solid red;
     text-align: center;
 }
 
 .cart-block-commonprice {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
     width: 16%;
     outline: 1px solid red;
     text-align: center;
+}
+
+.cart-block-amount-text {
+    width: calc(100% - 60px);
+}
+
+.cart-block-calc {
+    width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cart-block-minus {
+    font-size: 30px;
+    line-height: 30px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.cart-block-plus {
+    font-size: 30px;
+    line-height: 30px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 </style>

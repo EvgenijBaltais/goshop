@@ -41,9 +41,9 @@
                     </div>
                 </div>
 				<p class = "main-basket__text">
-                    <a href="" class = "main-basket__link" @click.prevent>
+                    <router-link :to = "{name: 'Cart'}" class = "main-basket__link">
 					<span>Корзина товаров</span><span class = "main-basket__value">({{getCart.length}})</span>
-                    </a>
+                    </router-link>
 				</p>
 			</div>
 			<div class = "main-phone">
