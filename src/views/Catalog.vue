@@ -89,13 +89,13 @@
     </div>
 
     <div class = "catalog">
-
-        <Catalog_item
-            v-for = 'item in products.slice(0, visibleProduct)'
-            :key = 'item.id'
-            :items = 'item'
-        />
-
+        <div class = "catalog-section">
+            <Catalog_item
+                v-for = 'item in products.slice(0, visibleProduct)'
+                :key = 'item.id'
+                :items = 'item'
+            />
+        </div>
         <div class = "preloader-wrapper"></div>
     </div>
 </div>
@@ -105,7 +105,6 @@
 
 //import axios from 'axios'
 import Catalog_item from '../components/Catalog_item'
-import { mapActions } from 'vuex'
 import axios from 'axios'
 
 export default {
@@ -154,9 +153,6 @@ export default {
         }
     },
     methods: {
-        ...mapActions([
-            'get_flowers_types'             //////////  (?????????????????)
-        ]),
         addPreloader(){
 
             let preloader = document.createElement('img')
@@ -250,8 +246,10 @@ export default {
             //this.products = newItems
         },
         getMoreItems(){
+            
+            console.log('getMoreItems')
 
-            let allProducts = this.$store.state.products.data
+            let allProducts = this.products
 
             if (this.isInViewport(document.querySelector('.preloader-wrapper'))) {
                 return false
@@ -372,13 +370,13 @@ export default {
             .then(response => {
                 this.products = response.data
                 this.productsFullList = response.data
+
+                window.addEventListener('scroll', this.getMoreItems)
             })
         // https://www.jonportella.com/you-are-using-browser-events-wrong/ - потом проверить, надо передать не анонимную функцию, а именованную. Иначе событие не удаляется
-
-        //window.addEventListener('scroll', this.getMoreItems)
     },
     unmounted(){
-        //window.removeEventListener('scroll', this.getMoreItems)
+        window.removeEventListener('scroll', this.getMoreItems)
   }
 }
 
@@ -397,11 +395,14 @@ export default {
 }
 
 .catalog {
+    position: relative;
     width: calc(100% - 200px);
+}
+.catalog-section {
     position: relative;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-between;   
 }
 
 .has-inside-content {
@@ -410,16 +411,12 @@ export default {
 }
 
 .preloader-wrapper {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
     width: 100%;
     text-align: center;
     padding: 20px 0;
 }
 
-.catalog::after {
+.catalog-section::after {
   content: "";
   flex-basis: 250px;
 }

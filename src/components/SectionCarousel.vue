@@ -18,6 +18,19 @@
                     </router-link>
                 </div>
                 <div>
+                    <div class="product-nav">
+                        <div class = "item-add-remove">
+                            <div class = "decrease-value">-</div>
+                            <div class = "item-value-block">
+                                <input type="text" class = "item-value" value = "0">
+                            </div>
+                            <div class = "increase-value">+</div>
+                            <div class = "item-order-options">
+                                <div class = "watch-item"></div>
+                                <div class = "order-item"></div>
+                            </div>
+                        </div>
+                    </div>
                     <router-link :to = "{path: `/catalog/${item.id}`}" class = "category-slider__title">{{item.title}}</router-link>
                     <p class = "category-slider__price">{{item.price}}</p>
                 </div>
@@ -189,8 +202,8 @@ export default {
 }
 
 .category-slider__item {
-    width: 270px;
-    margin-right: 10px;
+    width: 260px;
+    margin-right: 23px;
 }
 
 .category-slider__picwrapper {
@@ -234,6 +247,7 @@ export default {
 }
 
 .category-slider__title {
+    display: block;
     text-align: center;
     padding: 10px 5px 5px 5px;
     color: rgb(54,61,64);
@@ -253,6 +267,85 @@ export default {
     display: flex;
     align-items: center;
     height: 100%;
+}
+
+.item-add-remove {
+    display: flex;
+}
+
+.item-value-block {
+    width: 50px;
+    height: 30px;
+}
+
+.item-value {
+    display: block;
+    margin: 0% auto;
+    text-align: center;
+    font-size: 20px;
+    line-height: 30px;
+    font-family: Arial, Helvetica, sans-serif;
+    width: 40px;
+    height: 30px;
+    outline: 0;
+    border: 0;
+}
+
+.decrease-value {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #94cbe0;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    line-height: 25px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.increase-value {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #94cbe0;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    line-height: 30px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.item-order-options {
+    width: 80px;
+    display: flex;
+    margin-left: auto;
+    justify-content: space-between;
+}
+
+.watch-item {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #94cbe0;
+    background-image: url('../assets/icons//eye.svg');
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+}
+
+.order-item {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #94cbe0;
+    background-image: url('../assets/icons/cart-white.svg');
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
 }
 
 </style>

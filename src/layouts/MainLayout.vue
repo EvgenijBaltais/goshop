@@ -1,15 +1,12 @@
 <template>
         <div class = "wrapper">
-
             <div :class = "['site-header']">
                 <TopHeaderBlock />
                 <TopHeaderLogoBlock />
                 <MainNavigation />
             </div>
-
             <router-view/>
         </div>
-
         <Footer />
 </template>
 

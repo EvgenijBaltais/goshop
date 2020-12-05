@@ -1,16 +1,16 @@
 <template>
 		<div class = "delivery-stripe">
-			<div>
+			<div class = "delivery-block delivery-block-delivery">
 				<span class = "delivery-stripe__white">Доставка</span>
 			</div>
-			<div>
-				<span class = "delivery-stripe__white">Гарантия 7 дней</span>
+			<div class = "delivery-block delivery-block-guarantee">
+				<span class = "delivery-stripe__white">Гарантия качества</span>
 			</div>
-			<div>
-				<span class = "delivery-stripe__white">Скидки клиентам</span>
+			<div class = "delivery-block delivery-block-sale">
+				<span class = "delivery-stripe__white">Скидки и подарки</span>
 			</div>
-			<div>
-				<span class = "delivery-stripe__white">Доставка</span>
+			<div class = "delivery-block delivery-block-individual">
+				<span class = "delivery-stripe__white">Индивидуальный подход</span>
 			</div>
 		</div>
 </template>
@@ -40,5 +40,31 @@ export default {
     .delivery-stripe__white {
         color: #fff;
 
+    }
+
+    .delivery-block {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        padding-left: 40px;
+        box-sizing: border-box;
+        background-position: left center;
+        background-repeat: no-repeat;
+        background-size: 30px;
+    }
+    .delivery-block-delivery {
+        background-image: url('../assets/icons/delivery-white.svg');
+    }
+    .delivery-block-guarantee {
+        background-image: url('../assets/icons/guarantee-white.svg');
+        padding-left: 35px;
+    }
+    .delivery-block-sale {
+        background-image: url('../assets/icons/sale-white.svg');
+        padding-left: 35px;
+    }
+    .delivery-block-individual {
+        background-image: url('../assets/icons/man-white.svg');
+        padding-left: 35px;
     }
 </style>
