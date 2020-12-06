@@ -7,7 +7,7 @@
         <div class = "catalog__title">{{items.title}}</div>
     </router-link>
         <div class = "catalog__description">{{items.short_description}}</div>
-    <div class = "catalog__price">{{items.price}}</div>
+    <div class = "catalog__price">{{items.price}} руб.</div>
 </div>
 </template>
 
@@ -64,7 +64,9 @@ export default {
 }
 
 .catalog__price {
-    margin: 20px 0 10px 0;
+    margin: 10px 0;
+    font-size: 20px;
+    line-height: 30px;
     text-align: center;
     font-weight: bold;
 }

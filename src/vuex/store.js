@@ -126,7 +126,7 @@ const store = createStore({
             // Если уже есть то прибавить количество просто
 
             if (keyExists >= 0) {
-                cart[keyExists].amount += 1
+                cart[keyExists].amount += data.amount
             }
 
             // Если нету, то найти в хранилище товаров, добавить свойство amount - количество и добавить в корзину
@@ -137,7 +137,7 @@ const store = createStore({
                 for (let key in state.products.data) {
                     if (state.products.data[key].id == data.id) {
                         item = state.products.data[key]
-                        item.amount = 1
+                        item.amount = data.amount
                     }
                 }
                 cart.push(item)

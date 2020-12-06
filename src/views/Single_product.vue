@@ -144,7 +144,8 @@ export default {
 
             this.$store.dispatch({
                 type: 'addToCart',
-                id: this.product_id
+                id: this.product_id,
+                amount: 1
             })
         },
         getParent: function(el, cls){

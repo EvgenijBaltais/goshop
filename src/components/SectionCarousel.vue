@@ -11,7 +11,9 @@
         <div class = "category-slider-wrapper">
             <div :class = "['category-slider__item', {'active-item': index == 0}]"
                     v-for = "(item, index) in products"
-                    :key = "item.id">
+                    :key = "item.id"
+                    :data-id = item.id
+            >
                 <div class="category-slider__picwrapper">
                     <router-link :to = "{path: `/catalog/${item.id}`}" class = "category-slider__link">
                         <img class="category-slider__pic" :src = 'require("../assets/pics/bouquets/" + item.img + "/1.jpg")' alt="">
@@ -20,19 +22,35 @@
                 <div>
                     <div class="product-nav">
                         <div class = "item-add-remove">
-                            <div class = "decrease-value">-</div>
+                            <div class = "decrease-value" @click = decreaseValue>−</div>
                             <div class = "item-value-block">
-                                <input type="text" class = "item-value" value = "0">
+                                <input type="text" class = "item-value" value = "0" readonly = "readonly">
                             </div>
-                            <div class = "increase-value">+</div>
+                            <div class = "increase-value" @click = increaseValue>+</div>
                             <div class = "item-order-options">
-                                <div class = "watch-item"></div>
-                                <div class = "order-item"></div>
+                                <div class = "product-button product-loupe" data-info = "Смотреть фото">
+                                    <div class = "product-button-inset">
+                                        <div class = "product-button-anim-first"></div>
+                                        <div class = "product-button-anim-second"></div>
+                                    </div>
+                                </div>
+                                <router-link :to = "{path: `/catalog/${item.id}`}" class = "product-button product-watch" data-info = "Подробнее">
+                                    <div class = "product-button-inset">
+                                        <div class = "product-button-anim-first"></div>
+                                        <div class = "product-button-anim-second"></div>
+                                    </div>
+                                </router-link>
+                                <div class = "product-button product-order" data-info = "Заказать!" @click = addToCart>
+                                    <div class = "product-button-inset">
+                                        <div class = "product-button-anim-first"></div>
+                                        <div class = "product-button-anim-second"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <router-link :to = "{path: `/catalog/${item.id}`}" class = "category-slider__title">{{item.title}}</router-link>
-                    <p class = "category-slider__price">{{item.price}}</p>
+                    <p class = "category-slider__price">{{item.price}} руб.</p>
                 </div>
             </div>
         </div>
@@ -143,6 +161,34 @@ export default {
                 // Удаление класса анимации
                 sliderWrapper.classList.remove('moving')
             })
+        },
+        increaseValue: function(){
+            let parent = this.getParent(event.target, 'item-add-remove'),
+                value = parseInt(parent.querySelector('.item-value').value)
+                value < 100 ? parent.querySelector('.item-value').value = value + 1 : ''
+        },
+        decreaseValue: function(){
+            let parent = this.getParent(event.target, 'item-add-remove'),
+                value = parseInt(parent.querySelector('.item-value').value)
+                value < 1 ? '' : parent.querySelector('.item-value').value = value - 1
+        },
+        addToCart() {
+
+            let parent = this.getParent(event.target, 'category-slider__item'),
+                id = parent.getAttribute('data-id'),
+                amount = parseInt(parent.querySelector('.item-value').value)
+
+            if (amount <= 0) return false
+
+            this.$store.dispatch({
+                type: 'addToCart',
+                id: id,
+                amount: amount
+            })
+        },
+        getParent: function(el, cls){
+            while ((el = el.parentElement) && !el.classList.contains(cls));
+            return el;
         }
     }
 }
@@ -257,10 +303,11 @@ export default {
 
 .category-slider__price {
     text-align: center;
+    font-weight: bold;
     padding: 10px 5px 5px 5px;
     color: rgb(54,61,64);
-    font-size: 14px;
-    line-height: 16px;
+    font-size: 18px;
+    line-height: 20px;
 }
 
 .category-slider__link {
@@ -269,13 +316,20 @@ export default {
     height: 100%;
 }
 
+.product-nav {
+    margin: 5px 0;
+}
+
 .item-add-remove {
+    width: 200px;
+    margin: 0 auto;
     display: flex;
 }
 
 .item-value-block {
-    width: 50px;
+    width: 34px;
     height: 30px;
+    user-select: none;
 }
 
 .item-value {
@@ -285,40 +339,38 @@ export default {
     font-size: 20px;
     line-height: 30px;
     font-family: Arial, Helvetica, sans-serif;
-    width: 40px;
+    width: 34px;
     height: 30px;
     outline: 0;
     border: 0;
+    user-select: none;
 }
 
 .decrease-value {
-    width: 30px;
+    width: 20px;
     height: 30px;
-    border-radius: 50%;
-    background: #94cbe0;
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 30px;
-    line-height: 25px;
-    color: #fff;
+    line-height: 32px;
     cursor: pointer;
+    user-select: none;
 }
 
 .increase-value {
-    width: 30px;
+    width: 20px;
     height: 30px;
     border-radius: 50%;
-    background: #94cbe0;
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 30px;
     line-height: 30px;
-    color: #fff;
     cursor: pointer;
+    user-select: none;
 }
 
 .item-order-options {
-    width: 80px;
+    width: 100px;
     display: flex;
     margin-left: auto;
     justify-content: space-between;
@@ -347,5 +399,126 @@ export default {
     background-position: center;
     cursor: pointer;
 }
+
+.product-button-inset {
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #94CBE0;
+    -webkit-transition: .3s ease;
+    -moz-transition: .3s ease;
+    -o-transition: .3s ease;
+    transition: .3s ease;
+}
+
+.product-button-inset:hover {
+    bottom: -30px;
+    background: #6FA6BB;
+    transition: background-color .3s;
+    transition: bottom .3s;
+}
+
+.product-button-anim-first {
+    width: 30px;
+    height: 30px;
+    font-size: 15px;
+    line-height: 30px;
+}
+
+.product-button-anim-second {
+    width: 30px;
+    height: 30px;
+
+    font-size: 15px;
+}
+
+.product-buttons-container {
+    position: relative;
+    width: 200px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.product-button {
+    display: block;
+    position: relative;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+/* Кнопки в карточке продуктов */
+
+.products-amount {
+    color: #fff;
+    line-height: 30px;
+}
+
+.product-plus {
+    font-size: 16px;
+    line-height: 30px;
+}
+
+.product-watch {
+    display: block;
+    text-decoration: none;
+}
+
+.product-order {
+    display: block;
+    text-decoration: none;
+}
+
+.product-watch .product-button-anim-first {
+    background-image: url('../assets/icons/eye.svg');
+    background-repeat: no-repeat;
+    background-size: 16px;
+    background-position: center;
+}
+
+.product-watch .product-button-anim-second {
+    background-image: url('../assets/icons/eye.svg');
+    background-repeat: no-repeat;
+    background-size: 16px;
+    background-position: center;
+}
+
+.product-order .product-button-anim-first {
+    background-image: url('../assets/icons/cart-white.svg');
+    background-repeat: no-repeat;
+    background-size: 16px;
+    background-position: center;
+}
+
+.product-order .product-button-anim-second {
+    background-image: url('../assets/icons/cart-white.svg');
+    background-repeat: no-repeat;
+    background-size: 16px;
+    background-position: center;
+}
+
+.product-loupe .product-button-anim-first {
+    background-image: url('../assets/icons/loupe-white.svg');
+    background-repeat: no-repeat;
+    background-size: 16px;
+    background-position: center;
+}
+
+.product-loupe .product-button-anim-second {
+    background-image: url('../assets/icons/loupe-white.svg');
+    background-repeat: no-repeat;
+    background-size: 16px;
+    background-position: center;
+}
+
+/* Кнопки в карточке продуктов */
 
 </style>

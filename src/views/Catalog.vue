@@ -19,7 +19,6 @@
                 </li>
             </ul>
         </div>
-
         <div :class="[`filters-section`, occasions.length ? `has-inside-content` : '']">
             <div class = "filters-section__wrapper" @click = listVisibility>
                 <a class = "filters-section__title">Повод</a>
@@ -38,7 +37,6 @@
                 </li>
             </ul>
         </div>
-
         <div class="filters-title-section">
             <div class = "filters-title-wrapper">
                 <span class = "filters-text">Фильтры:</span>
@@ -87,7 +85,6 @@
             </ul>
         </div>
     </div>
-
     <div class = "catalog">
         <div class = "catalog-section">
             <Catalog_item
