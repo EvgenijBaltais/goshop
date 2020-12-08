@@ -7,22 +7,22 @@
             </div>
             <div class="product-slider__navigation">
                 <div class = "product-slider__wrapper">
-                    <div @click = "changeSliderPic(), moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "1"></div>
-                    <div @click = "changeSliderPic(), moveCarousel()" :class = "['product-slider__simg', 'product-slider__active-img']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "1"></div>
-                    <div @click = "changeSliderPic(), moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "3"></div>
-                    <div @click = "changeSliderPic(), moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "2"></div>
-                    <div @click = "changeSliderPic(), moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "1"></div>
-                    <div @click = "changeSliderPic(), moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "3"></div>
-                    <div @click = "changeSliderPic(), moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "1"></div>
-                    <div @click = "changeSliderPic(), moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "2"></div>
-                    <div @click = "changeSliderPic(), moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "3"></div>
-                    <div @click = "changeSliderPic(), moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "1"></div>
-                    <div @click = "changeSliderPic(), moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "2"></div>
-                    <div @click = "changeSliderPic(), moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "3"></div>
-                    <div @click = "changeSliderPic(), moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "3"></div>
+                    <div @click = "moveCarousel()" :class = "['product-slider__simg', 'product-slider__active-img']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "1"></div>
+                    <div @click = "moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "1"></div>
+                    <div @click = "moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "3"></div>
+                    <div @click = "moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "2"></div>
+                    <div @click = "moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "1"></div>
+                    <div @click = "moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "3"></div>
+                    <div @click = "moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "1"></div>
+                    <div @click = "moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "2"></div>
+                    <div @click = "moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "3"></div>
+                    <div @click = "moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "1"></div>
+                    <div @click = "moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "2"></div>
+                    <div @click = "moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "3"></div>
+                    <div @click = "moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "3"></div>
                 </div>
-                <div class = "prod-arrow-left"></div>
-                <div class = "prod-arrow-right"></div>
+                <div class = "prod-arrow-left" @click = "moveCarouselLeft()"></div>
+                <div class = "prod-arrow-right" @click = "moveCarouselRight()"></div>
             </div>
         </div>
     </div>
@@ -116,38 +116,62 @@ export default {
                 productContains.classList.remove('product-contains-opened') : 
                 productContains.classList.add('product-contains-opened')
         },
-
-        changeSliderPic: function(){
+        moveCarousel: function(){
 
             if (event.target.classList.contains('product-slider__active-img')) {
                 return false
             }
 
-            event.target.parentNode.children.forEach(el => {
-                el.classList.remove('product-slider__active-img')
-            });
-
-            // Замена большой картинки
-
-            if (document.querySelector('.product-slider__bimg')) {
-                let category = event.target.getAttribute('data-category'),
-                    item = event.target.getAttribute('data-item')
-                this.mainPic = require(`../assets/pics/bouquets/${category}/${item}.jpg`)
-            }
-
-            event.target.classList.add('product-slider__active-img')
-        },
-        moveCarousel: function(){
-
             let parent = this.getParent(event.target, 'product-slider__wrapper'),
                 width = event.target.offsetWidth + parseFloat(getComputedStyle(event.target, null).marginRight.replace("px", "")),
-                elementIndex = this.getClickedElementIndex(parent.querySelectorAll('.product-slider__simg'))
+                elementIndex = 0
 
-                console.log(elementIndex)
+                // Поменять активный элемент
+
+                parent.querySelector('.product-slider__active-img').classList.remove('product-slider__active-img')
+                event.target.classList.add('product-slider__active-img')
+
+                // Определить номер активного элемента
+
+                for (let i = 0; i < parent.querySelectorAll('.product-slider__simg').length; i++) {
+                    if (parent.querySelectorAll('.product-slider__simg')[i].classList.contains('product-slider__active-img')) {
+                        elementIndex = i
+                        break
+                    }
+                }
 
                 if (elementIndex < 1) return false
+                
+                // Проиграть анимацию
 
                 parent.style.marginLeft = -(elementIndex - 1) * width + 'px'
+        },
+        moveCarouselLeft(){
+            console.log('moveLeft')
+
+            let parent = document.querySelector('.product-slider__wrapper'),
+                items = document.querySelectorAll('.product-slider__simg'),
+                elementIndex = 0
+
+            if (items[0].classList.contains('.product-slider__active-img')) {
+                return false
+            }
+
+            document.querySelector('.product-slider__active-img').classList.remove('.product-slider__active-img')
+
+            // Определить номер активного элемента
+
+            for (let i = 0; i < parent.querySelectorAll('.product-slider__simg').length; i++) {
+                if (parent.querySelectorAll('.product-slider__simg')[i].classList.contains('product-slider__active-img')) {
+                    elementIndex = i
+                    break
+                }
+            }
+            
+            parent.style.marginLeft = -(elementIndex - 1) * width + 'px'
+        },
+        moveCarouselRight(){
+            console.log('moveRight')
         },
         addToCart() {
             this.$store.dispatch({
