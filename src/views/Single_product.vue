@@ -8,19 +8,21 @@
             <div class="product-slider__navigation">
                 <div class = "product-slider__wrapper">
                     <div @click = "changeSliderPic(), moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "1"></div>
-                    <div @click = "changeSliderPic" :class = "['product-slider__simg', 'product-slider__active-img']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "1"></div>
-                    <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "3"></div>
-                    <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "2"></div>
-                    <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "1"></div>
-                    <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "3"></div>
-                    <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "1"></div>
-                    <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "2"></div>
-                    <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "3"></div>
-                    <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "1"></div>
-                    <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "2"></div>
-                    <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "3"></div>
-                    <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "3"></div>
+                    <div @click = "changeSliderPic(), moveCarousel()" :class = "['product-slider__simg', 'product-slider__active-img']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "1"></div>
+                    <div @click = "changeSliderPic(), moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "3"></div>
+                    <div @click = "changeSliderPic(), moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "2"></div>
+                    <div @click = "changeSliderPic(), moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "1"></div>
+                    <div @click = "changeSliderPic(), moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "3"></div>
+                    <div @click = "changeSliderPic(), moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "1"></div>
+                    <div @click = "changeSliderPic(), moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "2"></div>
+                    <div @click = "changeSliderPic(), moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "3"></div>
+                    <div @click = "changeSliderPic(), moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "1"></div>
+                    <div @click = "changeSliderPic(), moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "2"></div>
+                    <div @click = "changeSliderPic(), moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "3"></div>
+                    <div @click = "changeSliderPic(), moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "3"></div>
                 </div>
+                <div class = "prod-arrow-left"></div>
+                <div class = "prod-arrow-right"></div>
             </div>
         </div>
     </div>
@@ -136,13 +138,16 @@ export default {
             event.target.classList.add('product-slider__active-img')
         },
         moveCarousel: function(){
-            
+
             let parent = this.getParent(event.target, 'product-slider__wrapper'),
-                width = event.target.offsetWidth + parseFloat(getComputedStyle(event.target, null).marginRight.replace("px", ""))
+                width = event.target.offsetWidth + parseFloat(getComputedStyle(event.target, null).marginRight.replace("px", "")),
+                elementIndex = this.getClickedElementIndex(parent.querySelectorAll('.product-slider__simg'))
 
-                console.log(width)
+                console.log(elementIndex)
 
-                parent
+                if (elementIndex < 1) return false
+
+                parent.style.marginLeft = -(elementIndex - 1) * width + 'px'
         },
         addToCart() {
             this.$store.dispatch({
@@ -154,6 +159,11 @@ export default {
         getParent: function(el, cls){
             while ((el = el.parentElement) && !el.classList.contains(cls));
             return el;
+        },
+        getClickedElementIndex: function(arr) {
+            for (let i = 0; i < arr.length; i++) {
+                if (event.target == arr[i]) return i;
+            }
         }
     },
     computed: {
@@ -215,10 +225,6 @@ export default {
     cursor: pointer;
 }
 
-.product-slider__simg:last-child {
-    margin-right: 0;
-}
-
 .product-slider__active-img {
     box-sizing: border-box;
     border: 3px solid rgb(139,191,211);
@@ -226,9 +232,11 @@ export default {
 
 .product-slider__wrapper {
     display: flex;
+    transition: margin .3s;
 }
 
 .product-slider__navigation {
+    position: relative;
     padding: 20px 0;
     box-sizing: border-box;
     display: flex;
@@ -240,6 +248,45 @@ export default {
 .product-slider__navigation:after{
     flex-basis: 100px;
     content: "";
+}
+
+.product-slider__navigation:hover .prod-arrow-left {
+    display: block;
+}
+.product-slider__navigation:hover .prod-arrow-right {
+    display: block;
+}
+
+.prod-arrow-left {
+    display: none;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 0;
+    left: 5px;
+    bottom: 0;
+    margin: auto;
+    background-repeat: no-repeat;
+    background-image: url('../assets/icons/left.svg');
+    background-color: rgba(255,255,255,.5);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.prod-arrow-right {
+    display: none;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 0;
+    right: 5px;
+    bottom: 0;
+    margin: auto;
+    background-repeat: no-repeat;
+    background-image: url('../assets/icons/right.svg');
+    background-color: rgba(255,255,255,.5);
+    border-radius: 50%;
+    cursor: pointer;
 }
 
 .product-description {
