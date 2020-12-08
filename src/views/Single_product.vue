@@ -7,9 +7,9 @@
             </div>
             <div class="product-slider__navigation">
                 <div class = "product-slider__wrapper">
-                    <div @click = "changeSliderPic" :class = "['product-slider__simg', 'product-slider__active-img']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "1"></div>
-                    <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "1"></div>
-                    <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "3"></div>
+                    <div @click = "changeSliderPic(), moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "1"></div>
+                    <div @click = "changeSliderPic" :class = "['product-slider__simg', 'product-slider__active-img']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "1"></div>
+                    <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "3"></div>
                     <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "2"></div>
                     <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "1"></div>
                     <div @click = "changeSliderPic" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "3"></div>
@@ -104,22 +104,18 @@ export default {
         }
     },
     methods: {
-
         openContainer: function(){
+            if (!(event.target.classList.contains('product-contains') || this.getParent(event.target, 'product-contains'))) {
+            return false
+            }
 
-        if (!(event.target.classList.contains('product-contains') || this.getParent(event.target, 'product-contains'))) {
-           return false
-        }
-
-        let productContains = document.querySelector('.product-contains')
-
-            productContains.classList.contains('product-contains-opened') ? 
-            productContains.classList.remove('product-contains-opened') : 
-            productContains.classList.add('product-contains-opened')
+            let productContains = document.querySelector('.product-contains')
+                productContains.classList.contains('product-contains-opened') ? 
+                productContains.classList.remove('product-contains-opened') : 
+                productContains.classList.add('product-contains-opened')
         },
 
         changeSliderPic: function(){
-            console.log(event.target)
 
             if (event.target.classList.contains('product-slider__active-img')) {
                 return false
@@ -132,7 +128,6 @@ export default {
             // Замена большой картинки
 
             if (document.querySelector('.product-slider__bimg')) {
-
                 let category = event.target.getAttribute('data-category'),
                     item = event.target.getAttribute('data-item')
                 this.mainPic = require(`../assets/pics/bouquets/${category}/${item}.jpg`)
@@ -140,10 +135,16 @@ export default {
 
             event.target.classList.add('product-slider__active-img')
         },
+        moveCarousel: function(){
+            
+            let parent = this.getParent(event.target, 'product-slider__wrapper'),
+                width = event.target.offsetWidth + parseFloat(getComputedStyle(event.target, null).marginRight.replace("px", ""))
+
+                console.log(width)
+
+                parent
+        },
         addToCart() {
-
-            console.log(this.product_id)
-
             this.$store.dispatch({
                 type: 'addToCart',
                 id: this.product_id,
@@ -205,17 +206,22 @@ export default {
 
 .product-slider__simg {
     flex-basis: 100px;
-    width: 100px;
-    height: 100px;
-    margin-bottom: 5px;
+    width: 97px;
+    height: 97px;
+    margin-right: 10px;
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: cover;
     background-position: center;
     cursor: pointer;
 }
 
+.product-slider__simg:last-child {
+    margin-right: 0;
+}
+
 .product-slider__active-img {
-    outline: 1px solid rgb(139,191,211);
+    box-sizing: border-box;
+    border: 3px solid rgb(139,191,211);
 }
 
 .product-slider__wrapper {
