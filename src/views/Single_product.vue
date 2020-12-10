@@ -278,6 +278,8 @@ export default {
 
 .product-slider__simg {
     flex-basis: 100px;
+    border: 2px solid transparent;
+    box-sizing: border-box;
     width: 97px;
     height: 97px;
     margin-right: 10px;
