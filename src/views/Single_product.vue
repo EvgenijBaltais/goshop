@@ -3,12 +3,12 @@
     <div class = "product-carousel">
         <div class="product-slider">
             <div class="product-slider__mainview">
-                <img :src = "require('../assets/pics/bouquets/' + [product.img ? product.img : 1] + '/1.jpg')" alt="" class = "product-slider__bimg">
+                <img :src = "require('../assets/pics/bouquets/' + [product.img ? product.img : 1] + '/1.jpg')" alt="" :class = "['product-slider__bimg']">
             </div>
             <div class="product-slider__navigation">
                 <div class = "product-slider__wrapper">
                     <div @click = "moveCarousel()" :class = "['product-slider__simg', 'product-slider__active-img']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "1"></div>
-                    <div @click = "moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "1"></div>
+                    <div @click = "moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-url-item = "" data-category = "2" data-item = "1"></div>
                     <div @click = "moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "3"></div>
                     <div @click = "moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "2"></div>
                     <div @click = "moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "1"></div>
@@ -131,6 +131,10 @@ export default {
                 parent.querySelector('.product-slider__active-img').classList.remove('product-slider__active-img')
                 event.target.classList.add('product-slider__active-img')
 
+                let a = require('../assets/pics/bouquets/2/1.jpg')
+
+                document.querySelector('.product-slider__bimg').setAttribute('src', a)
+
                 // Определить номер активного элемента
 
                 for (let i = 0; i < parent.querySelectorAll('.product-slider__simg').length; i++) {
@@ -147,31 +151,65 @@ export default {
                 parent.style.marginLeft = -(elementIndex - 1) * width + 'px'
         },
         moveCarouselLeft(){
-            console.log('moveLeft')
 
             let parent = document.querySelector('.product-slider__wrapper'),
                 items = document.querySelectorAll('.product-slider__simg'),
-                elementIndex = 0
+                elementIndex = 0,
+                width = 0
 
-            if (items[0].classList.contains('.product-slider__active-img')) {
+            // Если карусель в начальной позиции то return false
+
+            if (items[0].classList.contains('product-slider__active-img')) {
                 return false
             }
 
-            document.querySelector('.product-slider__active-img').classList.remove('.product-slider__active-img')
-
             // Определить номер активного элемента
 
-            for (let i = 0; i < parent.querySelectorAll('.product-slider__simg').length; i++) {
-                if (parent.querySelectorAll('.product-slider__simg')[i].classList.contains('product-slider__active-img')) {
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].classList.contains('product-slider__active-img')) {
                     elementIndex = i
                     break
                 }
             }
-            
+
+            items[elementIndex].classList.remove('product-slider__active-img')
+            elementIndex -= 1
+            items[elementIndex].classList.add('product-slider__active-img')
+
+            if (elementIndex == 0) return false
+
+            width = items[elementIndex].offsetWidth + parseFloat(getComputedStyle(items[elementIndex], null).marginRight.replace("px", ""))
             parent.style.marginLeft = -(elementIndex - 1) * width + 'px'
         },
         moveCarouselRight(){
-            console.log('moveRight')
+            let parent = document.querySelector('.product-slider__wrapper'),
+                items = document.querySelectorAll('.product-slider__simg'),
+                elementIndex = 0,
+                width = 0
+
+            // Если карусель в начальной позиции то return false
+
+            if (items[items.length - 1].classList.contains('product-slider__active-img')) {
+                return false
+            }
+
+            // Определить номер активного элемента
+
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].classList.contains('product-slider__active-img')) {
+                    elementIndex = i
+                    break
+                }
+            }
+
+            items[elementIndex].classList.remove('product-slider__active-img')
+            elementIndex += 1
+            items[elementIndex].classList.add('product-slider__active-img')
+
+            if (elementIndex == items[items.length - 1]) return false
+
+            width = items[elementIndex].offsetWidth + parseFloat(getComputedStyle(items[elementIndex], null).marginRight.replace("px", ""))
+            parent.style.marginLeft = -(elementIndex - 1) * width + 'px'
         },
         addToCart() {
             this.$store.dispatch({
