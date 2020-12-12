@@ -3,23 +3,17 @@
     <div class = "product-carousel">
         <div class="product-slider">
             <div class="product-slider__mainview">
-                <img :src = "require('../assets/pics/bouquets/' + [product.img ? product.img : 1] + '/1.jpg')" alt="" :class = "['product-slider__bimg']">
+                <img :src = "require('../assets/pics/products/' + [images.length ? images[0].id : 1] + '.jpg')" alt="" :class = "['product-slider__bimg']">
             </div>
             <div class="product-slider__navigation">
                 <div class = "product-slider__wrapper">
-                    <div @click = "moveCarousel()" :class = "['product-slider__simg', 'product-slider__active-img']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "1"></div>
-                    <div @click = "moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-url-item = "" data-category = "2" data-item = "1"></div>
-                    <div @click = "moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "3"></div>
-                    <div @click = "moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "2"></div>
-                    <div @click = "moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "1"></div>
-                    <div @click = "moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "3"></div>
-                    <div @click = "moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "1"></div>
-                    <div @click = "moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "2"></div>
-                    <div @click = "moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "3"></div>
-                    <div @click = "moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/1.jpg')})`}" data-category = "2" data-item = "1"></div>
-                    <div @click = "moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/2.jpg')})`}" data-category = "2" data-item = "2"></div>
-                    <div @click = "moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "3"></div>
-                    <div @click = "moveCarousel()" :class = "['product-slider__simg']" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/2/3.jpg')})`}" data-category = "2" data-item = "3"></div>
+                    <div 
+                        v-for = "(item, index) in images"
+                        :key = "item.id"
+                        @click = "moveCarousel()"
+                        :class = "['product-slider__simg', {'product-slider__active-img': index == 0}]"
+                        :style = "{backgroundImage: `url(${require('../assets/pics/products/' + item.id + '.jpg')})`}">
+                    </div>
                 </div>
                 <div class = "prod-arrow-left" @click = "moveCarouselLeft()"></div>
                 <div class = "prod-arrow-right" @click = "moveCarouselRight()"></div>
@@ -78,6 +72,7 @@ export default {
     data(){
         return {
             product: {},
+            images: [],
             datepickerSetting: {
               id: "birthday",
               name: "birthday",
@@ -124,16 +119,13 @@ export default {
 
             let parent = this.getParent(event.target, 'product-slider__wrapper'),
                 width = event.target.offsetWidth + parseFloat(getComputedStyle(event.target, null).marginRight.replace("px", "")),
-                elementIndex = 0
+                elementIndex = 0,
+                path = ''
 
                 // Поменять активный элемент
 
                 parent.querySelector('.product-slider__active-img').classList.remove('product-slider__active-img')
                 event.target.classList.add('product-slider__active-img')
-
-                let a = require('../assets/pics/bouquets/2/1.jpg')
-
-                document.querySelector('.product-slider__bimg').setAttribute('src', a)
 
                 // Определить номер активного элемента
 
@@ -144,8 +136,11 @@ export default {
                     }
                 }
 
+                path = require('../assets/pics/products/' + this.images[elementIndex].id + '.jpg')
+                document.querySelector('.product-slider__bimg').setAttribute('src', path)
+
                 if (elementIndex < 1) return false
-                
+
                 // Проиграть анимацию
 
                 parent.style.marginLeft = -(elementIndex - 1) * width + 'px'
@@ -155,7 +150,8 @@ export default {
             let parent = document.querySelector('.product-slider__wrapper'),
                 items = document.querySelectorAll('.product-slider__simg'),
                 elementIndex = 0,
-                width = 0
+                width = 0,
+                path = ''
 
             // Если карусель в начальной позиции то return false
 
@@ -176,6 +172,10 @@ export default {
             elementIndex -= 1
             items[elementIndex].classList.add('product-slider__active-img')
 
+            path = require('../assets/pics/products/' + this.images[elementIndex].id + '.jpg')
+            document.querySelector('.product-slider__bimg').setAttribute('src', path)
+
+
             if (elementIndex == 0) return false
 
             width = items[elementIndex].offsetWidth + parseFloat(getComputedStyle(items[elementIndex], null).marginRight.replace("px", ""))
@@ -185,7 +185,8 @@ export default {
             let parent = document.querySelector('.product-slider__wrapper'),
                 items = document.querySelectorAll('.product-slider__simg'),
                 elementIndex = 0,
-                width = 0
+                width = 0,
+                path = ''
 
             // Если карусель в начальной позиции то return false
 
@@ -205,6 +206,9 @@ export default {
             items[elementIndex].classList.remove('product-slider__active-img')
             elementIndex += 1
             items[elementIndex].classList.add('product-slider__active-img')
+
+            path = require('../assets/pics/products/' + this.images[elementIndex].id + '.jpg')
+            document.querySelector('.product-slider__bimg').setAttribute('src', path)
 
             if (elementIndex == items[items.length - 1]) return false
 
@@ -235,6 +239,8 @@ export default {
     },
     mounted(){
 
+            // Инфа о товаре
+
             axios
             .get('//localhost:3000/products/id', {
                 method: 'GET',
@@ -243,6 +249,17 @@ export default {
                 }
             }).then(response => {
                 this.product = response.data[0]
+            })
+
+            // Картинки
+
+            axios.get('//localhost:3000/images/id', {
+                method: 'GET',
+                params: {
+                    'id': this.$route.params.id
+                }
+            }).then(response => {
+                this.images = response.data
             })
     }
 }
@@ -265,6 +282,10 @@ export default {
 }
 
 .product-slider__mainview {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 500px;
     padding: 0;
     box-sizing: border-box;
 }
@@ -272,7 +293,8 @@ export default {
 .product-slider__bimg {
     display: block;
     width: 100%;
-    max-width: 1000px;
+    max-width: 100%;
+    max-height: 100%;
     margin: 0 auto;
 }
 

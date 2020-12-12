@@ -180,10 +180,43 @@ export default {
 
             if (amount <= 0) return false
 
-            this.$store.dispatch({
-                type: 'addToCart',
-                id: id,
-                amount: amount
+            new Promise((resolve) => {
+                this.$store.dispatch({
+                    type: 'addToCart',
+                    id: id,
+                    amount: amount
+                })
+                resolve()
+            }).then(() => {
+
+                let wrapper, success
+
+                    new Promise(resolve => {
+
+                        if (document.querySelectorAll('.cart-status-wrap').length == 0) {
+                            wrapper = document.createElement('div')
+                            wrapper.classList.add('cart-status-wrap')
+                            document.getElementById('app').insertAdjacentElement('afterbegin', wrapper)
+                        }
+
+                        success = document.createElement('div')
+                        success.innerText = parent.querySelector('.category-slider__title').innerText + " в корзине!"
+                        document.querySelector('.cart-status-wrap').insertAdjacentElement('afterbegin', success)
+
+                        document.querySelector('.cart-status-wrap').querySelector('div').classList.add('cart-success')
+
+                        resolve()
+                    }).then(() => {
+                        document.querySelector('.cart-status-wrap').insertAdjacentElement('afterbegin', success)
+
+                        setTimeout(() => {
+                            let wrapper = document.querySelector('.cart-status-wrap'),
+                                lastSuccess = wrapper.querySelectorAll('.cart-success')[wrapper.querySelectorAll('.cart-success').length - 1]
+                                lastSuccess.parentNode.removeChild(lastSuccess);
+
+                                if (wrapper.querySelectorAll('.cart-success').length == 0) wrapper.parentNode.removeChild(wrapper);
+                        }, 1200)
+                    })
             })
         },
         getParent: function(el, cls){

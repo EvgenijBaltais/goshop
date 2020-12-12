@@ -14,3 +14,48 @@
 .bold-text {
     font-weight: bold;
 }
+
+.cart-success {
+    width: 100%;
+    background-color: #00cc00;
+    padding: 10px 20px;
+    margin-top: 25px;
+    box-sizing: border-box;
+    color: #fff;
+    font-size: 20px;
+    line-height: 30px;
+    border-radius: 10px;
+    text-align: center;
+    animation: addToCartStatus 1.2s;
+    animation-fill-mode: forwards;
+}
+
+.cart-status-wrap {
+    width: 340px;
+    display: block;
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    height: 0;
+    overflow: visible;
+    margin: auto;
+    z-index: 5;
+}
+
+@keyframes addToCartStatus {
+    0% {
+        margin-top: 0;
+        opacity: 1;
+    }
+    20% {
+        margin-top: 25px;
+        opacity: 1;
+    }
+    80% {
+        margin-top: 25px;
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}

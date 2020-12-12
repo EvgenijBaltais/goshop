@@ -51,8 +51,6 @@
             </span>
         </div>
     </div>
-
-
 </div>
 </template>
 
@@ -119,6 +117,7 @@ export default {
     width: 16%;
     outline: 1px solid red;
     text-align: center;
+    user-select: none;
 }
 
 .cart-block-commonprice {
@@ -146,12 +145,14 @@ export default {
     line-height: 30px;
     font-weight: bold;
     cursor: pointer;
+    user-select: none;
 }
 .cart-block-plus {
     font-size: 30px;
     line-height: 30px;
     font-weight: bold;
     cursor: pointer;
+    user-select: none;
 }
 
 </style>

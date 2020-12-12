@@ -174,6 +174,19 @@ app.get('/products/id', (req, res) => {
     })
 })
 
+// Get images for product
+
+app.get('/images/id', (req, res) => {
+    pool.query('SELECT * from pictures WHERE product_id = ?', [req.query.id], (err, rows, fields) => {
+        if (!err) {
+            res.send(rows)
+        }
+        else {
+            console.log(err)
+        }
+    })
+})
+
 app.get('/get_menu', (req, res) => {
     pool.query('SELECT * FROM menu', (err, rows, fields) => {
         if (!err) {
