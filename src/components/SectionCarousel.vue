@@ -194,28 +194,29 @@ export default {
                     new Promise(resolve => {
 
                         if (document.querySelectorAll('.cart-status-wrap').length == 0) {
-                            wrapper = document.createElement('div')
-                            wrapper.classList.add('cart-status-wrap')
-                            document.getElementById('app').insertAdjacentElement('afterbegin', wrapper)
+                            wrapper = `<div class = "cart-status-wrap"></div>`
+                            document.getElementById('app').insertAdjacentHTML('afterbegin', wrapper)
                         }
 
-                        success = document.createElement('div')
-                        success.innerText = parent.querySelector('.category-slider__title').innerText + " в корзине!"
-                        document.querySelector('.cart-status-wrap').insertAdjacentElement('afterbegin', success)
+                        success = `<div class = "wrap-success">
+                                        <div>${parent.querySelector('.category-slider__title').innerText + " в корзине!"}</div>
+                                    </div>`
 
-                        document.querySelector('.cart-status-wrap').querySelector('div').classList.add('cart-success')
+                        document.querySelector('.cart-status-wrap').insertAdjacentHTML('afterbegin', success)
+                        document.querySelector('.cart-status-wrap')
+                            .querySelector('.wrap-success')
+                            .querySelector('div')
+                            .classList.add('cart-success')
 
                         resolve()
                     }).then(() => {
-                        document.querySelector('.cart-status-wrap').insertAdjacentElement('afterbegin', success)
-
                         setTimeout(() => {
                             let wrapper = document.querySelector('.cart-status-wrap'),
                                 lastSuccess = wrapper.querySelectorAll('.cart-success')[wrapper.querySelectorAll('.cart-success').length - 1]
                                 lastSuccess.parentNode.removeChild(lastSuccess);
 
                                 if (wrapper.querySelectorAll('.cart-success').length == 0) wrapper.parentNode.removeChild(wrapper);
-                        }, 1200)
+                        }, 2000)
                     })
             })
         },

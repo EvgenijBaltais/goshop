@@ -19,15 +19,21 @@
     width: 100%;
     background-color: #00cc00;
     padding: 10px 20px;
-    margin-top: 25px;
     box-sizing: border-box;
     color: #fff;
     font-size: 20px;
     line-height: 30px;
     border-radius: 10px;
     text-align: center;
-    animation: addToCartStatus 1.2s;
+}
+
+.wrap-success {
+    position: relative;
+    padding-top: 0;
+    padding-bottom: 20px;
+    animation: addToCartStatus 2s;
     animation-fill-mode: forwards;
+    opacity: 0;
 }
 
 .cart-status-wrap {
@@ -44,18 +50,22 @@
 
 @keyframes addToCartStatus {
     0% {
-        margin-top: 0;
-        opacity: 1;
+        padding-top: 0;
+        opacity: 0;
     }
     20% {
-        margin-top: 25px;
+        padding-top: 20px;
+        padding-bottom: 0;
         opacity: 1;
     }
     80% {
-        margin-top: 25px;
+        padding-top: 20px;
+        padding-bottom: 0;
         opacity: 1;
     }
     100% {
+        padding-top: 20px;
+        padding-bottom: 0;
         opacity: 0;
     }
 }
