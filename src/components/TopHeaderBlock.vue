@@ -98,7 +98,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
 .top-stripe {
     display: flex;

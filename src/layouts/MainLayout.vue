@@ -32,35 +32,40 @@ export default {
 
         makeNavbarFixedAgain(){
 
-            let navBar = document.querySelector('.site-header')
-
-            console.log(pageYOffset + ' pageYOffset')
-            console.log(document.querySelector('.site-header').offsetHeight + ' navBar.offsetHeight')
+           // console.log(pageYOffset + ' pageYOffset')
+            //console.log(document.querySelector('.site-header').offsetHeight + ' navBar.offsetHeight')
 
             //console.log(this.fixedHeader)
 
-            if (pageYOffset > document.querySelector('.site-header').offsetHeight && this.fixedHeader == 0) {
+            if (pageYOffset > this.siteHeader.offsetHeight && this.fixedHeader == 0) {
 
-                console.log('1')
-
-                navBar.classList.add('site-header-fixed')
+                this.siteHeader.classList.add('site-header-fixed')
                 this.fixedHeader = 1
                 return false
             }
-            else if (pageYOffset <= document.querySelector('.site-header').offsetHeight && this.fixedHeader == 1) {
-                console.log('2')
-                navBar.classList.remove('site-header-fixed')
+            else if (pageYOffset <= this.siteHeader.offsetHeight + 50 && this.fixedHeader == 1) {
+
+                this.fixedHeader = 0
+                this.siteHeader.classList.remove('site-header-fixed')
                 return false
             }
         }
     },
+    computed: {
+        siteHeader(){
+            return document.querySelector('.site-header')
+        }
+    },
     created(){
-        //window.addEventListener('scroll', this.makeNavbarFixedAgain)
+        window.addEventListener('scroll', this.makeNavbarFixedAgain)
     }
 }
 </script>
 
 <style>
+.site-header {
+    padding-bottom: 20px;
+}
 .site-header-fixed {
     position: fixed;
     left: 0;
@@ -75,6 +80,9 @@ export default {
     background-color: #fff;
     z-index: 5;
     box-shadow: 0 0 3px 0 rgba(0,0,0,.1);
+}
+.site-header-fixed + div {
+    margin-top: 214px;
 }
 .site-header-fixed .logo-block__search {
     display: none;

@@ -33,7 +33,6 @@ export default {
 <style>
 
     .main-navigation {
-        margin-bottom: 20px;
         border-top: 1px solid #CED0D2;
         border-bottom: 1px solid #CED0D2;
         font-size: 0;
