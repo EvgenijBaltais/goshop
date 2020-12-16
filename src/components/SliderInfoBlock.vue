@@ -4,8 +4,6 @@
 </template>
 
 <script>
-
-
 export default {
   name: 'SliderInfoBlock',
   components: {
@@ -16,7 +14,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>

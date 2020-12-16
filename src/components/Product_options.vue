@@ -1,8 +1,4 @@
 <template>
-<div class = "catalog__item" :data-id = 'items.id'>
-    <router-link :to = "{path: `/catalog/${items.id}`}" class = "catalog__piclink">
-        <div class = "catalog__pic" :style = "{backgroundImage: `url(${require('../assets/pics/bouquets/' + items.img + '/1.jpg')})`}"></div>
-    </router-link>
     <div class="product-nav">
         <div class = "item-add-remove">
             <div class = "decrease-value" @click = decreaseValue>−</div>
@@ -17,7 +13,7 @@
                         <div class = "product-button-anim-second"></div>
                     </div>
                 </div>
-                <router-link :to = "{path: `/catalog/${items.id}`}" class = "product-button product-watch" data-info = "Подробнее">
+                <router-link :to = "{path: `/catalog/${item.id}`}" class = "product-button product-watch" data-info = "Подробнее">
                     <div class = "product-button-inset">
                         <div class = "product-button-anim-first"></div>
                         <div class = "product-button-anim-second"></div>
@@ -32,145 +28,19 @@
             </div>
         </div>
     </div>
-    <router-link :to = "{path: `/catalog/${items.id}`}" class = "catalog__titlelink">
-        <div class = "catalog__title">{{items.title}}</div>
-    </router-link>
-        <div class = "catalog__description">{{items.short_description}}</div>
-    <div class = "catalog__price">{{items.price}} руб.</div>
-</div>
 </template>
 
-
 <script>
-
 export default {
-    name: 'Catalog_item',
-    props: {
-            items: {
-            type: Object,
-            default(){}
-        }
-    },
     data(){
         return {}
     },
-    methods: {
-
-        increaseValue: function(){
-            let parent = this.getParent(event.target, 'item-add-remove'),
-                value = parseInt(parent.querySelector('.item-value').value)
-                value < 100 ? parent.querySelector('.item-value').value = value + 1 : ''
-        },
-        decreaseValue: function(){
-            let parent = this.getParent(event.target, 'item-add-remove'),
-                value = parseInt(parent.querySelector('.item-value').value)
-                value < 1 ? '' : parent.querySelector('.item-value').value = value - 1
-        },
-        addToCart() {
-
-            let parent = this.getParent(event.target, 'catalog__item'),
-                id = parent.getAttribute('data-id'),
-                amount = parseInt(parent.querySelector('.item-value').value)
-
-            if (amount <= 0) return false
-
-            new Promise((resolve) => {
-                this.$store.dispatch({
-                    type: 'addToCart',
-                    id: id,
-                    amount: amount
-                })
-                resolve()
-            }).then(() => {
-
-                let wrapper, success
-
-                    new Promise(resolve => {
-
-                        if (document.querySelectorAll('.cart-status-wrap').length == 0) {
-                            wrapper = `<div class = "cart-status-wrap"></div>`
-                            document.getElementById('app').insertAdjacentHTML('afterbegin', wrapper)
-                        }
-
-                        success = `<div class = "wrap-success">
-                                        <div>${parent.querySelector('.catalog__title').innerText + " в корзине!"}</div>
-                                    </div>`
-
-                        document.querySelector('.cart-status-wrap').insertAdjacentHTML('afterbegin', success)
-                        document.querySelector('.cart-status-wrap')
-                            .querySelector('.wrap-success')
-                            .querySelector('div')
-                            .classList.add('cart-success')
-
-                        resolve()
-                    }).then(() => {
-                        setTimeout(() => {
-                            let wrapper = document.querySelector('.cart-status-wrap'),
-                                lastSuccess = wrapper.querySelectorAll('.cart-success')[wrapper.querySelectorAll('.cart-success').length - 1]
-                                lastSuccess.parentNode.removeChild(lastSuccess);
-
-                                if (wrapper.querySelectorAll('.cart-success').length == 0) wrapper.parentNode.removeChild(wrapper);
-                        }, 2000)
-                    })
-            })
-        },
-        getParent: function(el, cls){
-            while ((el = el.parentElement) && !el.classList.contains(cls));
-            return el;
-        }
-    }
+    name: 'ProductOptions'
 }
-
 </script>
 
-<style scoped>
 
-.catalog__item {
-    box-sizing: border-box;
-    flex-basis: 295px;
-    margin-bottom: 25px;
-}
-
-.catalog__piclink {
-    color: #000;
-    text-decoration: none;
-}
-.catalog__titlelink {
-    color: #000;
-    text-decoration: none;
-}
-
-.catalog__pic {
-    background-repeat: no-repeat;
-    background-size: 100%;
-    background-position: center;
-    height: 250px;
-    margin-bottom: 20px;
-}
-
-.catalog__title {
-    text-align: center;
-    margin: 20px 0 10px 0;
-    font-weight: bold;
-}
-
-.catalog__price {
-    margin: 10px 0;
-    font-size: 20px;
-    line-height: 30px;
-    text-align: center;
-    font-weight: bold;
-}
-
-.catalog__description {
-    text-align: center;
-}
-
-.catalog:after {
-    content: '';
-    flex-basis: 265px;
-}
-
+<style>
 .product-nav {
     margin: 5px 0;
 }

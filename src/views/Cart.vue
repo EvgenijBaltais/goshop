@@ -97,7 +97,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 .cart-block-title {
     display: flex;

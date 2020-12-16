@@ -39,7 +39,7 @@ export default {
 
     .delivery-stripe__white {
         color: #fff;
-
+        font-size: 16px;
     }
 
     .delivery-block {

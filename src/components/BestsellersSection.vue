@@ -124,7 +124,6 @@ export default {
         }
     },
     computed: {
-
         bestsellers(){
             return this.$store.state.bestsellers
         }

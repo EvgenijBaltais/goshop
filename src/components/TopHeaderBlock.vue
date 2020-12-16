@@ -247,6 +247,7 @@ p.speech:after {
     padding-left: 15px;
     padding-right: 15px;
     box-sizing: border-box;
+    text-align: center;
 }
 
 .basket-price {

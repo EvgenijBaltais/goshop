@@ -3,7 +3,7 @@
     <div class = "product-carousel">
         <div class="product-slider">
             <div class="product-slider__mainview">
-                <img v-if = "images[0]" :src = "require('../assets/pics/products/' + images[0].id + '.jpg')" alt="" :class = "['product-slider__bimg']">
+                <img v-if = "images.length" :src = "require('../assets/pics/products/' + images[0].id + '.jpg')" alt="" :class = "['product-slider__bimg']">
             </div>
             <div class="product-slider__navigation">
                 <div class = "product-slider__wrapper">

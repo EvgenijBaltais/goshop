@@ -45,7 +45,7 @@
     height: 0;
     overflow: visible;
     margin: auto;
-    z-index: 5;
+    z-index: 10;
 }
 
 @keyframes addToCartStatus {

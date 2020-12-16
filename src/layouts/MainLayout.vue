@@ -31,20 +31,12 @@ export default {
     methods: {
 
         makeNavbarFixedAgain(){
-
-           // console.log(pageYOffset + ' pageYOffset')
-            //console.log(document.querySelector('.site-header').offsetHeight + ' navBar.offsetHeight')
-
-            //console.log(this.fixedHeader)
-
             if (pageYOffset > this.siteHeader.offsetHeight && this.fixedHeader == 0) {
-
                 this.siteHeader.classList.add('site-header-fixed')
                 this.fixedHeader = 1
                 return false
             }
             else if (pageYOffset <= this.siteHeader.offsetHeight + 50 && this.fixedHeader == 1) {
-
                 this.fixedHeader = 0
                 this.siteHeader.classList.remove('site-header-fixed')
                 return false
