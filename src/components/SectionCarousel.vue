@@ -6,8 +6,8 @@
     </h2>
     <hr class = "section-hr">
     <div class = "category-slider">
-        <div class = "category-slider__arrow category-slider__left" v-on:click = "slideLeft()"></div>
-        <div class = "category-slider__arrow category-slider__right" v-on:click = "slideRight()"></div>     
+        <div class = "category-slider__arrow category-slider__left" @click = "slideLeft()"></div>
+        <div class = "category-slider__arrow category-slider__right" @click = "slideRight()"></div>     
         <div class = "category-slider-wrapper">
             <div :class = "['category-slider__item', {'active-item': index == 0}]"
                     v-for = "(item, index) in products"
@@ -28,7 +28,7 @@
                             </div>
                             <div class = "increase-value" @click = increaseValue>+</div>
                             <div class = "item-order-options">
-                                <div class = "product-button product-favorite" data-info = "В избранное">
+                                <div class = "product-button product-favorite" @click = "checkActive" data-info = "В избранное">
                                     <div class = "product-button-inset">
                                         <div class = "product-button-anim-first"></div>
                                         <div class = "product-button-anim-second"></div>
@@ -177,6 +177,16 @@ export default {
             let parent = this.getParent(event.target, 'item-add-remove'),
                 value = parseInt(parent.querySelector('.item-value').value)
                 value < 1 ? '' : parent.querySelector('.item-value').value = value - 1
+        },
+        checkActive(){
+
+            console.log(event.target)
+
+            let parent = this.getParent(event.target, 'product-button')
+            
+            parent.classList.contains('product-favorite-active') ?
+            parent.classList.remove('product-favorite-active') :
+            parent.classList.add('product-favorite-active')
         },
         addToCart() {
 
@@ -472,7 +482,6 @@ export default {
 .product-button-anim-second {
     width: 30px;
     height: 30px;
-
     font-size: 15px;
 }
 
@@ -557,6 +566,14 @@ export default {
     background-repeat: no-repeat;
     background-size: 16px;
     background-position: center;
+}
+
+.product-favorite-active .product-button-anim-first {
+    background-image: url('../assets/icons/heart-red.svg');
+}
+
+.product-favorite-active .product-button-anim-second {
+    background-image: url('../assets/icons/heart-red.svg');
 }
 
 .product-loupe .product-button-anim-first {
