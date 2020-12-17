@@ -3,6 +3,7 @@ import Home from '../views/Home.vue'
 import Contacts from '../views/Contacts.vue'
 import Catalog from '../views/Catalog.vue'
 import Single_product from '../views/Single_product.vue'
+import Myfavorite from '../views/Favorites.vue'
 import Cart from '../views/Cart.vue'
 
 const routes = [
@@ -20,6 +21,11 @@ const routes = [
     path: '/catalog',
     name: 'Catalog',
     component: Catalog
+  },
+  {
+    path: '/myfavorite',
+    name: 'Myfavorite',
+    component: Myfavorite
   },
   {
     path: '/cart',

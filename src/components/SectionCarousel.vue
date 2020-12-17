@@ -28,6 +28,12 @@
                             </div>
                             <div class = "increase-value" @click = increaseValue>+</div>
                             <div class = "item-order-options">
+                                <div class = "product-button product-favorite" data-info = "В избранное">
+                                    <div class = "product-button-inset">
+                                        <div class = "product-button-anim-first"></div>
+                                        <div class = "product-button-anim-second"></div>
+                                    </div>
+                                </div>
                                 <div class = "product-button product-loupe" data-info = "Смотреть фото">
                                     <div class = "product-button-inset">
                                         <div class = "product-button-anim-first"></div>
@@ -355,7 +361,7 @@ export default {
 }
 
 .item-add-remove {
-    width: 200px;
+    width: 220px;
     margin: 0 auto;
     display: flex;
 }
@@ -404,7 +410,7 @@ export default {
 }
 
 .item-order-options {
-    width: 100px;
+    width: 132px;
     display: flex;
     margin-left: auto;
     justify-content: space-between;
@@ -534,6 +540,20 @@ export default {
 
 .product-order .product-button-anim-second {
     background-image: url('../assets/icons/cart-white.svg');
+    background-repeat: no-repeat;
+    background-size: 16px;
+    background-position: center;
+}
+
+.product-favorite .product-button-anim-first {
+    background-image: url('../assets/icons/heart.svg');
+    background-repeat: no-repeat;
+    background-size: 16px;
+    background-position: center;
+}
+
+.product-favorite .product-button-anim-second {
+    background-image: url('../assets/icons/heart.svg');
     background-repeat: no-repeat;
     background-size: 16px;
     background-position: center;

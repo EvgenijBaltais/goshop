@@ -13,7 +13,7 @@
             <router-link :to = "{name: 'Contacts'}" class = "main-navigation__link">Контакты</router-link>
         </div>
         <div class = "main-navigation__item">
-            <router-link :to = "{name: 'Single_product'}" class = "main-navigation__link">Test</router-link>
+            <router-link :to = "{path: '/myfavorite'}" class = "main-navigation__link">Избранное</router-link>
         </div>
     </div>
 </template>

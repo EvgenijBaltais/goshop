@@ -1,6 +1,5 @@
 <template>
   <div>
-
       <DeliveryInfoStripe />
       <SlideSection />
       <BestsellersSection />
@@ -10,9 +9,7 @@
         :categories = "item"
         :products = "products"
       />
-
       <SubscribeBlock />
-
   </div>
 </template>
 
