@@ -11,6 +11,12 @@
             </div>
             <div class = "increase-value" @click = increaseValue>+</div>
             <div class = "item-order-options">
+                <div :class = "['product-button', 'product-favorite', {'product-favorite-active': favoriteItems.includes(items.id)}]" @click = "checkActive" data-info = "В избранное">
+                    <div class = "product-button-inset">
+                        <div class = "product-button-anim-first"></div>
+                        <div class = "product-button-anim-second"></div>
+                    </div>
+                </div>
                 <div class = "product-button product-loupe" data-info = "Смотреть фото">
                     <div class = "product-button-inset">
                         <div class = "product-button-anim-first"></div>
@@ -40,9 +46,7 @@
 </div>
 </template>
 
-
 <script>
-
 export default {
     name: 'Catalog_item',
     props: {
@@ -114,9 +118,45 @@ export default {
                     })
             })
         },
+        checkActive(){
+
+            let parent = this.getParent(event.target, 'product-button')
+            
+                parent.classList.contains('product-favorite-active') ?
+                parent.classList.remove('product-favorite-active') :
+                parent.classList.add('product-favorite-active')
+
+                this.addToFavorite(event.target)
+        },
+        addToFavorite(el){
+
+            for (let i = 0; i < this.items.length; i++) {
+
+                if (this.items[i].id == this.getParent(el, 'catalog__item').getAttribute('data-id')) {
+
+                    // Найти в массиве товаров по id нужный объект с данными по элементу и отправить в state с избранным
+                    this.$store.dispatch({
+                        type: 'changeFavorite',
+                        product: this.items[i]
+                    })
+                    break
+                }
+            }
+        },
         getParent: function(el, cls){
             while ((el = el.parentElement) && !el.classList.contains(cls));
             return el;
+        }
+    },
+    computed: {
+        favoriteItems(){
+
+            let arr = []
+
+            for (let i = 0; i < this.$store.state.favorite.length; i++) {
+                arr.push(this.$store.state.favorite[i].id)
+            }
+            return arr
         }
     }
 }
@@ -175,7 +215,7 @@ export default {
     margin: 5px 0;
 }
 .item-add-remove {
-    width: 200px;
+    width: 220px;
     margin: 0 auto;
     display: flex;
 }
@@ -219,7 +259,7 @@ export default {
     user-select: none;
 }
 .item-order-options {
-    width: 100px;
+    width: 132px;
     display: flex;
     margin-left: auto;
     justify-content: space-between;
@@ -342,6 +382,28 @@ export default {
     background-repeat: no-repeat;
     background-size: 16px;
     background-position: center;
+}
+
+.product-favorite .product-button-anim-first {
+    background-image: url('../assets/icons/heart.svg');
+    background-repeat: no-repeat;
+    background-size: 16px;
+    background-position: center;
+}
+
+.product-favorite .product-button-anim-second {
+    background-image: url('../assets/icons/heart.svg');
+    background-repeat: no-repeat;
+    background-size: 16px;
+    background-position: center;
+}
+
+.product-favorite-active .product-button-anim-first {
+    background-image: url('../assets/icons/heart-red.svg');
+}
+
+.product-favorite-active .product-button-anim-second {
+    background-image: url('../assets/icons/heart-red.svg');
 }
 
 .product-loupe .product-button-anim-first {

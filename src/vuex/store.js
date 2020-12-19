@@ -11,7 +11,8 @@ const store = createStore({
             flowers: [],
             colors: [],
             occasions: [],
-            bestsellers: []
+            bestsellers: [],
+            favorite: []
         }
     },
     mutations: {
@@ -40,13 +41,15 @@ const store = createStore({
         },
         ADD_ITEMS_TO_CART: (state, arr) => {
             state.cart = arr
-            //console.log(state.cart)
         },
         CHANGE_CART: (state, arr) => {
             state.cart = arr
         },
         REMOVE_FROM_CART: (state, arr) => {
             state.cart = arr
+        },
+        CHANGE_FAVORITE: (state, arr) => {
+            state.favorite = arr
         }
     },
     actions: {
@@ -171,6 +174,29 @@ const store = createStore({
                 }
             }
             this.commit('REMOVE_FROM_CART', newCart)
+        },
+        changeFavorite({state}, data) {
+
+            let favorite = state.favorite,
+                productExists = 0,
+                arr = []
+
+            //  Проверить, есть ли уже этот элемент в избранном
+
+            for (let i = 0; i < favorite.length; i++) {
+
+                if (data.product.id == favorite[i].id) {
+                    productExists++
+                    continue
+                }
+                else {
+                    arr.push(favorite[i])
+                }
+            }
+
+            if (!productExists) arr.push(data.product)
+
+           this.commit('CHANGE_FAVORITE', arr)
         }
     },
     getters: {

@@ -28,13 +28,13 @@
                             </div>
                             <div class = "increase-value" @click = increaseValue>+</div>
                             <div class = "item-order-options">
-                                <div class = "product-button product-favorite" @click = "checkActive" data-info = "В избранное">
+                                <div :class = "['product-button', 'product-favorite', {'product-favorite-active': favoriteItems.includes(item.id)}]" @click = "checkActive" data-info = "В избранное">
                                     <div class = "product-button-inset">
                                         <div class = "product-button-anim-first"></div>
                                         <div class = "product-button-anim-second"></div>
                                     </div>
                                 </div>
-                                <div class = "product-button product-loupe" data-info = "Смотреть фото">
+                                <div class = "product-button product-loupe" @click = "showGallery" data-info = "Смотреть фото">
                                     <div class = "product-button-inset">
                                         <div class = "product-button-anim-first"></div>
                                         <div class = "product-button-anim-second"></div>
@@ -180,13 +180,28 @@ export default {
         },
         checkActive(){
 
-            console.log(event.target)
-
             let parent = this.getParent(event.target, 'product-button')
             
-            parent.classList.contains('product-favorite-active') ?
-            parent.classList.remove('product-favorite-active') :
-            parent.classList.add('product-favorite-active')
+                parent.classList.contains('product-favorite-active') ?
+                parent.classList.remove('product-favorite-active') :
+                parent.classList.add('product-favorite-active')
+
+                this.addToFavorite(event.target)
+        },
+        addToFavorite(el){
+
+            for (let i = 0; i < this.products.length; i++) {
+
+                if (this.products[i].id == this.getParent(el, 'category-slider__item').getAttribute('data-id')) {
+
+                    // Найти в массиве товаров по id нужный объект с данными по элементу и отправить в state с избранным
+                    this.$store.dispatch({
+                        type: 'changeFavorite',
+                        product: this.products[i]
+                    })
+                    break
+                }
+            }
         },
         addToCart() {
 
@@ -236,9 +251,52 @@ export default {
                     })
             })
         },
+        showGallery: function(){
+
+            console.log(1111)
+            
+            let gallery = `<div class = "gallery"></div>`
+
+            //document.getElementById('app').
+            document.querySelector('body').insertAdjacentHTML('beforeend', gallery)
+            this.body_lock()
+
+        },
         getParent: function(el, cls){
             while ((el = el.parentElement) && !el.classList.contains(cls));
             return el;
+        },
+        body_lock: function() {
+            let body = document.querySelector('body')
+            if (!body.classList.contains('scroll-locked')) {
+                let bodyScrollTop = (typeof window.pageYOffset !== 'undefined') ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+                body.classList.add('scroll-locked');
+                body.style.top = "-" + bodyScrollTop + "px"
+                body.setAttribute("data-popup-scrolltop", bodyScrollTop)
+            }
+        },
+        body_unlock: function() {
+
+            let body = document.querySelector('body')
+
+            if (body.classList.contains('scroll-locked')) {
+                let bodyScrollTop = body.getAttribute("data-popup-scrolltop");
+                body.classList.remove('scroll-locked');
+                body.style.top = ""
+                body.removeAttribute("data-popup-scrolltop")
+                window.scrollTo(0, bodyScrollTop)
+            }
+        }
+    },
+    computed: {
+        favoriteItems(){
+
+            let arr = []
+
+            for (let i = 0; i < this.$store.state.favorite.length; i++) {
+                arr.push(this.$store.state.favorite[i].id)
+            }
+            return arr
         }
     }
 }
@@ -451,7 +509,6 @@ export default {
 }
 
 .product-button-inset {
-
     position: absolute;
     bottom: 0;
     left: 0;
