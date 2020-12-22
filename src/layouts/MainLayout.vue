@@ -32,13 +32,16 @@ export default {
 
         makeNavbarFixedAgain(){
             if (pageYOffset > this.siteHeader.offsetHeight && this.fixedHeader == 0) {
+                this.siteHeader.nextSibling.style.marginTop = this.siteHeader.nextSibling.offsetTop + 'px';
                 this.siteHeader.classList.add('site-header-fixed')
                 this.fixedHeader = 1
+                console.log(111)
                 return false
             }
             else if (pageYOffset <= this.siteHeader.offsetHeight + 50 && this.fixedHeader == 1) {
-                this.fixedHeader = 0
                 this.siteHeader.classList.remove('site-header-fixed')
+                this.siteHeader.nextSibling.removeAttribute('style')
+                this.fixedHeader = 0
                 return false
             }
         }
@@ -72,9 +75,6 @@ export default {
     background-color: #fff;
     z-index: 5;
     box-shadow: 0 0 3px 0 rgba(0,0,0,.1);
-}
-.site-header-fixed + div {
-    margin-top: 214px;
 }
 .site-header-fixed .logo-block__search {
     display: none;

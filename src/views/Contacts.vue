@@ -15,7 +15,9 @@
         </form>
 
     </div>
-    <div class = "map-block"></div>
+    <div class = "map-block">
+        <img :src="require('../assets/pics/shop.jpg')" alt="" class = "shop-image">
+    </div>
     
 </div>
 </template>
@@ -138,4 +140,11 @@ input[type="text"][placeholder]               {font-size: 16px;line-height: 24px
 .c-text:-moz-placeholder           {font-size: 16px;line-height: 24px;font-family: 'Neucha', cursive;}
 .c-text:-ms-input-placeholder      {font-size: 16px;line-height: 24px;font-family: 'Neucha', cursive;}
 .c-text[placeholder]               {font-size: 16px;line-height: 24px; font-family: 'Neucha', cursive;}
+
+.shop-image {
+    width: 100%;
+    display: block;
+    margin: 20px auto;
+}
+
 </style>
