@@ -100,7 +100,6 @@
 
 <script>
 
-//import axios from 'axios'
 import Catalog_item from '../components/Catalog_item'
 import axios from 'axios'
 

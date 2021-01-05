@@ -128,20 +128,13 @@ export default {
 
                 this.addToFavorite(event.target)
         },
-        addToFavorite(el){
+        addToFavorite(){
 
-            for (let i = 0; i < this.items.length; i++) {
-
-                if (this.items[i].id == this.getParent(el, 'catalog__item').getAttribute('data-id')) {
-
-                    // Найти в массиве товаров по id нужный объект с данными по элементу и отправить в state с избранным
-                    this.$store.dispatch({
-                        type: 'changeFavorite',
-                        product: this.items[i]
-                    })
-                    break
-                }
-            }
+            // Найти в массиве товаров по id нужный объект с данными по элементу и отправить в state с избранным
+            this.$store.dispatch({
+                type: 'changeFavorite',
+                product: this.items
+            })
         },
         getParent: function(el, cls){
             while ((el = el.parentElement) && !el.classList.contains(cls));

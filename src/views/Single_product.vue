@@ -32,72 +32,93 @@
         <div class = "product-text">
             <p class = "product-text__p">{{product.description}}</p>
         </div>
+        <div class = "product-amount-info">
+            <p class = "product-amount-text">
+                <span class = "product-amount-text-span">Количество:</span>
+                <a class = "product-decrease-value" @click = "decreaseValue">−</a>
+                <span class = "product-amount-text-value">1</span>
+                <a class = "product-increase-value" @click = "increaseValue">+</a>
+            </p>
+            <p class = "product-price-text">
+                <span class = "product-amount-price">Сумма заказа: </span>
+                <span class = "product-amount-price-value">
+                    <span class = "product-final-value"> {{product.price}}</span> руб
+                </span>
+            </p>
+        </div>
         <div class="product-contains" v-on:click = "openContainer()">
             <div class="product-contains__title">
-                <span>Состав букета</span>
+                <span>Состав букета:</span>
                 <img src="../assets/icons/to-bottom.svg" alt="" class = "to-bottom-arrow">
             </div>
             <div class="product-contains__inside">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis consequuntur numquam fuga! Dolorum sapiente necessitatibus, dicta totam eaque sit laborum quasi quas, deserunt natus saepe fugiat. Molestiae praesentium accusantium eius?
             </div>
         </div>
-        
-        <datepicker-lite 
-          :id-attr="datepickerSetting.id"
-          :name-attr="datepickerSetting.name"
-          :class-attr="datepickerSetting.class"
-          :value-attr="datepickerSetting.value"
-          :year-minus="datepickerSetting.yearMinus"
-          :from="datepickerSetting.fromDate"
-          :to="datepickerSetting.toDate"
-          :disabled-date="datepickerSetting.disabledDate"
-          :locale="datepickerSetting.locale"
-          @value-changed="datepickerSetting.changeEvent"
-        />
-        
-        <div @click = "addToCart()">
-            <button class="item-order">Оформить заказ</button>
+        <div class = "order-datepicker-wrap">
+            <div class = "datepicker-title">
+                <span>Выберите дату заказа:</span>
+            </div>
+            <div class = "order-datepicker-insert"></div>
+            <div class = "when-choose">
+                <p class = "order-info-item">Вы выбрали дату: <span class = "choosen-date" id = "choosen-date"></span></p>
+                <p class = "order-info-item">Выберите предпочтительное время:</p>
+                <div class = "time-variants">
+                    <div class = "time-item" @click = "activateTime">10:00</div>
+                    <div class = "time-item" @click = "activateTime">11:00</div>
+                    <div class = "time-item" @click = "activateTime">12:00</div>
+                    <div class = "time-item" @click = "activateTime">13:00</div>
+                    <div class = "time-item" @click = "activateTime">14:00</div>
+                    <div class = "time-item" @click = "activateTime">15:00</div>
+                    <div class = "time-item" @click = "activateTime">16:00</div>
+                    <div class = "time-item" @click = "activateTime">17:00</div>
+                    <div class = "time-item" @click = "activateTime">18:00</div>
+                    <div class = "time-item" @click = "activateTime">19:00</div>
+                    <div class = "time-item" @click = "activateTime">20:00</div>
+                    <div class = "time-item" @click = "activateTime">21:00</div>
+                    <div class = "time-item" @click = "activateTime">22:00</div>
+                    <div class = "time-item" @click = "activateTime">23:00</div>
+                    <div class = "time-item" @click = "activateTime">24:00</div>
+                </div>
+            </div>
+        </div>
+        <div class = "order-details">
+            <div class = "order-details-form">
+                <div class = "order-details-text">
+                    <p>Оставьте Ваши контактные данные для уточнения деталей и подтверждения заказа.<br>
+                        Мы свяжемся с Вами и уточним все нюансы.<br>
+                        Для этого достаточно указать номер телефона, остальные поля по желанию:
+                    </p>
+                </div>
+                <form action="/" class = "order-data-fields">
+                    <input type="phone" class = "order-data-phone mandatory-info" placeholder = "+7 (___) ___-__-__">
+                    <input type="name" class = "order-data-name" placeholder = "Ваше имя">
+                    <input type="email" class = "order-data-email" placeholder = "_@_.__">
+                    <input type="adress" class = "order-data-adress" placeholder = "Адрес доставки">
+                    <textarea name="additional-info"  class = "order-data-additional" placeholder = "Дополнительные пожелания"></textarea>
+                    <button class = "send-order" @click.prevent = "sendOrder()">Отправить заказ!</button>
+                </form>
+            </div>
+            <button class="item-order" @click = "getOrderForm()">Оформить заказ</button>
         </div>
     </div>
 </div>
 </template>
 
 <script>
-import DatepickerLite from 'vue3-datepicker-lite';
+
+const pickmeup = require('pickmeup/dist/pickmeup.min.js')
+import Inputmask from "inputmask"
 import axios from 'axios'
 
 export default {
     name: 'Single_product',
-    components: { DatepickerLite },
+    components: {},
     data(){
         return {
             product: {},
             images: [],
-            datepickerSetting: {
-              id: "birthday",
-              name: "birthday",
-              class: "myDateInput",
-              value: "2020/10/01",
-              yearMinus: 0,
-              fromDate: "2010/02/10",
-              toDate: "2030/12/10",
-              disabledDate: [
-                "2020/10/02",
-                "2020/10/03",
-                "2020/10/04",
-                "2020/10/05",
-                "2020/10/06",
-              ],
-              locale: {
-                weekday: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-                todayBtn: "Today",
-                clearBtn: "Clear",
-                closeBtn: "Close",
-              },
-              changeEvent: (value) => {
-                console.log(value + " selected!");
-              }
-            }
+            sendingForm: 0
         }
     },
     methods: {
@@ -215,12 +236,125 @@ export default {
             width = items[elementIndex].offsetWidth + parseFloat(getComputedStyle(items[elementIndex], null).marginRight.replace("px", ""))
             parent.style.marginLeft = -(elementIndex - 1) * width + 'px'
         },
+        makeOrder: function(){
+
+        },
         addToCart() {
             this.$store.dispatch({
                 type: 'addToCart',
                 id: this.product_id,
                 amount: 1
             })
+        },
+        getOrderForm: function(){
+
+            const offsetTop = event.target.offsetTop + 120
+
+            if (event.target.classList.contains('item-order-active')) {
+                document.querySelector('.order-details-form').removeAttribute('style')
+                event.target.classList.remove('item-order-active')
+                event.target.innerText = "Оформить заказ"
+                return false
+            }
+            else {
+                document.querySelector('.order-details-form').style.display = "block"
+                event.target.classList.add('item-order-active')
+                event.target.innerText = "Скрыть данные заказа"
+            }
+
+            scroll({
+                top: offsetTop,
+                behavior: "smooth"
+            });
+        },
+        sendOrder: function(){
+
+            if (this.sendingForm != 0) return false
+            
+            let form = event.target.parentNode
+
+            if (!form.querySelector('.order-data-phone').inputmask.isComplete()) {
+                form.querySelector('.order-data-phone').style.outline = '1px solid red'
+                return false
+            }
+
+            this.sendingForm = 1
+
+            let clientData = {}
+
+            // Телефон
+            clientData.phone = form.querySelector('.order-data-phone').value
+
+            // Дата
+            document.getElementById('choosen-date').innerText.length == 9 ? 
+            clientData.date = document.getElementById('choosen-date').innerText : ''
+
+            // Время
+            document.querySelector('.time-item-active') ?
+            clientData.time = document.querySelector('.time-item-active').innerText : ''
+
+            // Имя
+            document.querySelector('.order-data-name').value ?
+            clientData.name = document.querySelector('.order-data-name').value : ''
+
+            // Email
+            document.querySelector('.order-data-email').value
+            && document.querySelector('.order-data-email').value.indexOf('@') != -1
+            ? clientData.email = document.querySelector('.order-data-email').value : ''
+
+            // Адрес
+            document.querySelector('.order-data-adress').value
+            ? clientData.adress = document.querySelector('.order-data-adress').value : ''
+
+            // Дополнительная инфа
+            document.querySelector('.order-data-additional').value
+            ? clientData.additional = document.querySelector('.order-data-additional').value : ''
+
+            // Инфа по товару
+
+            clientData.product_id = this.product_id
+            clientData.amount = parseInt(document.querySelector('.product-amount-text-value').innerText)
+
+            //console.log(clientData)
+
+            axios.interceptors.request.use((req) => {
+                    console.log(req)
+                    return req
+                }
+            )
+
+            axios.interceptors.response.use((res) => {
+                    console.log(res.data)
+                    return res
+                }
+            )
+
+                axios
+                .post('//localhost:3000/send_order', {
+                    params: {
+                        'clientData': clientData
+                    }
+                }).then(response => {
+                    
+                    console.log(response)
+                })
+
+        },
+        increaseValue: function(){
+            let parent = this.getParent(event.target, 'product-amount-text'),
+                value = parseInt(parent.querySelector('.product-amount-text-value').innerText)
+                value < 100 ? parent.querySelector('.product-amount-text-value').innerText = value + 1 : ''
+
+                document.querySelector('.product-final-value').innerText = this.product.price * (value + 1)
+        },
+        decreaseValue: function(){
+            let parent = this.getParent(event.target, 'product-amount-text'),
+                value = parseInt(parent.querySelector('.product-amount-text-value').innerText)
+
+                if (value < 2) return false
+
+                parent.querySelector('.product-amount-text-value').innerText = value - 1
+                document.querySelector('.product-final-value').innerText = this.product.price * (value - 1)
         },
         getParent: function(el, cls){
             while ((el = el.parentElement) && !el.classList.contains(cls));
@@ -230,6 +364,13 @@ export default {
             for (let i = 0; i < arr.length; i++) {
                 if (event.target == arr[i]) return i;
             }
+        },
+        activateTime: function(){
+           
+           if (event.target.parentNode.querySelector('.time-item-active')) {
+               event.target.parentNode.querySelector('.time-item-active').classList.remove('time-item-active')
+           }
+            event.target.classList.add('time-item-active')
         }
     },
     computed: {
@@ -261,11 +402,52 @@ export default {
             }).then(response => {
                 this.images = response.data
             })
+
+            // Календарь для заказа
+
+            pickmeup.defaults.locales['ru'] = {
+                days: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
+                daysShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+                daysMin: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+                months: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+                monthsShort: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек']
+            };
+
+            pickmeup('.order-datepicker-insert', {
+                'calendars': 2,
+                'locale': 'ru',
+                'current': 1,
+                'class_name': 'order-datepicker',
+                'min': new Date,
+                'format': 'd.m.Y',
+                'select_year': false
+            })
+
+            pickmeup('.order-datepicker-insert').show();
+
+            document.querySelector('.order-datepicker-insert').addEventListener('pickmeup-change', function (e) {
+                
+                document.querySelector('.when-choose').style.display = 'block'
+                document.getElementById('choosen-date').innerText = e.detail.formatted_date
+            })
+
+            // Маска телефона
+            
+            let im = new Inputmask("+7 (999) 999-99-99")
+                im.mask(document.querySelector(".order-data-phone"))
+
+            document.querySelector('.order-data-phone').addEventListener('keyup', function(){
+                event.target.style.outline = '1px solid #94CBE0'
+            })
+            document.querySelector('.order-data-phone').addEventListener('focus', function(){
+                event.target.style.outline = '1px solid #94CBE0'
+            })
     }
 }
 </script>
 
 <style>
+@import '../../node_modules/pickmeup/css/pickmeup.css';
 
 .bold-text {
     font-weight: bold;
@@ -397,12 +579,17 @@ export default {
 
 .product-text__p {
     padding: 10px 0 20px 0;
-    font-size: 16px;
-    line-height: 20px;
+    font-size: 18px;
+    line-height: 22px;
+}
+
+.order-details-text {
+    font-size: 18px;
+    line-height: 22px;  
 }
 
 .product-contains {
-    margin: 10px 0;
+    margin: 0 0 10px 0;
     border-top: 1px solid #E4E4E4;
     border-bottom: 1px solid #E4E4E4;
     padding: 10px;
@@ -457,18 +644,406 @@ export default {
     height: 90px;
     font-size: 20px;
     line-height: 90px;
-    color: #292B2C;
+    color: #fff;
     font-weight: bold;
     cursor: pointer;
     border: 0;
     outline: 0;
-    background: #AFD7BB;
+    background: #136A9F;
     transition: background-color .2s;
+    user-select: none;
+    letter-spacing: 1px;
+    font-family: 'Neucha', cursive;
 }
 
 .item-order:hover {
-    background: #BCE4C8;
+    background: #008029;
     transition: background-color .2s;
 }
+
+/* Календарь */
+
+.datepicker-title {
+    background: #94cbe0;
+    color: #fff;
+}
+
+.order-datepicker-insert {
+    position: relative;
+    box-sizing: border-box;
+}
+
+.order-datepicker-wrap {
+    border: 1px solid #94CBE0;
+    box-sizing: border-box;
+    border-radius: 3px;
+    background: #F6F6F6;
+    overflow: hidden;
+}
+
+.order-datepicker-insert .pickmeup {
+    position: relative;
+    display: block;
+    border-radius: 0;
+    background: #F6F6F6;
+    top: 0!important;
+    left: 0!important;
+}
+.order-datepicker-insert .pmu-instance {
+    width: 50%;
+}
+.datepicker-title {
+    padding: 12px 20px;
+    box-sizing: border-box;
+    font-size: 18px;
+    line-height: 24px;
+    font-weight: bold;
+}
+.pickmeup .pmu-instance .pmu-month {
+    color: #363D40;
+    font-size: 18px;
+    line-height: 30px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.pickmeup .pmu-instance:first-child .pmu-prev,
+.pickmeup .pmu-instance:last-child .pmu-next {
+    display: block;
+    width: 30px;
+    height: 30px;
+    font-family: 'verdana';
+    color: #fff!important;
+    text-align: center;
+    font-size: 24px;
+    line-height: 30px;
+    font-weight: bold;
+    border-radius: 50%;
+    background: #94CBE0;
+}
+
+.pickmeup .pmu-instance .pmu-day-of-week {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 20px;
+    color: #292B2C;
+    font-weight: bold;
+}
+.pickmeup .pmu-instance {
+    height: auto;
+}
+.pmu-days {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.pmu-months {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding-top: 20px
+}
+
+.pmu-months .pmu-button {
+    margin-bottom: 5px;
+    background: #94CBE0;
+}
+
+.pmu-view-months .pmu-instance .pmu-button:hover {
+    background: #136A9F;
+    color: #fff;
+}
+
+.pickmeup .pmu-days .pmu-button {
+    width: 35px;
+    height: 40px;
+    line-height: 40px;
+    font-weight: bold;
+    border: 1px solid #8A979E;
+    box-sizing: border-box;
+    margin-bottom: 2px;
+    background: #fff;
+    color: #576167;
+}
+
+.pickmeup .pmu-days .pmu-disabled.pmu-button {
+    color: #c8c8c8;
+    cursor: default;
+}
+
+.pickmeup .pmu-days .pmu-selected.pmu-button {
+    background: #E3F1F7!important;
+}
+
+.pickmeup .pmu-days .pmu-today.pmu-button {
+    background: #F0FEFF;
+}
+
+.pickmeup .pmu-days .pmu-disabled.pmu-button {
+    color: #DDDDE8;
+}
+
+.order-selected-info {
+    border: 1px solid #94CBE0;
+    border-top: 0;
+    background: #F6F6F6;
+    padding: 12px 20px;
+    border-radius: 0 0 3px 3px;
+    margin-top: -2px;
+}
+
+.order-info-item {
+    padding: 10px 5px 0 0;
+    font-size: 18px;
+    line-height: 20px;
+}
+
+.when-choose {
+    display: none;
+    padding: 10px 20px 20px 20px;
+}
+
+.choosen-date {
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.time-variants {
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 20px;
+}
+
+.time-item {
+    width: 18%;
+    margin-right: 2.5%;
+    padding: 10px 0;
+    text-align: center;
+    margin-bottom: 10px;
+    color: #fff;
+    font-size: 18px;
+    line-height: 18px;
+    text-align: center;
+    border-radius: 5px;
+    background: #136A9F;
+    cursor: pointer;
+}
+
+.time-item-active {
+    background: #008029;
+}
+
+.time-item:nth-child(5n) {
+    margin-right: 0;
+}
+
+.order-details {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.order-details-form {
+    display: none;
+    width: 100%;
+    padding-top: 30px;
+}
+
+.order-data-name {
+    display: block;
+    outline: 1px solid #94CBE0!important;
+    border: 0!important;
+    box-sizing: border-box;
+    width: 75%;
+    height: 50px;
+    margin-bottom: 20px;
+    padding: 10px;
+    font-size: 18px;
+    letter-spacing: 1px;
+    line-height: 20px;
+    font-family: 'Neucha', cursive;
+    color: #757575;
+}
+.order-data-email {
+    display: block;
+    outline: 1px solid #94CBE0!important;
+    border: 0!important;
+    box-sizing: border-box;
+    width: 75%;
+    height: 50px;
+    margin-bottom: 20px;
+    padding: 10px;
+    font-size: 18px;
+    line-height: 20px;
+    letter-spacing: 1px;
+    font-family: 'Neucha', cursive;
+    color: #757575;
+}
+.order-data-phone {
+    display: block;
+    outline: 1px solid #94CBE0;
+    border: 0!important;
+    box-sizing: border-box;
+    width: 75%;
+    height: 50px;
+    margin-bottom: 20px;
+    padding: 10px;
+    font-size: 18px;
+    line-height: 20px;
+    letter-spacing: 1px;
+    font-family: 'Neucha', cursive;
+    color: #757575;
+}
+.order-data-adress {
+    display: block;
+    outline: 1px solid #94CBE0!important;
+    border: 0!important;
+    box-sizing: border-box;
+    width: 75%;
+    height: 50px;
+    margin-bottom: 20px;
+    padding: 10px;
+    font-size: 18px;
+    line-height: 20px;
+    letter-spacing: 1px;
+    font-family: 'Neucha', cursive;
+    color: #757575;
+}
+.order-data-additional {
+    display: block;
+    outline: 1px solid #94CBE0!important;
+    border: 0!important;
+    box-sizing: border-box;
+    width: 75%;
+    height: 140px;
+    margin-bottom: 20px;
+    padding: 10px;
+    font-size: 18px;
+    line-height: 20px;
+    letter-spacing: 1px;
+    font-family: 'Neucha', cursive;
+    resize: vertical;
+    color: #757575;
+}
+.order-data-fields input::-webkit-input-placeholder {font-size: 18px;line-height: 20px;font-family: 'Neucha', cursive;letter-spacing: 1px;}
+.order-data-fields input::-moz-placeholder {font-size: 18px;line-height: 20px;font-family: 'Neucha', cursive;letter-spacing: 1px;}
+.order-data-fields input:-moz-placeholder {font-size: 18px;line-height: 20px;font-family: 'Neucha', cursive;letter-spacing: 1px;}
+.order-data-fields input:-ms-input-placeholder {font-size: 18px;line-height: 20px;font-family: 'Neucha', cursive;letter-spacing: 1px;}
+.order-data-additional::-webkit-input-placeholder {font-size: 18px;line-height: 20px;font-family: 'Neucha', cursive;letter-spacing: 1px;}
+.order-data-additional::-moz-placeholder {font-size: 18px;line-height: 20px;font-family: 'Neucha', cursive;letter-spacing: 1px;}
+.order-data-additional:-moz-placeholder {font-size: 18px;line-height: 20px;font-family: 'Neucha', cursive;letter-spacing: 1px;}
+.order-data-additional:-ms-input-placeholder {font-size: 18px;line-height: 20px;font-family: 'Neucha', cursive;letter-spacing: 1px;}
+
+.send-order {
+    display: block;
+    background: #136A9F;
+    border: 0!important;
+    outline: 0!important;
+    width: 60%;
+    text-align: center;
+    height: 50px;
+    color: #fff;
+    font-size: 16px;
+    line-height: 20px;
+    font-family: 'Arial';
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    font-family: 'Neucha', cursive;
+    transition: background .3s;
+}
+.send-order:hover {
+    background: #008029;
+    transition: background .3s;
+}
+.item-order-active {
+    text-align: left;
+    width: 210px;
+    padding: 0 20px;
+    height: 40px;
+    margin: 30px 0;
+    line-height: 40px;
+    font-size: 14px;
+    font-weight: normal;
+    color: #fff;
+    background-color: #94CBE0;
+    background-image: url('../assets/icons/top.svg');
+    background-position: 95% center;
+    background-size: 20px;
+    background-repeat: no-repeat;
+}
+
+.item-order-active:hover {
+    background-color: #94CBE0;
+    background-image: url('../assets/icons/top.svg');
+    background-position: 95% center;
+    background-size: 20px;
+    background-repeat: no-repeat;
+}
+
+.order-details-text {
+    padding-bottom: 30px;
+}
+
+.product-amount-info {
+    padding: 10px;
+    border-top: 1px solid #E4E4E4;
+}
+.product-amount-text {
+    padding-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.product-price-text {
+    display: flex;
+    align-items: center;
+}
+
+.product-amount-price {
+    font-size: 18px;
+    line-height: 24px;
+    padding-right: 10px;
+}
+
+.product-amount-price-value {
+    font-size: 22px;
+    line-height: 24px;
+    font-weight: bold;
+}
+
+.product-amount-text-span {
+    font-size: 18px;
+    line-height: 24px;
+    padding-right: 20px;
+    user-select: none;
+}
+.product-decrease-value {
+    font-size: 24px;
+    line-height: 30px;
+    font-weight: bold;
+    padding: 0 10px;
+    cursor: pointer;
+    user-select: none;
+}
+.product-increase-value {
+    font-size: 24px;
+    line-height: 30px;
+    font-weight: bold;
+    padding: 0 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.product-amount-text-value {
+    font-size: 22px;
+    line-height: 30px;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Календарь, конец */
 
 </style>

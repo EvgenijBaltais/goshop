@@ -279,4 +279,15 @@ app.put('/products/:id', (req, res) => {
     })
 })
 
+app.post('/send_order', (req, res) => {
+
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+
+        console.log(req.method)
+        console.log(req.body.params)
+        res.send('Data is recieved')
+})
+
 //pool.end()

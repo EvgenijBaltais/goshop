@@ -41,15 +41,19 @@ const store = createStore({
         },
         ADD_ITEMS_TO_CART: (state, arr) => {
             state.cart = arr
+            localStorage.setItem('cart', JSON.stringify(arr))
         },
         CHANGE_CART: (state, arr) => {
             state.cart = arr
+            localStorage.setItem('cart', JSON.stringify(arr))
         },
         REMOVE_FROM_CART: (state, arr) => {
             state.cart = arr
+            localStorage.setItem('cart', JSON.stringify(arr))
         },
         CHANGE_FAVORITE: (state, arr) => {
             state.favorite = arr
+            localStorage.setItem('favorite', JSON.stringify(arr))
         }
     },
     actions: {
@@ -177,6 +181,8 @@ const store = createStore({
         },
         changeFavorite({state}, data) {
 
+            console.log('CHANGE_FAVORITE')
+
             let favorite = state.favorite,
                 productExists = 0,
                 arr = []
@@ -205,5 +211,19 @@ const store = createStore({
         }
     }
 })
+
+// Хранение данных в localstorage
+
+// Данные корзины заказов
+
+if (localStorage.getItem('cart')) {
+    JSON.parse(localStorage.getItem('cart')).length > 0 ? store.state.cart = JSON.parse(localStorage.getItem('cart')) : ''
+}
+
+// Избранное
+
+if (localStorage.getItem('favorite')) {
+    JSON.parse(localStorage.getItem('favorite')).length > 0 ? store.state.favorite = JSON.parse(localStorage.getItem('favorite')) : ''
+}
 
 export default store

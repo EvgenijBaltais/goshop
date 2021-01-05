@@ -47,8 +47,8 @@ export default {
     }
 
     .main-navigation__link {
-        font-size: 16px;
-        line-height: 20px;
+        font-size: 18px;
+        line-height: 22px;
         letter-spacing: normal;
         cursor: pointer;
         text-decoration: none!important;
