@@ -253,11 +253,33 @@ export default {
         },
         showGallery: function(){
 
-            let gallery = `<div class = "gallery"></div>`
+            let product_id = this.getParent(event.target, 'category-slider__item').getAttribute('data-id')
+
+            console.log(product_id)
+
+            let gallery = `
+                <div class = "overlay">
+                    <div class = "gallery">
+                        <img src = "${require('../assets/pics/bouquets/' + 1 + '/1.jpg')}" class = "">
+                    </div>
+                </div>`
+
+                let getParent = this.getParent,
+                    body_unlock = this.body_unlock
+
+                let close = document.createElement('div')
+                    close.classList.add('gallery-close')
+                    close.addEventListener('click', function(e){
+                        getParent(e.target, 'overlay').remove()
+                        body_unlock()
+                    })
 
             document.querySelector('body').insertAdjacentHTML('beforeend', gallery)
+            document.querySelector('.gallery').appendChild(close)
             this.body_lock()
-
+        },
+        closeGallery: function(){
+            console.log('close')
         },
         getParent: function(el, cls){
             while ((el = el.parentElement) && !el.classList.contains(cls));

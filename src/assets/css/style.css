@@ -71,16 +71,6 @@
     }
 }
 
-.gallery {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0,0,0,.3);
-    z-index: 10;
-}
-
 .scroll-locked {
     position: fixed;
     left: 0;
@@ -88,3 +78,40 @@
     height: 100%;
     overflow: hidden;
   }
+
+  /* Всплывающее окно */
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,.7);
+    z-index: 4;
+    overflow: auto;
+}
+
+.gallery {
+    position: relative;
+    max-width: 600px;
+    min-height: 200px;
+    margin: 10% auto;
+    background: #fff;
+    z-index: 5;
+}
+
+.gallery-close {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    background-image: url('../../assets/icons/close.svg');;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 30px;
+    cursor: pointer;
+}
+
+/* Всплывающее окно, конец */

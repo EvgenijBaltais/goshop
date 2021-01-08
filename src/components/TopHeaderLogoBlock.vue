@@ -3,7 +3,7 @@
         <div class = "logo-block__search">
             <div class = "logo-block__input">
                 <form action="">
-                    <input type="text" name = "main-search" class = "main-search" placeholder="Поиск..." value = "роза">
+                    <input type="text" name = "main-search" class = "main-search" placeholder="Поиск...">
                     <button class = "main-search-btn" @click.prevent = "searchInfo"></button>
                 </form>
             </div>
