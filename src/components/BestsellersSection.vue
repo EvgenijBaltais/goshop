@@ -13,13 +13,13 @@
                         v-for = "(item, index) in bestsellers"
                         :key = "item.id">
                     <div class="category-slider__picwrapper">
-                        <router-link :to = "{path: `/`}" class = "category-slider__link">
+                        <router-link :to = "{path: `/catalog/${item.id}`}" class = "category-slider__link">
                             <img class="category-slider__pic" :src = 'require("../assets/pics/bouquets/" + item.img + "/1.jpg")' alt="">
                         </router-link>
                     </div>
                     <div>
                         <router-link :to = "{path: `/catalog/${item.id}`}" class = "category-slider__title">{{item.title}}</router-link>
-                        <p class = "category-slider__price">{{item.price}}</p>
+                        <p class = "category-slider__price">{{item.price}} руб.</p>
                     </div>
                 </div>
             </div>
@@ -125,7 +125,17 @@ export default {
     },
     computed: {
         bestsellers(){
-            return this.$store.state.bestsellers
+            
+            let bestsellers = {},
+                i = 0
+
+            for (let key in this.$store.state.products.data) {
+
+                if (this.$store.state.products.data[key].bestseller == 0) continue
+                    bestsellers[i] = this.$store.state.products.data[key]
+                    i++
+            }
+            return bestsellers
         }
     }
 }

@@ -100,19 +100,6 @@ app.get('/get_all_products_by_categories', (req, res) => {
     })
 })
 
-// Get all bestsellers
-
-app.get('/get_all_bestsellers', (req, res) => {
-    pool.query('SELECT * from bestsellers', (err, rows, fields) => {
-        if (!err) {
-            res.send(rows)
-        }
-        else {
-            console.log(err)
-        }
-    })
-})
-
 // Получить данные для отображения каталога
 
 app.get('/catalog_products', (req, res) => {
@@ -210,18 +197,21 @@ app.get('/get_sub_menu', (req, res) => {
 })
 
 app.get('/subscribe', (req, res) => {
-   if (!req.query.email || req.query.email.indexOf('@') == -1 || req.query.email.length < 5) return false
 
-    let a = pool.query('SELECT * FROM email_subscribers where email LIKE ?', req.query.email, (err, rows, fields) => {
+    let clientData = JSON.parse(req.query.clientData)
+
+   if (!clientData.email || clientData.email.indexOf('@') == -1 || clientData.email.length < 5) return false
+
+    let a = pool.query('SELECT * FROM email_subscribers where email LIKE ?', clientData.email, (err, rows, fields) => {
         if (err) {
             res.send('Ошибка!')
             return false
         }
         if (rows.length == 0){
-            let sql = 'INSERT INTO email_subscribers (id, email, name, all_clients_key) VALUES (DEFAULT,?,DEFAULT,DEFAULT)'
-            pool.query(sql, req.query.email, (err, rows, fields) => {
+            let sql = 'INSERT INTO email_subscribers (email, name, client_id) VALUES (?,?,?)'
+            pool.query(sql, [clientData.email, clientData.name, clientData.client], (err, rows, fields) => {
                 if (!err) {
-                    res.send('Успешно!')
+                    res.send('Success')
                 }
                 else {
                     console.log(err)
@@ -229,7 +219,7 @@ app.get('/subscribe', (req, res) => {
             })
             return false
         }
-        rows[0].email == req.query.email ? res.send('Ваш id-' + rows[0].id) : ''
+        rows[0].email == clientData.email ? res.send('Email exists') : ''
     })
 })
 
@@ -285,9 +275,50 @@ app.post('/send_order', (req, res) => {
     res.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
     res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
 
-        console.log(req.method)
-        console.log(req.body.params)
-        res.send('Data is recieved')
+    let sql = 'INSERT INTO orders (phone, order_info, email, adress, additional, date, time, client_id, form_id) VALUES (?,?,?,?,?,?,?,?,?)',
+        data = req.body.params.clientData,
+        phone = data.phone.replace(/[^\d]/g, '')
+
+    if (!data.phone.length || !data.phone) {
+        res.send('Нет телефона')
+        return false
+    }
+
+    pool.query(sql, [phone, data.order, data.email, data.adress, data.additional, data.date, data.time, data.client, data.form_id], (err, rows, fields) => {
+        if (!err) {
+            res.send(rows)
+        }
+        else {
+            console.log(err)
+        }
+    })
+})
+
+app.get('/save_client_data', (req, res) => {
+    let sql = 'INSERT INTO clients (ip, user_agent) VALUES (?,?);SELECT LAST_INSERT_ID();';
+    pool.query(sql, [req.query.ip, req.query.user_agent], (err, rows, fields) => {
+        if (!err) {
+            res.send(rows)
+        }
+        else {
+            console.log(err)
+        }
+    })
+})
+
+// Поиск
+
+app.get('/clients_search', (req, res) => {
+    let sql = "SELECT * from `products` where `title` LIKE '%" + req.query.text + "%'"
+
+    pool.query(sql, (err, rows, fields) => {
+        if (!err) {
+            res.send(rows)
+        }
+        else {
+            console.log(err)
+        }
+    })
 })
 
 //pool.end()

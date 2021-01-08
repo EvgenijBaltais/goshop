@@ -7,7 +7,7 @@
         <div class = "item-add-remove">
             <div class = "decrease-value" @click = decreaseValue>−</div>
             <div class = "item-value-block">
-                <input type="text" class = "item-value" value = "0" readonly = "readonly">
+                <input type="text" class = "item-value" value = "1" readonly = "readonly">
             </div>
             <div class = "increase-value" @click = increaseValue>+</div>
             <div class = "item-order-options">
@@ -217,7 +217,7 @@ export default {
     height: 30px;
     user-select: none;
 }
-.item-value {
+.item-value-block .item-value {
     display: block;
     margin: 0% auto;
     text-align: center;
@@ -229,6 +229,7 @@ export default {
     outline: 0;
     border: 0;
     user-select: none;
+    color:000;
 }
 .decrease-value {
     width: 20px;

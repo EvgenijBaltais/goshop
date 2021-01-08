@@ -5,6 +5,7 @@ import Catalog from '../views/Catalog.vue'
 import Single_product from '../views/Single_product.vue'
 import Myfavorite from '../views/Favorites.vue'
 import Cart from '../views/Cart.vue'
+import SearchPage from '../views/SearchPage.vue'
 
 const routes = [
   {
@@ -41,6 +42,12 @@ const routes = [
     path: '/item',
     name: 'Single_product',
     component: Single_product
+  },
+  {
+    path: '/search',
+    name: 'SearchPage',
+    component: SearchPage,
+    props: true
   }
 ]
 

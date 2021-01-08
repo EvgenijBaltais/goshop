@@ -35,7 +35,6 @@ export default {
                 this.siteHeader.nextSibling.style.marginTop = this.siteHeader.nextSibling.offsetTop + 'px';
                 this.siteHeader.classList.add('site-header-fixed')
                 this.fixedHeader = 1
-                console.log(111)
                 return false
             }
             else if (pageYOffset <= this.siteHeader.offsetHeight + 50 && this.fixedHeader == 1) {

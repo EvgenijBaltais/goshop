@@ -196,8 +196,6 @@ export default {
                             }
                         }
 
-                        //console.log(element.flowers_category)
-                        
                         if (filters[i].getAttribute('data-flowertype')) {
                             for (let k = 0; k < flowers.length; k++) {
                                 if (element.flowers_category == flowers[k]) {
@@ -210,40 +208,8 @@ export default {
                         }
                     }
                 })
-
-
-            //category
-
-            // Перебор всех категорий
-
-            //for (let i = 0 ; i < )
-
-           // console.log(filterCategories)
-
-            //console.log(colors + 'colors')
-            //console.log(flowers + ' flowers')
-/*
-            for (let i = 0; i < filters.length; i++) {
-
-                newItems = this.productsFullList.filter(function(number){
-
-                    if (filters[i].getAttribute('data-category') == number.category ||
-                        filters[i].getAttribute('data-flowertype') == number.flowers_category ||
-                        filters[i].getAttribute('data-color') == number.color ||
-                        filters[i].getAttribute('data-occasiontype') == number.occasion
-                    ) {
-                        return number
-                    }
-                })
-            }
-*/
-            //console.log(newItems)
-
-            //this.products = newItems
         },
         getMoreItems(){
-            
-            console.log('getMoreItems')
 
             let allProducts = this.products
 

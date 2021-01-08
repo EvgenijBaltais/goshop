@@ -11,8 +11,8 @@ const store = createStore({
             flowers: [],
             colors: [],
             occasions: [],
-            bestsellers: [],
-            favorite: []
+            favorite: [],
+            search: []
         }
     },
     mutations: {
@@ -36,9 +36,6 @@ const store = createStore({
         SET_OCCASIONS: (state, items) => {
             state.occasions = items
         },
-        SET_BESTSELLERS: (state, items) => {
-            state.bestsellers = items
-        },
         ADD_ITEMS_TO_CART: (state, arr) => {
             state.cart = arr
             localStorage.setItem('cart', JSON.stringify(arr))
@@ -54,6 +51,10 @@ const store = createStore({
         CHANGE_FAVORITE: (state, arr) => {
             state.favorite = arr
             localStorage.setItem('favorite', JSON.stringify(arr))
+        },
+        CHANGE_SEARCH_DATA: (state, arr) => {
+            state.search = []
+            state.search = arr
         }
     },
     actions: {
@@ -108,13 +109,6 @@ const store = createStore({
                 methods: 'GET'
             }).then(items => {
                 this.commit('SET_OCCASIONS', items.data)
-            })
-        },
-        get_all_bestsellers(){
-            return axios('//localhost:3000/get_all_bestsellers', {
-                method: 'GET'
-            }).then(items => {
-                this.commit('SET_BESTSELLERS', items.data)
             })
         },
         addToCart({state}, data){
@@ -178,6 +172,10 @@ const store = createStore({
                 }
             }
             this.commit('REMOVE_FROM_CART', newCart)
+        },
+        changeSearchData({state}, data) {
+            state
+            this.commit('CHANGE_SEARCH_DATA', data.items)
         },
         changeFavorite({state}, data) {
 

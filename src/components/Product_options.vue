@@ -54,7 +54,7 @@ export default {
     height: 30px;
     user-select: none;
 }
-.item-value {
+.item-value-block .item-value {
     display: block;
     margin: 0% auto;
     text-align: center;
@@ -66,6 +66,7 @@ export default {
     outline: 0;
     border: 0;
     user-select: none;
+    color: #000!important;
 }
 .decrease-value {
     width: 20px;

@@ -99,7 +99,9 @@
                     <button class = "send-order" @click.prevent = "sendOrder()">Отправить заказ!</button>
                 </form>
             </div>
-            <button class="item-order" @click = "getOrderForm()">Оформить заказ</button>
+            <div class = "item-order-w">
+                <button class="item-order" @click = "getOrderForm()">Оформить заказ</button>
+            </div>
         </div>
     </div>
 </div>
@@ -246,6 +248,18 @@ export default {
                 amount: 1
             })
         },
+        formatDate(date){
+            var dd = date.getDate();
+            if (dd < 10) dd = '0' + dd;
+
+            var mm = date.getMonth() + 1;
+            if (mm < 10) mm = '0' + mm;
+
+            var yy = date.getFullYear();
+            if (yy < 10) yy = '0' + yy;
+
+            return yy + '-' + mm + '-' + dd;
+        },
         getOrderForm: function(){
 
             const offsetTop = event.target.offsetTop + 120
@@ -270,11 +284,9 @@ export default {
         sendOrder: function(){
 
             if (this.sendingForm != 0) return false
-            
-            let form = event.target.parentNode
 
-            if (!form.querySelector('.order-data-phone').inputmask.isComplete()) {
-                form.querySelector('.order-data-phone').style.outline = '1px solid red'
+            if (!document.querySelector('.order-data-phone').inputmask.isComplete()) {
+                document.querySelector('.order-data-phone').style.outline = '1px solid red'
                 return false
             }
 
@@ -283,11 +295,11 @@ export default {
             let clientData = {}
 
             // Телефон
-            clientData.phone = form.querySelector('.order-data-phone').value
+            clientData.phone = document.querySelector('.order-data-phone').value
 
             // Дата
-            document.getElementById('choosen-date').innerText.length == 9 ? 
-            clientData.date = document.getElementById('choosen-date').innerText : ''
+            document.getElementById('choosen-date').innerText.length == 10 ?
+            clientData.date = this.formatDate(pickmeup('.order-datepicker-insert').get_date()) : ''
 
             // Время
             document.querySelector('.time-item-active') ?
@@ -312,33 +324,49 @@ export default {
 
             // Инфа по товару
 
-            clientData.product_id = this.product_id
-            clientData.amount = parseInt(document.querySelector('.product-amount-text-value').innerText)
+            let order = {},
+                amount = parseInt(document.querySelector('.product-amount-text-value').innerText)
 
-            //console.log(clientData)
+                order[0] = {
+                    id: this.product.id,
+                    amount: amount,
+                    price: this.product.price * amount
+                }
+
+            clientData.order = JSON.stringify(order)
+
+            // Клиент
+            document.body.getAttribute('client_id') ?
+            clientData.client = document.body.getAttribute('client_id') : ''
+
+            // Номер формы
+            clientData.form_id = 1
+
+            let ev = event.target
 
             axios.interceptors.request.use((req) => {
-                    console.log(req)
+                    ev.innerText = "Отправляем..."
                     return req
                 }
             )
 
             axios.interceptors.response.use((res) => {
-                    console.log(res.data)
                     return res
                 }
             )
 
-                axios
-                .post('//localhost:3000/send_order', {
-                    params: {
-                        'clientData': clientData
-                    }
-                }).then(response => {
-                    
-                    console.log(response)
-                })
-
+            axios
+            .post('//localhost:3000/send_order', {
+                params: {
+                    'clientData': clientData
+                }
+            }).then(response => {
+                response.data == "Нет телефона" ? ev.innerText = "Не введен телефон!" : ev.innerText = "Успех!"
+                setTimeout(() => {
+                    ev.innerText = "Отправить заказ!"
+                    this.sendingForm = 0
+                }, 2000)
+            })
         },
         increaseValue: function(){
             let parent = this.getParent(event.target, 'product-amount-text'),
@@ -580,12 +608,12 @@ export default {
 .product-text__p {
     padding: 10px 0 20px 0;
     font-size: 18px;
-    line-height: 22px;
+    line-height: 24px;
 }
 
 .order-details-text {
     font-size: 18px;
-    line-height: 22px;  
+    line-height: 24px;  
 }
 
 .product-contains {
@@ -634,6 +662,12 @@ export default {
 
 .product-contains-opened .product-contains__inside {
     display: block;
+}
+
+.item-order-w {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .item-order {
@@ -855,7 +889,7 @@ export default {
     outline: 1px solid #94CBE0!important;
     border: 0!important;
     box-sizing: border-box;
-    width: 75%;
+    width: 100%;
     height: 50px;
     margin-bottom: 20px;
     padding: 10px;
@@ -870,7 +904,7 @@ export default {
     outline: 1px solid #94CBE0!important;
     border: 0!important;
     box-sizing: border-box;
-    width: 75%;
+    width: 100%;
     height: 50px;
     margin-bottom: 20px;
     padding: 10px;
@@ -885,7 +919,7 @@ export default {
     outline: 1px solid #94CBE0;
     border: 0!important;
     box-sizing: border-box;
-    width: 75%;
+    width: 100%;
     height: 50px;
     margin-bottom: 20px;
     padding: 10px;
@@ -900,7 +934,7 @@ export default {
     outline: 1px solid #94CBE0!important;
     border: 0!important;
     box-sizing: border-box;
-    width: 75%;
+    width: 100%;
     height: 50px;
     margin-bottom: 20px;
     padding: 10px;
@@ -915,7 +949,7 @@ export default {
     outline: 1px solid #94CBE0!important;
     border: 0!important;
     box-sizing: border-box;
-    width: 75%;
+    width: 100%;
     height: 140px;
     margin-bottom: 20px;
     padding: 10px;
@@ -925,6 +959,9 @@ export default {
     font-family: 'Neucha', cursive;
     resize: vertical;
     color: #757575;
+}
+.order-data-fields {
+    width: 75%;
 }
 .order-data-fields input::-webkit-input-placeholder {font-size: 18px;line-height: 20px;font-family: 'Neucha', cursive;letter-spacing: 1px;}
 .order-data-fields input::-moz-placeholder {font-size: 18px;line-height: 20px;font-family: 'Neucha', cursive;letter-spacing: 1px;}

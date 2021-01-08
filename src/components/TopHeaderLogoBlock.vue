@@ -2,8 +2,10 @@
     <div class = "logo-block">
         <div class = "logo-block__search">
             <div class = "logo-block__input">
-                <input type="text" name = "main-search" class = "main-search" placeholder="Поиск...">
-                <button class = "main-search-btn"></button>
+                <form action="">
+                    <input type="text" name = "main-search" class = "main-search" placeholder="Поиск..." value = "роза">
+                    <button class = "main-search-btn" @click.prevent = "searchInfo"></button>
+                </form>
             </div>
         </div>
         <div class="logo-block__main-logo">
@@ -19,6 +21,9 @@
 </template>
 
 <script>
+
+import axios from 'axios'
+
 export default {
   name: 'TopHeaderLogoBlock',
   components: {
@@ -26,7 +31,31 @@ export default {
   },
   data(){
       return {}
-  }
+  },
+  methods: {
+      searchInfo(){
+
+          let search = event.target.parentNode.querySelector('.main-search')
+
+            if (search.value == '') {
+                return false
+            }
+
+            axios.get('//localhost:3000/clients_search', {
+                params: {
+                    text: search.value
+                }
+            }).then(response => {
+
+                this.$store.dispatch({
+                    type: 'changeSearchData',
+                    items: response.data
+                })
+            }).then(() => {
+                this.$router.push({ name: 'SearchPage'})
+            })
+      }
+    }
 }
 </script>
 

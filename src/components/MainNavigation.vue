@@ -53,6 +53,7 @@ export default {
         cursor: pointer;
         text-decoration: none!important;
         color: #000!important;
+        user-select: none;
     }
 
 </style>
