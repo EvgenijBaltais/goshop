@@ -1,5 +1,5 @@
 <template>
-    <div class="search-item">
+    <div class="search-item" @click = "goToProduct">
         <div class="search-column-1">
             <div class = "search-item-number">{{number + 1}}.</div>
             <div class="search-item-title">
@@ -40,6 +40,11 @@ export default {
     },
     mounted(){
         //console.log(this.items)
+    },
+    methods: {
+        goToProduct(){
+            window.location.href = '/catalog/' + this.items.id
+        }
     }
 }
 </script>
@@ -48,8 +53,18 @@ export default {
 .search-item {
     width: 100%;
     display: flex;
-    padding-bottom: 25px;
+    margin-bottom: 10px;
+    padding: 10px;
+    box-sizing: border-box;
     justify-content: space-between;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background .2s;
+}
+
+.search-item:hover {
+    transition: background .2s;
+    background: #DBDDDE;
 }
 
 .search-column-1 {

@@ -26,17 +26,7 @@ export default {
     components: {
         Search_item
     },
-    mounted(){
-
-        if (this.searchData.data) {
-            2
-        }
-        else {
-            // /this.$router.push({path: '/catalog'})
-        }
-    },
     computed: {
-        
         searchData(){
             return this.$store.state.search
         }

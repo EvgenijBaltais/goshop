@@ -47,7 +47,7 @@
 				</p>
 			</div>
 			<div class = "main-phone">
-				<a href="+79057777777" class = "main-phone__number">+7 (905) 777-77-77</a>
+				<a href="tel:+79057777777" class = "main-phone__number">+7 (905) 777-77-77</a>
 			</div>
 		</div>
 </template>
@@ -231,6 +231,8 @@ p.speech:after {
     height: 40px;
     background-size: contain;
     background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
 }
 
 .basket-pic-img {

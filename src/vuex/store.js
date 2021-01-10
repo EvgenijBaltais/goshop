@@ -53,7 +53,6 @@ const store = createStore({
             localStorage.setItem('favorite', JSON.stringify(arr))
         },
         CHANGE_SEARCH_DATA: (state, arr) => {
-            state.search = []
             state.search = arr
         }
     },
@@ -223,5 +222,4 @@ if (localStorage.getItem('cart')) {
 if (localStorage.getItem('favorite')) {
     JSON.parse(localStorage.getItem('favorite')).length > 0 ? store.state.favorite = JSON.parse(localStorage.getItem('favorite')) : ''
 }
-
 export default store

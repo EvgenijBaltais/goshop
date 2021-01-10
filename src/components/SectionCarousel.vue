@@ -255,31 +255,51 @@ export default {
 
             let product_id = this.getParent(event.target, 'category-slider__item').getAttribute('data-id')
 
-            console.log(product_id)
+            if (!product_id) return false
 
-            let gallery = `
-                <div class = "overlay">
-                    <div class = "gallery">
-                        <img src = "${require('../assets/pics/bouquets/' + 1 + '/1.jpg')}" class = "">
-                    </div>
-                </div>`
-
-                let getParent = this.getParent,
-                    body_unlock = this.body_unlock
-
-                let close = document.createElement('div')
-                    close.classList.add('gallery-close')
-                    close.addEventListener('click', function(e){
-                        getParent(e.target, 'overlay').remove()
-                        body_unlock()
+                // Всплывающий блок с галереей
+                let overlay = document.createElement('div')
+                    overlay.classList.add('overlay')
+                let closeGallery = this.closeGallery
+                    overlay.addEventListener('click', function(e){
+                        if (e.target.classList.contains('gallery') || e.target.classList.contains('gallery-img')) return false
+                        closeGallery()
                     })
 
-            document.querySelector('body').insertAdjacentHTML('beforeend', gallery)
-            document.querySelector('.gallery').appendChild(close)
+                // Галерея
+                let gallery = document.createElement('div')
+                    gallery.classList.add('gallery')
+
+                // Закрытие
+                let close = document.createElement('div')
+                    close.classList.add('gallery-close')
+                
+                // Картинка
+
+                let pic = document.createElement('img')
+                    pic.classList.add('gallery-img')
+
+                    try{
+                        pic.src = `${require('../assets/pics/bouquets/' + product_id + '/1.jpg')}`
+                    }
+                    catch(e){
+                        pic.src = `${require('../assets/icons/no-image.png')}`
+                        gallery.style.background = "#fff"
+                        gallery.style.display = "flex"
+                        gallery.style.alignItems = "center"
+                        gallery.style.padding = '100px 0'
+                    }
+     
+                overlay.appendChild(gallery)
+                gallery.appendChild(pic)
+                gallery.appendChild(close)
+                document.body.appendChild(overlay)
+
             this.body_lock()
         },
         closeGallery: function(){
-            console.log('close')
+            document.querySelector('.overlay').remove()
+            this.body_unlock()
         },
         getParent: function(el, cls){
             while ((el = el.parentElement) && !el.classList.contains(cls));
@@ -317,6 +337,9 @@ export default {
             }
             return arr
         }
+    },
+    mounted(){
+
     }
 }
 </script>
