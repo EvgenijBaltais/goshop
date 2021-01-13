@@ -39,6 +39,11 @@ const routes = [
     component: Single_product
   },
   {
+    path: '/catalog/:category/:id',
+    name: 'Category',
+    component: Single_product
+  },
+  {
     path: '/item',
     name: 'Single_product',
     component: Single_product

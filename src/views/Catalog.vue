@@ -9,7 +9,7 @@
             <ul class = "filter-items-list" v-if = categories.length>
                 <li class = "filter-item" v-for = "item in categories" :key = "item.id">
                     <router-link 
-                        :to = "{path: `/catalog/${item.id}`}"
+                        :to = "{path: `/catalog/${item.eng_name}/`}"
                         :class = "['filter-link']"
                         :data-category = item.id
                         @click.prevent = "getFilter()"
