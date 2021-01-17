@@ -23,18 +23,6 @@ app.use(function(req, res, next) {
 
 app.listen(3000, () => console.log('Express server is running at post 3000'))
 
-// Get all items
-app.get('/products', (req, res) => {
-    pool.query('SELECT * from products', (err, rows, fields) => {
-
-        if (!err) {
-            res.send(rows)
-        }
-        else {
-            console.log(err)
-        }
-    })
-})
 
 // Get categories
 
@@ -103,9 +91,24 @@ app.get('/get_all_products_by_categories', (req, res) => {
 // Получить данные для отображения каталога
 
 app.get('/catalog_products', (req, res) => {
-    pool.query('SELECT * from products', (err, rows, fields) => {
+    pool.query('SELECT * from products', (err, products, fields) => {
         if (!err) {
-            res.send(rows)
+            // К товарам добавить еще категории, чтобы в дальнейшем использовать для создания url
+            pool.query('SELECT * from product_category', (err, categories, fields) => {
+                if (!err) {
+                    for (let i = 0; i < products.length; i++){
+                        for (let k = 0; k < categories.length; k++) {
+                            if (categories[k].id == products[i].category) {
+                                products[i].category_url = categories[k].url_name
+                            }
+                        }
+                    }
+                    res.send(products)
+                }
+                else {
+                    console.log(err)
+                }
+            })
         }
         else {
             console.log(err)
