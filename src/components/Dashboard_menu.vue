@@ -1,24 +1,91 @@
-<template>
-<div class = "catalog-wrapper">
-    <Dashboard_menu/>
-    <div class = "catalog">
-        <div class = "catalog-section">
-            <Catalog_item
-                v-for = 'item in products.slice(0, visibleProduct)'
-                :key = 'item.id'
-                :items = 'item'
-            />
+ <template>
+    <div class = "catalog-dashboard">
+        <div :class="[`filters-section`, `one-option-section`, `opened-list`, categories.length ? `has-inside-content` : '']">
+            <div class = "filters-section__wrapper" @click = listVisibility>
+                <a class = "filters-section__title">Категория</a>
+                <img :src="bottom_pic" alt="" class = "bottom_pic">
+            </div>
+            <ul class = "filter-items-list" v-if = categories.length>
+                <li class = "filter-item" v-for = "item in categories" :key = "item.id">
+                    <router-link 
+                        :to = "{path: `/catalog/${item.url_name}/`}"
+                        :class = "['filter-link', item.url_name == page_url ? 'category-link-choosen':'']"
+                        :data-category = item.id
+                    >
+                        {{item.name}}
+                    </router-link>
+                </li>
+            </ul>
         </div>
-        <div class = "preloader-wrapper"></div>
+        <div class="filters-title-section">
+            <div class = "filters-title-wrapper">
+                <span class = "filters-text">Фильтры:</span>
+                <a class = "clear-text"
+                    @click.prevent = clearAll
+                >
+                    Сбросить все
+                </a>
+            </div>
+            <div class = "choosen-filters" id = "choosen-filters"></div>
+        </div>
+        <div :class="[`filters-section`, occasions.length ? `has-inside-content` : '']">
+            <div class = "filters-section__wrapper" @click = listVisibility>
+                <a class = "filters-section__title">Повод</a>
+                <img :src="bottom_pic" alt="" class = "bottom_pic">
+            </div>
+            <ul class = "filter-items-list" v-if = occasions.length>
+                <li class = "filter-item" v-for = "item in occasions" :key = "item.id">
+                    <router-link
+                        :to = "{path: `/catalog/${item.id}`}"
+                        :class = "['filter-link']"
+                        :data-occasiontype = item.id
+                        @click.prevent = "getFilter()"
+                        >
+                            {{item.name}}
+                        </router-link>
+                </li>
+            </ul>
+        </div>
+        <div :class="[`filters-section`, flowers.length ? `has-inside-content` : '']">
+            <div class = "filters-section__wrapper" @click = listVisibility>
+                <a class = "filters-section__title">Выбрать цветы</a>
+                <img :src="bottom_pic" alt="" class = "bottom_pic">
+            </div>
+            <ul :class = "['filter-items-list', 'opened-list']" v-if = flowers.length>
+                <li class = "filter-item" v-for = "item in flowers" :key = "item.id">
+                    <router-link
+                        :to = "{path: `/catalog/${item.id}`}" 
+                        :class = "['filter-link']"
+                        :data-flowertype = item.id
+                        @click.prevent = "getFilter();getFilteredProducts(e)"
+                    >
+                            {{item.name}}
+                    </router-link>
+                </li>
+            </ul>
+        </div>
+        <div :class="[`filters-section`, `several-options-section`, colors.length ? `has-inside-content` : '']">
+            <div class = "filters-section__wrapper" @click = listVisibility>
+                <a class = "filters-section__title">Выбор по цвету</a>
+                <img :src="bottom_pic" alt="" class = "bottom_pic">
+            </div>
+            <ul class = "filter-items-list" v-if = colors.length>
+                <li class = "filter-item" v-for = "item in colors" :key = "item.id">
+                    <router-link
+                        :to = "{path: `/catalog/${item.id}`}"
+                        :class = "['filter-link']"
+                        :data-color = item.id
+                        @click.prevent = "getFilter();getFilteredProducts(e)"
+                        >
+                            {{item.value}}
+                        </router-link>
+                </li>
+            </ul>
+        </div>
     </div>
-</div>
 </template>
 
 <script>
-
-import Catalog_item from '../components/Catalog_item'
-import Dashboard_menu from '../components/Dashboard_menu'
-import axios from 'axios'
 
 export default {
     data(){
@@ -31,9 +98,6 @@ export default {
             productsFullList: []
         }
     },
-    components: {
-        Catalog_item, Dashboard_menu
-    },
     computed: {
         categories(){
             return this.$store.state.categories
@@ -43,6 +107,9 @@ export default {
         },
         occasions(){
             return this.$store.state.occasions
+        },
+        page_url(){
+            return this.$route.params.category
         },
         colors(){
 
@@ -58,19 +125,6 @@ export default {
         }
     },
     methods: {
-        addPreloader(){
-
-            let preloader = document.createElement('img')
-                preloader.classList.add('catalog-preloader')
-                preloader.setAttribute('src', this.preloader)
-
-            document.querySelector('.preloader-wrapper').append(preloader)
-        },
-        removePreloaders(){
-            for (let i = 0; i < document.querySelectorAll('.catalog-preloader').length; i++) {
-                document.querySelectorAll('.catalog-preloader')[i].remove()
-            }
-        },
            getFilteredProducts(){
 
             let newItems = [],
@@ -117,49 +171,8 @@ export default {
                         }
                     }
                 })
-        },
-        getMoreItems(){
 
-            let allProducts = this.products
-
-            if (this.isInViewport(document.querySelector('.preloader-wrapper'))) {
-                return false
-            }
-            
-            this.loading++
-
-                window.removeEventListener('scroll', this.getMoreItems)
-                this.addPreloader()
-                this.loading = 0
-
-            if (this.loading > 0) return false
-
-            new Promise((resolve) => {
-                setTimeout(() => {
-
-                    this.visibleProduct < allProducts.length - 6
-                    ? this.visibleProduct += 6
-                    : this.visibleProduct = allProducts.length
-                    resolve()
-                }, 1000)
-            }).then(() => {
-
-                this.removePreloaders()
-
-                if (this.visibleProduct != allProducts.length) {
-                    window.addEventListener('scroll', this.getMoreItems)
-                }
-            })
-        },
-        isInViewport(element) {
-            let rect = element.getBoundingClientRect();
-            let html = document.documentElement;
-            return (
-                rect.top >= 0 &&
-                rect.left >= 0 &&
-                rect.bottom <= (window.innerHeight || html.clientHeight) &&
-                rect.right <= (window.innerWidth || html.clientWidth)
-            )
+                console.log(colors)
         },
         listVisibility(){
 
@@ -234,20 +247,6 @@ export default {
             while ((el = el.parentElement) && !el.classList.contains(cls));
             return el;
         }
-    },
-    mounted() {
-
-        axios.get('//localhost:3000/catalog_products')
-            .then(response => {
-                this.products = response.data
-                this.productsFullList = response.data
-
-                window.addEventListener('scroll', this.getMoreItems)
-            })
-        // https://www.jonportella.com/you-are-using-browser-events-wrong/ - потом проверить, надо передать не анонимную функцию, а именованную. Иначе событие не удаляется
-    },
-    unmounted(){
-        window.removeEventListener('scroll', this.getMoreItems)
-  }
+    }
 }
 </script>

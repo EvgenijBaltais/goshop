@@ -6,6 +6,7 @@ import Single_product from '../views/Single_product.vue'
 import Myfavorite from '../views/Favorites.vue'
 import Cart from '../views/Cart.vue'
 import SearchPage from '../views/SearchPage.vue'
+import Category_page from '../views/Category_page.vue'
 
 const routes = [
   {
@@ -40,8 +41,13 @@ const routes = [
   },
   {
     path: '/catalog/:category/:id',
-    name: 'Category',
+    name: 'Category_item',
     component: Single_product
+  },
+  {
+    path: '/catalog/:category/',
+    name: 'Category_page',
+    component: Category_page
   },
   {
     path: '/item',

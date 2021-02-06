@@ -78,9 +78,24 @@ app.get('/get_all_colors', (req, res) => {
 // Get all products by categories
 
 app.get('/get_all_products_by_categories', (req, res) => {
-    pool.query(`SELECT * from products where category = ${req.query.category}`, (err, rows, fields) => {
+    pool.query(`SELECT * from products where category = ${req.query.category}`, (err, products, fields) => {
         if (!err) {
-            res.send(rows)
+            // К товарам добавить еще категории, чтобы в дальнейшем использовать для создания url
+            pool.query('SELECT * from product_category', (err, categories, fields) => {
+                if (!err) {
+                    for (let i = 0; i < products.length; i++){
+                        for (let k = 0; k < categories.length; k++) {
+                            if (categories[k].id == products[i].category) {
+                                products[i].category_url = categories[k].url_name
+                            }
+                        }
+                    }
+                    res.send(products)
+                }
+                else {
+                    console.log(err)
+                }
+            })
         }
         else {
             console.log(err)

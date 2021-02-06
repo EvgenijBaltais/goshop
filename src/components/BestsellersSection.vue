@@ -10,15 +10,15 @@
             <div class = "category-slider__arrow category-slider__right" v-on:click = "slideRight()"></div>     
             <div class = "category-slider-wrapper">
                 <div :class = "['category-slider__item', {'active-item': index == 0}]"
-                        v-for = "(item, index) in bestsellers"
+                        v-for = "(item, index) in bestsellers[0]"
                         :key = "item.id">
                     <div class="category-slider__picwrapper">
-                        <router-link :to = "{path: `/catalog/${items.category_url}/${items.id}`}" class = "category-slider__link">
+                        <router-link :to = "{path: `/catalog/${item.category_url}/${item.id}`}" class = "category-slider__link">
                             <img class="category-slider__pic" :src = 'require("../assets/pics/bouquets/" + item.img + "/1.jpg")' alt="">
                         </router-link>
                     </div>
                     <div>
-                        <router-link :to = "{path: `/catalog/${items.category_url}/${items.id}`}" class = "category-slider__title">{{item.title}}</router-link>
+                        <router-link :to = "{path: `/catalog/${item.category_url}/${item.id}`}" class = "category-slider__title">{{item.title}}</router-link>
                         <p class = "category-slider__price">{{item.price}} руб.</p>
                     </div>
                 </div>
@@ -124,19 +124,20 @@ export default {
         }
     },
     computed: {
+
         bestsellers(){
-            
-            let bestsellers = {},
-                i = 0
+            let i = 0,
+                bestsellers = []
 
-            for (let key in this.$store.state.products.data) {
+            for (let key in this.$store.state.products) {
 
-                if (this.$store.state.products.data[key].bestseller == 0) continue
-                    bestsellers[i] = this.$store.state.products.data[key]
+                if (this.$store.state.products[key]['bestseller'] == 0) continue
+                    bestsellers[i] = this.$store.state.products[key]
                     i++
             }
             return bestsellers
         }
+
     }
 }
 </script>
@@ -155,5 +156,4 @@ export default {
 .bestsellers-slider .category-slider__arrow {
     top: 190px;    
 }
-
 </style>

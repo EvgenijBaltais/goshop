@@ -15,7 +15,7 @@
                     :data-id = item.id
             >
                 <div class="category-slider__picwrapper">
-                    <router-link :to = "{path: `/catalog/${items.category_url}/${items.id}`}" class = "category-slider__link">
+                    <router-link :to = "{path: `/catalog/${item.category_url}/${item.id}`}" class = "category-slider__link">
                         <img class="category-slider__pic" :src = 'require("../assets/pics/bouquets/" + item.img + "/1.jpg")' alt="">
                     </router-link>
                 </div>
@@ -40,7 +40,7 @@
                                         <div class = "product-button-anim-second"></div>
                                     </div>
                                 </div>
-                                <router-link :to = "{path: `/catalog/${items.category_url}/${items.id}`}" class = "product-button product-watch" data-info = "Подробнее">
+                                <router-link :to = "{path: `/catalog/${item.category_url}/${item.id}`}" class = "product-button product-watch" data-info = "Подробнее">
                                     <div class = "product-button-inset">
                                         <div class = "product-button-anim-first"></div>
                                         <div class = "product-button-anim-second"></div>
@@ -55,7 +55,7 @@
                             </div>
                         </div>
                     </div>
-                    <router-link :to = "{path: `/catalog/${items.category_url}/${items.id}`}" class = "category-slider__title">{{item.title}}</router-link>
+                    <router-link :to = "{path: `/catalog/${item.category_url}/${item.id}`}" class = "category-slider__title">{{item.title}}</router-link>
                     <p class = "category-slider__price">{{item.price}} руб.</p>
                 </div>
             </div>
@@ -69,10 +69,6 @@ export default {
     name: 'SectionCarousel',
     props: {
         categories: {
-            type: Object,
-            default(){}
-        },
-        products: {
             type: Object,
             default(){}
         }
@@ -336,6 +332,20 @@ export default {
                 arr.push(this.$store.state.favorite[i].id)
             }
             return arr
+        },
+        products(){
+
+            let categoryContent = []
+            
+            if (!this.$store.state.products.data) return []
+
+            for (let i = 0; i < this.$store.state.products.data.length; i++) {
+
+                if (this.$store.state.products.data[i].category == this.categories.id)
+                categoryContent.push(this.$store.state.products.data[i])
+            }
+
+            return categoryContent
         }
     },
     mounted(){

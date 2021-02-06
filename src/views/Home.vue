@@ -7,7 +7,6 @@
         v-for = 'item in categories'
         :key = 'item.id'
         :categories = "item"
-        :products = "products"
       />
       <SubscribeBlock />
   </div>
@@ -33,9 +32,6 @@ export default {
   computed: {
     categories(){
       return this.$store.state.categories
-    },
-    products(){
-      return this.$store.state.productsByCategories[0]
     }
   }
 }
