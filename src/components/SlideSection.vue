@@ -3,11 +3,17 @@
     <div class = "main-slider__wrapper">
         <div class = "main-slider">
             <div class = "main-slider__carousel">
-                <img :src="require('../assets/pics/bouquets/1/1.jpg')" alt="" class = "main-slider__mainpic">
+                <router-link :to = "{path: `/catalog/bouquets/1`}">
+                    <img :src="require('../assets/pics/bouquets/1/1.jpg')" alt="" class = "main-slider__mainpic">
+                </router-link>
             </div>
             <div class = "main-slider__title">
-                <p class = "slider-title">Golden Sunshine</p>
-                <p class = "slider-price">12 000 р</p>
+                <p class = "slider-title">
+                    <router-link :to = "{path: `/catalog/bouquets/1`}" class = "main-slider__href">Golden Sunshine</router-link>
+                </p>
+                <p class = "slider-price">
+                    <router-link :to = "{path: `/catalog/bouquets/1`}" class = "main-slider__href">12 000 р</router-link>
+                </p>
             </div>
             <div class = "main-slider__text">
                 <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
@@ -152,6 +158,11 @@ export default {
         font-size: 16px;
         line-height: 20px;
         text-align: center;
+    }
+
+    .main-slider__href {
+        color: #000!important;
+        text-decoration: none;
     }
 
 </style>
