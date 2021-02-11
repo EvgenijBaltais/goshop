@@ -862,6 +862,7 @@ export default {
     border-radius: 5px;
     background: #136A9F;
     cursor: pointer;
+    user-select: none;
 }
 
 .time-item-active {

@@ -39,7 +39,7 @@
                         :to = "{path: `/catalog/${item.id}`}"
                         :class = "['filter-link']"
                         :data-occasiontype = item.id
-                        @click.prevent = "getFilter()"
+                        @click.prevent = "getFilteredProducts(e);getFilter()"
                         >
                             {{item.name}}
                         </router-link>
@@ -57,7 +57,7 @@
                         :to = "{path: `/catalog/${item.id}`}" 
                         :class = "['filter-link']"
                         :data-flowertype = item.id
-                        @click.prevent = "getFilter();getFilteredProducts(e)"
+                        @click.prevent = "getFilteredProducts(e);getFilter()"
                     >
                             {{item.name}}
                     </router-link>
@@ -75,7 +75,7 @@
                         :to = "{path: `/catalog/${item.id}`}"
                         :class = "['filter-link']"
                         :data-color = item.id
-                        @click.prevent = "getFilter();getFilteredProducts(e)"
+                        @click.prevent = "getFilteredProducts(e);getFilter()"
                         >
                             {{item.value}}
                         </router-link>
@@ -87,7 +87,10 @@
 
 <script>
 
+import axios from 'axios'
+
 export default {
+
     data(){
         return {
             preloader: require('../assets/icons/2.gif'),
@@ -127,13 +130,18 @@ export default {
     methods: {
            getFilteredProducts(){
 
-            let newItems = [],
+            if (event.target.classList.contains('filter-link-choosen')) return false
+
+            let //newItems = [],
                 filters = document.getElementById('choosen-filters').querySelectorAll('.filter-link-choosen')
+
+                console.log(111)
 
             // категории фильтров
 
             let colors = [],
-                flowers = []
+                flowers = [],
+                occasions = []
 
             for (let i = 0; i < filters.length; i++) {
 
@@ -143,10 +151,32 @@ export default {
                 if (filters[i].getAttribute('data-color')) {
                     colors.push(filters[i].getAttribute('data-color'))
                 }
+                if (filters[i].getAttribute('data-occasiontype')) {
+                    occasions.push(filters[i].getAttribute('data-occasiontype'))
+                }
             }
 
-                this.productsFullList.forEach(element => {
+            console.log(colors)
+            console.log(flowers)
+            console.log(occasions)
 
+            axios.get('//localhost:3000/catalog_products', {
+                params: {
+                    'colors': JSON.stringify(colors),
+                    'flowers': JSON.stringify(colors),
+                   'occasions': JSON.stringify(colors)
+                }
+            })
+                .then(response => {
+                    this.products = response.data
+                    this.productsFullList = response.data
+
+                    window.addEventListener('scroll', this.getMoreItems)
+                })
+
+                //this.productsFullList.forEach(element => {
+
+                    /*
                     for (let i = 0; i < filters.length; i++) {
                         if (filters[i].getAttribute('data-color')) {
                             for (let k = 0; k < colors.length; k++) {
@@ -158,7 +188,6 @@ export default {
                                 }
                             }
                         }
-
                         if (filters[i].getAttribute('data-flowertype')) {
                             for (let k = 0; k < flowers.length; k++) {
                                 if (element.flowers_category == flowers[k]) {
@@ -169,10 +198,8 @@ export default {
                                 }
                             }
                         }
-                    }
-                })
-
-                console.log(colors)
+                    }*/
+                //})
         },
         listVisibility(){
 
@@ -224,6 +251,7 @@ export default {
                 break
             }
             event.target.classList.remove('filter-link-choosen')
+            return false
         },
         clearAll: function(){
             document.getElementById('choosen-filters').innerHTML = ''

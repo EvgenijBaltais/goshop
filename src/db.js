@@ -106,6 +106,9 @@ app.get('/get_all_products_by_categories', (req, res) => {
 // Получить данные для отображения каталога
 
 app.get('/catalog_products', (req, res) => {
+
+    console.log(req.query)
+
     pool.query('SELECT * from products', (err, products, fields) => {
         if (!err) {
             // К товарам добавить еще категории, чтобы в дальнейшем использовать для создания url
@@ -118,6 +121,7 @@ app.get('/catalog_products', (req, res) => {
                             }
                         }
                     }
+
                     res.send(products)
                 }
                 else {

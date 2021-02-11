@@ -4,20 +4,10 @@
             <div class="footer-item">
                 <p class = "footer-title">Разделы сайта:</p>
                 <ul class = "footer-menu">
-                    <li class = "footer-menu-item">
-                        <router-link :to = "{name: 'Home'}" class = "footer-menu__link">Главная</router-link>
-                    </li>
-                    <li class = "footer-menu-item">
-                        <router-link :to = "{name: 'Home'}" class = "footer-menu__link">Каталог</router-link>
-                    </li>
-                    <li class = "footer-menu-item">
-                        <router-link :to = "{name: 'Home'}" class = "footer-menu__link">О компании</router-link>
-                    </li>
-                    <li class = "footer-menu-item">
-                        <router-link :to = "{name: 'Home'}" class = "footer-menu__link">Контакты</router-link>
-                    </li>
-                    <li class = "footer-menu-item">
-                        <router-link :to = "{name: 'Home'}" class = "footer-menu__link">Избранное</router-link>
+                    <li class = "footer-menu-item" v-for = "item in categories" :key = "item.id">
+                        <router-link :to = "{path: `/catalog/${item.url_name}/`}"
+                        :class = "['footer-menu__link']"
+                        :data-category = item.id>{{item.name}}</router-link>
                     </li>
                 </ul>
             </div>
@@ -54,6 +44,18 @@
 </template>
 
 <script>
+
+export default {
+
+    data(){
+        return {}
+    },
+    computed: {
+        categories(){
+            return this.$store.state.categories
+        }
+    }
+}
 
 </script>
 
