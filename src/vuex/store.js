@@ -62,6 +62,7 @@ const store = createStore({
                 method: 'GET'
             }).then(products => {
                 commit('SET_PRODUCTS_TO_STATE', products)
+                console.log('get_catalog')
                 return products
             }).catch(e => {
                 console.log(e)

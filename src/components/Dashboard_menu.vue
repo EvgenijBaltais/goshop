@@ -39,7 +39,7 @@
                         :to = "{path: `/catalog/${item.id}`}"
                         :class = "['filter-link']"
                         :data-occasiontype = item.id
-                        @click.prevent = "getFilteredProducts(e);getFilter()"
+                        @click.prevent = "getFilter(e);getFilteredProducts(e)"
                         >
                             {{item.name}}
                         </router-link>
@@ -57,7 +57,7 @@
                         :to = "{path: `/catalog/${item.id}`}" 
                         :class = "['filter-link']"
                         :data-flowertype = item.id
-                        @click.prevent = "getFilteredProducts(e);getFilter()"
+                        @click.prevent = "getFilter(e);getFilteredProducts(e)"
                     >
                             {{item.name}}
                     </router-link>
@@ -75,7 +75,7 @@
                         :to = "{path: `/catalog/${item.id}`}"
                         :class = "['filter-link']"
                         :data-color = item.id
-                        @click.prevent = "getFilteredProducts(e);getFilter()"
+                        @click.prevent = "getFilter(e);getFilteredProducts(e)"
                         >
                             {{item.value}}
                         </router-link>
@@ -130,8 +130,6 @@ export default {
     methods: {
            getFilteredProducts(){
 
-            if (event.target.classList.contains('filter-link-choosen')) return false
-
             let //newItems = [],
                 filters = document.getElementById('choosen-filters').querySelectorAll('.filter-link-choosen')
 
@@ -139,32 +137,32 @@ export default {
 
             // категории фильтров
 
-            let colors = [],
-                flowers = [],
-                occasions = []
+            let color = [],
+                flowers_category = [],
+                occasion = []
 
             for (let i = 0; i < filters.length; i++) {
 
                 if (filters[i].getAttribute('data-flowertype')) {
-                    flowers.push(filters[i].getAttribute('data-flowertype'))
+                    flowers_category.push(filters[i].getAttribute('data-flowertype'))
                 }
                 if (filters[i].getAttribute('data-color')) {
-                    colors.push(filters[i].getAttribute('data-color'))
+                    color.push(filters[i].getAttribute('data-color'))
                 }
                 if (filters[i].getAttribute('data-occasiontype')) {
-                    occasions.push(filters[i].getAttribute('data-occasiontype'))
+                    occasion.push(filters[i].getAttribute('data-occasiontype'))
                 }
             }
 
-            console.log(colors)
-            console.log(flowers)
-            console.log(occasions)
+            console.log(color)
+            console.log(flowers_category)
+            console.log(occasion)
 
             axios.get('//localhost:3000/catalog_products', {
                 params: {
-                    'colors': JSON.stringify(colors),
-                    'flowers': JSON.stringify(colors),
-                   'occasions': JSON.stringify(colors)
+                    'colors': JSON.stringify(color),
+                    'flowers': JSON.stringify(flowers_category),
+                   'occasions': JSON.stringify(occasion)
                 }
             })
                 .then(response => {
