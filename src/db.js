@@ -107,7 +107,34 @@ app.get('/get_all_products_by_categories', (req, res) => {
 
 app.get('/catalog_products', (req, res) => {
 
-    console.log(req.query)
+    console.log('*')
+
+    if (Object.keys(req.query).length) {
+
+        for (let key in req.query) {
+            console.log(typeof JSON.parse(req.query[key]))
+
+            for (let i = 0; i < JSON.parse(req.query[key]).length; i++) {
+                console.log()
+            }
+        }
+    }
+
+    //let queryStr = 'SELECT * from product_category'
+
+   // for (let i = 0; i < Object.keys(req.query).length; i++) {
+
+        //console.log(Array.from(req.query[Object.keys(req.query)[i]]).length)
+        
+            //if (req.query[Object.keys(req.query)[i]].length == 0) continue
+
+            //console.log(req.query[Object.keys(req.query)[i]].length)
+
+        //for (let k = 0; k < req.query[i].length; k++) {
+
+        //    queryStr += ' where '
+        //}
+    //}
 
     pool.query('SELECT * from products', (err, products, fields) => {
         if (!err) {
