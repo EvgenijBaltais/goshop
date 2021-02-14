@@ -1,6 +1,5 @@
 <template>
 <div class = "catalog-wrapper">
-
     <Dashboard_menu/>
     <div class = "catalog">
         <div class = "catalog-section">
@@ -19,7 +18,6 @@
 
 import Catalog_item from '../components/Catalog_item'
 import Dashboard_menu from '../components/Dashboard_menu'
-import axios from 'axios'
 
 export default {
     data(){
@@ -27,38 +25,31 @@ export default {
             preloader: require('../assets/icons/2.gif'),
             bottom_pic: require('../assets/icons/to-bottom-pic.svg'),
             loading: 0,
-            visibleProduct: 12,
-            products: [],
-            productsFullList: []
+            visibleProduct: this.$store.state.visibleProducts
         }
     },
     components: {
         Catalog_item, Dashboard_menu
     },
+    mounted() {
+        console.log(this.$route)
+        this.$store.dispatch('get_catalog_state', {
+            category: this.$route.params.category
+        })
+    },
+    computed: {
+        products(){
+            return this.$store.state.catalog_state
+        }
+    },
+    watch: {
+        $route() {
+            this.$store.dispatch('get_catalog_state', {
+                category: this.$route.params.category
+            })
+        }
+    },
     methods: {
-        getCatalogItems(){
-
-            axios.get('//localhost:3000/catalog_products')
-                .then(response => {
-
-                    // Контент по выбранной категории
-
-                    let array = []
-
-                    for (let i = 0; i < response.data.length; i++) {
-                        if (response.data[i]['category_url'] != this.$route.params.category) continue
-                        array.push(response.data[i])
-                    }
-
-                    console.log(array)
-
-                    this.products = array
-                    this.productsFullList = array
-
-                    window.addEventListener('scroll', this.getMoreItems)
-                })
-                // https://www.jonportella.com/you-are-using-browser-events-wrong/ - потом проверить, надо передать не анонимную функцию, а именованную. Иначе событие не удаляется
-        },
         addPreloader(){
 
             let preloader = document.createElement('img')
@@ -120,16 +111,8 @@ export default {
             return el;
         }
     },
-    mounted() {
-        this.getCatalogItems()
-    },
-    watch:{
-        $route (){
-            this.getCatalogItems()
-        }
-    },
     unmounted(){
         window.removeEventListener('scroll', this.getMoreItems)
-  }
+    }
 }
 </script>

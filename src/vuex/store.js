@@ -4,7 +4,8 @@ import axios from 'axios'
 const store = createStore({
     state () {
         return {
-            products: [],
+            products: [],               // Общее количество товаров, которое формируется при загрузке приложения (Не меняется в дальнейшем)
+            catalog_state: [],          // Состояние каталога, которое меняется в зависимости от выбранных категорий и фильтров
             cart: [],
             categories: [],
             productsByCategories: [],
@@ -12,7 +13,8 @@ const store = createStore({
             colors: [],
             occasions: [],
             favorite: [],
-            search: []
+            search: [],
+            visibleProducts: 21          // Количество видимых элементов в каталоге
         }
     },
     mutations: {
@@ -23,6 +25,9 @@ const store = createStore({
             for (let i = 0; i < items.length; i++) {
                 state.categories.push(items[i])
             }
+        },
+        SET_CATALOG_STATE: (state, items) => {
+            state.catalog_state = items.data
         },
         SET_PRODUCTS_BY_CATEGORIES: (state, products) => {
             state.productsByCategories.push(products)
@@ -57,12 +62,11 @@ const store = createStore({
         }
     },
     actions: {
-        get_catalog({commit}) {
+        get_products({commit}) {
             return axios('//localhost:3000/catalog_products', {
                 method: 'GET'
             }).then(products => {
                 commit('SET_PRODUCTS_TO_STATE', products)
-                console.log('get_catalog')
                 return products
             }).catch(e => {
                 console.log(e)
@@ -88,6 +92,32 @@ const store = createStore({
                         commit('SET_PRODUCTS_BY_CATEGORIES', products.data)
                     })
                 }
+            })
+        },
+        get_catalog_state({commit}, data){
+
+            return axios('//localhost:3000/catalog_products', {
+                method: 'GET'
+            }).then(items => {
+
+            // Категория (страница Каталога с выбранной категорией)
+
+            if (data && data.category) {
+                let readyItems = []
+                for (let i = 0, k = 0; i < items.data.length; i++) {
+                    if (items.data[i].category_url != data.category) continue
+                        readyItems[k] = items.data[i]
+                        k++
+                }
+                items.data = readyItems
+            }
+
+                commit('SET_CATALOG_STATE', items)
+
+                return items
+            }).catch(e => {
+                console.log(e)
+                return e
             })
         },
         get_flowers_types() {
@@ -178,8 +208,6 @@ const store = createStore({
             this.commit('CHANGE_SEARCH_DATA', data.items)
         },
         changeFavorite({state}, data) {
-
-            console.log('CHANGE_FAVORITE')
 
             let favorite = state.favorite,
                 productExists = 0,

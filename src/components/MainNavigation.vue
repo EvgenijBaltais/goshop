@@ -4,16 +4,16 @@
             <router-link :to = "{name: 'Home'}" class = "main-navigation__link">Главная</router-link>
         </div>
         <div class = "main-navigation__item">
-            <router-link :to = "{name: 'Catalog'}" class = "main-navigation__link">Каталог</router-link>
+            <router-link :to = "{name: 'Category_page', params: {category: 'flowers'}}" class = "main-navigation__link">Выбрать цветы</router-link>
         </div>
         <div class = "main-navigation__item">
-            <a class = "main-navigation__link">О компании</a>
-        </div>
-        <div class = "main-navigation__item">
-            <router-link :to = "{name: 'Contacts'}" class = "main-navigation__link">Контакты</router-link>
+            <router-link :to = "{name: 'Catalog'}" class = "main-navigation__link">Каталог товаров</router-link>
         </div>
         <div class = "main-navigation__item">
             <router-link :to = "{path: '/myfavorite'}" class = "main-navigation__link">Избранное</router-link>
+        </div>
+        <div class = "main-navigation__item">
+            <router-link :to = "{name: 'Contacts'}" class = "main-navigation__link">Контакты</router-link>
         </div>
     </div>
 </template>

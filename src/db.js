@@ -107,34 +107,40 @@ app.get('/get_all_products_by_categories', (req, res) => {
 
 app.get('/catalog_products', (req, res) => {
 
-    console.log('*')
+    //console.log('*')
 
-    if (Object.keys(req.query).length) {
+    let queryStr = 'SELECT * from product_category'
 
-        for (let key in req.query) {
-            console.log(typeof JSON.parse(req.query[key]))
-
-            for (let i = 0; i < JSON.parse(req.query[key]).length; i++) {
-                console.log()
-            }
+    pool.query('SELECT * from products', (err, products, fields) => {
+        if (!err) {
+            // К товарам добавить еще категории, чтобы в дальнейшем использовать для создания url
+            pool.query('SELECT * from product_category', (err, categories, fields) => {
+                if (!err) {
+                    for (let i = 0; i < products.length; i++){
+                        for (let k = 0; k < categories.length; k++) {
+                            if (categories[k].id == products[i].category) {
+                                products[i].category_url = categories[k].url_name
+                            }
+                        }
+                    }
+                    res.send(products)
+                }
+                else {
+                    console.log(err)
+                }
+            })
         }
-    }
+        else {
+            console.log(err)
+        }
+    })
+})
 
-    //let queryStr = 'SELECT * from product_category'
+// Получить данные для отображения каталога с фильтрами
 
-   // for (let i = 0; i < Object.keys(req.query).length; i++) {
+app.get('/catalog_products_filters', (req, res) => {
 
-        //console.log(Array.from(req.query[Object.keys(req.query)[i]]).length)
-        
-            //if (req.query[Object.keys(req.query)[i]].length == 0) continue
-
-            //console.log(req.query[Object.keys(req.query)[i]].length)
-
-        //for (let k = 0; k < req.query[i].length; k++) {
-
-        //    queryStr += ' where '
-        //}
-    //}
+    let queryStr = 'SELECT * from product_category'
 
     pool.query('SELECT * from products', (err, products, fields) => {
         if (!err) {
@@ -149,7 +155,39 @@ app.get('/catalog_products', (req, res) => {
                         }
                     }
 
-                    res.send(products)
+                    // Применить фильтры
+
+                    let newData = []
+
+                    if (Object.keys(req.query).length) {
+
+                        for (let key in req.query) {
+                            for (let i = 0; i < JSON.parse(req.query[key]).length; i++) {
+
+                                let searchingParameter = key,                                 // Название фильтра
+                                    searchingParameterValue = JSON.parse(req.query[key])[i]   // Значение фильтра
+
+                                for (key2 in products) {
+
+                                    // Если есть совпадение то добавляем в новый массив
+
+                                    if (products[key2][searchingParameter] == searchingParameterValue) {
+
+                                        // Если уже есть такой элемент в новом массиве, то не добавлять
+
+                                        let exists = 0
+
+                                        for (let k = 0; k < newData.length; k++) {
+                                            if (newData[k].id == products[key2].id) exists++
+                                        }
+                                        if (!exists) newData.push(products[key2])
+                                        exists = 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    res.send(newData)
                 }
                 else {
                     console.log(err)

@@ -18,7 +18,6 @@
 
 import Catalog_item from '../components/Catalog_item'
 import Dashboard_menu from '../components/Dashboard_menu'
-import axios from 'axios'
 
 export default {
     data(){
@@ -26,8 +25,7 @@ export default {
             preloader: require('../assets/icons/2.gif'),
             bottom_pic: require('../assets/icons/to-bottom-pic.svg'),
             loading: 0,
-            visibleProduct: 12,
-            products: [],
+            visibleProduct: this.$store.state.visibleProducts,
             productsFullList: []
         }
     },
@@ -35,26 +33,8 @@ export default {
         Catalog_item, Dashboard_menu
     },
     computed: {
-        categories(){
-            return this.$store.state.categories
-        },
-        flowers(){
-            return this.$store.state.flowers
-        },
-        occasions(){
-            return this.$store.state.occasions
-        },
-        colors(){
-
-            let colors = this.$store.state.colors,
-                new_colors = ''
-
-            if (colors.length > 0) {
-                new_colors = colors.filter(function(key){
-                    if (key.value != undefined && key.value != '') return key
-                })
-            }
-            return new_colors
+        products(){
+            return this.$store.state.catalog_state
         }
     },
     methods: {
@@ -237,13 +217,7 @@ export default {
     },
     mounted() {
 
-        axios.get('//localhost:3000/catalog_products')
-            .then(response => {
-                this.products = response.data
-                this.productsFullList = response.data
-
-                window.addEventListener('scroll', this.getMoreItems)
-            })
+        this.$store.dispatch('get_catalog_state')
         // https://www.jonportella.com/you-are-using-browser-events-wrong/ - потом проверить, надо передать не анонимную функцию, а именованную. Иначе событие не удаляется
     },
     unmounted(){

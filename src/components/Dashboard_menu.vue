@@ -2,85 +2,86 @@
     <div class = "catalog-dashboard">
         <div :class="[`filters-section`, `one-option-section`, `opened-list`, categories.length ? `has-inside-content` : '']">
             <div class = "filters-section__wrapper" @click = listVisibility>
-                <a class = "filters-section__title">Категория</a>
+                <a class = "filters-section__title">Разделы:</a>
                 <img :src="bottom_pic" alt="" class = "bottom_pic">
             </div>
             <ul class = "filter-items-list" v-if = categories.length>
                 <li class = "filter-item" v-for = "item in categories" :key = "item.id">
                     <router-link 
-                        :to = "{path: `/catalog/${item.url_name}/`}"
+                        :to = "{name: 'Category_page', params: {category: `${item.url_name}`}}"
                         :class = "['filter-link', item.url_name == page_url ? 'category-link-choosen':'']"
-                        :data-category = item.id
                     >
                         {{item.name}}
                     </router-link>
                 </li>
             </ul>
         </div>
-        <div class="filters-title-section">
-            <div class = "filters-title-wrapper">
-                <span class = "filters-text">Фильтры:</span>
-                <a class = "clear-text"
-                    @click.prevent = clearAll
-                >
-                    Сбросить все
-                </a>
-            </div>
-            <div class = "choosen-filters" id = "choosen-filters"></div>
-        </div>
-        <div :class="[`filters-section`, occasions.length ? `has-inside-content` : '']">
-            <div class = "filters-section__wrapper" @click = listVisibility>
-                <a class = "filters-section__title">Повод</a>
-                <img :src="bottom_pic" alt="" class = "bottom_pic">
-            </div>
-            <ul class = "filter-items-list" v-if = occasions.length>
-                <li class = "filter-item" v-for = "item in occasions" :key = "item.id">
-                    <router-link
-                        :to = "{path: `/catalog/${item.id}`}"
-                        :class = "['filter-link']"
-                        :data-occasiontype = item.id
-                        @click.prevent = "getFilter(e);getFilteredProducts(e)"
-                        >
-                            {{item.name}}
-                        </router-link>
-                </li>
-            </ul>
-        </div>
-        <div :class="[`filters-section`, flowers.length ? `has-inside-content` : '']">
-            <div class = "filters-section__wrapper" @click = listVisibility>
-                <a class = "filters-section__title">Выбрать цветы</a>
-                <img :src="bottom_pic" alt="" class = "bottom_pic">
-            </div>
-            <ul :class = "['filter-items-list', 'opened-list']" v-if = flowers.length>
-                <li class = "filter-item" v-for = "item in flowers" :key = "item.id">
-                    <router-link
-                        :to = "{path: `/catalog/${item.id}`}" 
-                        :class = "['filter-link']"
-                        :data-flowertype = item.id
-                        @click.prevent = "getFilter(e);getFilteredProducts(e)"
+        <div v-if = 'this.$route.name == "Catalog"'>
+            <div class="filters-title-section">
+                <div class = "filters-title-wrapper">
+                    <span class = "filters-text">Фильтры:</span>
+                    <a class = "clear-text"
+                        @click.prevent = clearAll
                     >
-                            {{item.name}}
-                    </router-link>
-                </li>
-            </ul>
-        </div>
-        <div :class="[`filters-section`, `several-options-section`, colors.length ? `has-inside-content` : '']">
-            <div class = "filters-section__wrapper" @click = listVisibility>
-                <a class = "filters-section__title">Выбор по цвету</a>
-                <img :src="bottom_pic" alt="" class = "bottom_pic">
+                        Сбросить все
+                    </a>
+                </div>
+                <div class = "choosen-filters" id = "choosen-filters"></div>
             </div>
-            <ul class = "filter-items-list" v-if = colors.length>
-                <li class = "filter-item" v-for = "item in colors" :key = "item.id">
-                    <router-link
-                        :to = "{path: `/catalog/${item.id}`}"
-                        :class = "['filter-link']"
-                        :data-color = item.id
-                        @click.prevent = "getFilter(e);getFilteredProducts(e)"
+            <div :class="[`filters-section`, flowers.length ? `has-inside-content` : '']">
+                <div class = "filters-section__wrapper" @click = listVisibility>
+                    <a class = "filters-section__title">Выбрать цветы</a>
+                    <img :src="bottom_pic" alt="" class = "bottom_pic">
+                </div>
+                <ul :class = "['filter-items-list', 'opened-list']" v-if = flowers.length>
+                    <li class = "filter-item" v-for = "item in flowers" :key = "item.id">
+                        <router-link
+                            :to = "{path: `/catalog/${item.id}`}" 
+                            :class = "['filter-link']"
+                            :data-flowertype = item.id
+                            @click.prevent = "getFilter(e);getFilteredProducts(e)"
                         >
-                            {{item.value}}
+                                {{item.name}}
                         </router-link>
-                </li>
-            </ul>
+                    </li>
+                </ul>
+            </div>
+            <div :class="[`filters-section`, `several-options-section`, colors.length ? `has-inside-content` : '']">
+                <div class = "filters-section__wrapper" @click = listVisibility>
+                    <a class = "filters-section__title">Выбор по цвету</a>
+                    <img :src="bottom_pic" alt="" class = "bottom_pic">
+                </div>
+                <ul class = "filter-items-list" v-if = colors.length>
+                    <li class = "filter-item" v-for = "item in colors" :key = "item.id">
+                        <router-link
+                            :to = "{path: `/catalog/${item.id}`}"
+                            :class = "['filter-link']"
+                            :data-color = item.id
+                            @click.prevent = "getFilter(e);getFilteredProducts(e)"
+                            >
+                                {{item.value}}
+                            </router-link>
+                    </li>
+                </ul>
+            </div>
+            <div :class="[`filters-section`, occasions.length ? `has-inside-content` : '']">
+                <div class = "filters-section__wrapper" @click = listVisibility>
+                    <a class = "filters-section__title">Повод</a>
+                    <img :src="bottom_pic" alt="" class = "bottom_pic">
+                </div>
+                <ul class = "filter-items-list" v-if = occasions.length>
+                    <li class = "filter-item" v-for = "item in occasions" :key = "item.id">
+                        <router-link
+                            :to = "{path: `/catalog/${item.id}`}"
+                            :class = "['filter-link']"
+                            :data-occasiontype = item.id
+                            @click.prevent = "getFilter(e);getFilteredProducts(e)"
+                            >
+                                {{item.name}}
+                            </router-link>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </template>
@@ -158,11 +159,11 @@ export default {
             console.log(flowers_category)
             console.log(occasion)
 
-            axios.get('//localhost:3000/catalog_products', {
+            axios.get('//localhost:3000/catalog_products_filters', {
                 params: {
-                    'colors': JSON.stringify(color),
-                    'flowers': JSON.stringify(flowers_category),
-                   'occasions': JSON.stringify(occasion)
+                    'flowers_category': JSON.stringify(flowers_category),
+                    'color': JSON.stringify(color),
+                    'occasion': JSON.stringify(occasion)
                 }
             })
                 .then(response => {
