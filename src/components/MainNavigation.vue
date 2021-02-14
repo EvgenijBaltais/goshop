@@ -43,17 +43,22 @@ export default {
 
     .main-navigation__item {
         display: inline-block;
-        padding: 10px 20px;
+        padding: 15px;
     }
 
     .main-navigation__link {
+        padding: 2px;
         font-size: 18px;
         line-height: 22px;
         letter-spacing: normal;
         cursor: pointer;
-        text-decoration: none!important;
+        text-decoration: none;
         color: #000!important;
         user-select: none;
+    }
+
+    .main-navigation__link.router-link-exact-active {
+        border-bottom: 2px solid #000;
     }
 
 </style>
