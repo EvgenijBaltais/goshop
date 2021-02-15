@@ -6,12 +6,27 @@
             <p class = "filters-title">
                 Уточнить условия поиска:
             </p>
-            <div class="filter-select">
-                <div class = "filter-select-item"></div>
-            </div>
-            <div>
-            <vue-range-slider v-model="value" :min="min" :max="max" :enable-cross="enableCross"></vue-range-slider>
-            </div>
+            <form action="" class = "filters-form">
+                <div class="form_radio">
+                    <input id="radio-1" type="radio" name="filter-default" value="1" checked>
+                    <label for="radio-1">По умолчанию</label>
+                </div>
+                
+                <div class="form_radio">
+                    <input id="radio-2" type="radio" name="filter-default" value="2">
+                    <label for="radio-2">По цене (от 100 до 100 000)</label>
+                </div>
+                
+                <div class="form_radio">
+                    <input id="radio-3" type="radio" name="filter-default" value="3">
+                    <label for="radio-3">По цене (от 100 000 до 100)</label>
+                </div>
+                
+                <div class="form_radio">
+                    <input id="radio-4" type="radio" name="filter-default" value="4">
+                    <label for="radio-4">По алфавиту</label>
+                </div>
+            </form>
         </div>
         <div class = "catalog-section">
             <Catalog_item
@@ -29,8 +44,6 @@
 
 import Catalog_item from '../components/Catalog_item'
 import Dashboard_menu from '../components/Dashboard_menu'
-import 'vue-range-component/dist/vue-range-slider.css'
-import VueRangeSlider from 'vue-range-component'
 
 export default {
     data(){
@@ -39,19 +52,13 @@ export default {
             bottom_pic: require('../assets/icons/to-bottom-pic.svg'),
             loading: 0,
             visibleProduct: this.$store.state.visibleProducts,
-            productsFullList: [],
-            value: [0, 100]
+            productsFullList: []
         }
     },
     components: {
-        Catalog_item, Dashboard_menu, VueRangeSlider
+        Catalog_item, Dashboard_menu
     },
     created() {
-        this.min = 0
-        this.max = 250
-        this.enableCross = false
-        this.tooltipMerge = false
-        this.formatter = value => `￥${value}`
     },
     computed: {
         products(){
@@ -264,8 +271,67 @@ export default {
     font-weight: bold;
 }
 
-.filter-select {
-    display: inline-block;
+/* Фильтры */
+
+.filters-form {
+    padding-top: 20px;
 }
+
+.filter-label {
+    display: block;
+    padding: 5px 0;
+    cursor: pointer;
+}
+
+.filter-span {
+    font-size: 18px;
+    line-height: 24px;
+}
+
+.form_radio {
+	margin-bottom: 10px;
+}
+.form_radio input[type=radio] {
+	display: none;
+}
+.form_radio label {
+	display: inline-block;
+	cursor: pointer;
+	position: relative;
+	padding-left: 25px;
+	margin-right: 0;
+	line-height: 18px;
+	user-select: none;
+}
+.form_radio label:before {
+	content: "";
+	display: block;
+    border-radius: 50%;
+    border: 1px solid #94CBE0;
+    box-sizing: border-box;
+	width: 18px;
+	height: 18px;
+	position: absolute;
+	left: 0;
+	bottom: 1px;
+	background: #fff;
+}
+
+/* Checked */
+.form_radio input[type=radio]:checked + label:after {
+	content: "";
+	display: block;
+    border-radius: 50%;
+    border: 1px solid #94CBE0;
+    box-sizing: border-box;
+	width: 12px;
+	height: 12px;
+	position: absolute;
+    top: 2px;
+	left: 3px;
+	background: #94CBE0;
+}
+
+/* Фильтры, конец */
 
 </style>
