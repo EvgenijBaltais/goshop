@@ -2,6 +2,17 @@
 <div class = "catalog-wrapper">
     <Dashboard_menu/>
     <div class = "catalog">
+        <div class="catalog-filters">
+            <p class = "filters-title">
+                Уточнить условия поиска:
+            </p>
+            <div class="filter-select">
+                <div class = "filter-select-item"></div>
+            </div>
+            <div>
+            <vue-range-slider v-model="value" :min="min" :max="max" :enable-cross="enableCross"></vue-range-slider>
+            </div>
+        </div>
         <div class = "catalog-section">
             <Catalog_item
                 v-for = 'item in products.slice(0, visibleProduct)'
@@ -18,6 +29,8 @@
 
 import Catalog_item from '../components/Catalog_item'
 import Dashboard_menu from '../components/Dashboard_menu'
+import 'vue-range-component/dist/vue-range-slider.css'
+import VueRangeSlider from 'vue-range-component'
 
 export default {
     data(){
@@ -26,11 +39,19 @@ export default {
             bottom_pic: require('../assets/icons/to-bottom-pic.svg'),
             loading: 0,
             visibleProduct: this.$store.state.visibleProducts,
-            productsFullList: []
+            productsFullList: [],
+            value: [0, 100]
         }
     },
     components: {
-        Catalog_item, Dashboard_menu
+        Catalog_item, Dashboard_menu, VueRangeSlider
+    },
+    created() {
+        this.min = 0
+        this.max = 250
+        this.enableCross = false
+        this.tooltipMerge = false
+        this.formatter = value => `￥${value}`
     },
     computed: {
         products(){
@@ -225,3 +246,26 @@ export default {
   }
 }
 </script>
+
+<style>
+
+.catalog-filters {
+    border-radius: 5px;
+    background: #D8D8D8;
+    margin: 0 auto 20px auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.filters-title {
+    font-size: 18px;
+    line-height: 24px;
+    color: #000;
+    font-weight: bold;
+}
+
+.filter-select {
+    display: inline-block;
+}
+
+</style>
