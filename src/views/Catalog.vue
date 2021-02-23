@@ -3,28 +3,38 @@
     <Dashboard_menu/>
     <div class = "catalog">
         <div class="catalog-filters">
-            <p class = "filters-title">
-                Уточнить условия поиска:
-            </p>
+            <p class = "filters-title">Уточнить условия поиска:</p>
             <form action="" class = "filters-form">
                 <div class="form_radio">
                     <input id="radio-1" type="radio" name="filter-default" value="1" checked>
                     <label for="radio-1">По умолчанию</label>
                 </div>
-                
                 <div class="form_radio">
                     <input id="radio-2" type="radio" name="filter-default" value="2">
                     <label for="radio-2">По цене (от 100 до 100 000)</label>
                 </div>
-                
                 <div class="form_radio">
                     <input id="radio-3" type="radio" name="filter-default" value="3">
                     <label for="radio-3">По цене (от 100 000 до 100)</label>
                 </div>
-                
                 <div class="form_radio">
                     <input id="radio-4" type="radio" name="filter-default" value="4">
                     <label for="radio-4">По алфавиту</label>
+                </div>
+                <div class="range-wrapper">
+                    <p class = "filters-title">Выбрать по цене:</p>
+                    <div id = "range-slider" class = "range-slider"></div>
+                    <div class="range-slide-prices">
+                        <label for="price-range-from">
+                            <span class = "bold-text">От:</span>
+                            <input type="text" class = "price-range-from" id = "price-range-from">
+                        </label>
+                        <label for="price-range-to">
+                            <span class = "bold-text">До:</span>
+                            <input type="text" class = "price-range-to" id = "price-range-to">
+                        </label>
+                        <button type = "button" class = "get-range-query" id = "get-range-query">Подобрать</button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -44,6 +54,8 @@
 
 import Catalog_item from '../components/Catalog_item'
 import Dashboard_menu from '../components/Dashboard_menu'
+import noUiSlider from 'nouislider'
+import 'nouislider/distribute/nouislider.css'
 
 export default {
     data(){
@@ -57,8 +69,6 @@ export default {
     },
     components: {
         Catalog_item, Dashboard_menu
-    },
-    created() {
     },
     computed: {
         products(){
@@ -243,9 +253,66 @@ export default {
             return el;
         }
     },
+    beforeMount(){
+        this.$store.dispatch('get_catalog_state').then(() => {
+
+                let min = 0, max = 1,
+                    from = document.getElementById('price-range-from'),
+                    to = document.getElementById('price-range-to'),
+                    inputs = [from, to],
+                    stepsSlider = document.getElementById('range-slider')
+
+                this.$store.state.catalog_state
+
+                for (let i = 0; i < this.$store.state.catalog_state.length; i++) {
+
+                    let item = this.$store.state.catalog_state[i].price
+
+                    if (max < item) max = item
+                    if (min == 0) min = item
+                    if (min > item) min = item
+                }
+
+                noUiSlider.create(stepsSlider, {
+                    start: [min, max],
+                    animate: true,
+                    tooltips: [true, true],
+                    format: {
+                        to: function ( value ) {
+                            return Math.round(value)
+                        },
+                        from: function ( value ) {
+                            return Math.round(value)
+                        }
+                    },
+                    connect: true,
+                    range: {
+                        'min': min,
+                        'max': max
+                    }
+                })
+
+            stepsSlider.noUiSlider.on('update', function (values, handle) {
+                inputs[handle].value = values[handle];
+            })
+
+            // Listen to keydown events on the input field.
+            inputs.forEach(function (input, handle) {
+                input.addEventListener('keydown', function () {
+                    stepsSlider.noUiSlider.setHandle(handle, this.value)
+                })
+            })
+
+            document.querySelector('.get-range-query').addEventListener('click', function(e){
+                e.preventDefault()
+                inputs.forEach(function (input, handle) {
+                    stepsSlider.noUiSlider.setHandle(handle, input.value)
+                })
+            })
+        })
+    },
     mounted() {
 
-        this.$store.dispatch('get_catalog_state')
         // https://www.jonportella.com/you-are-using-browser-events-wrong/ - потом проверить, надо передать не анонимную функцию, а именованную. Иначе событие не удаляется
     },
     unmounted(){
@@ -253,85 +320,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-.catalog-filters {
-    border-radius: 5px;
-    background: #D8D8D8;
-    margin: 0 auto 20px auto;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-.filters-title {
-    font-size: 18px;
-    line-height: 24px;
-    color: #000;
-    font-weight: bold;
-}
-
-/* Фильтры */
-
-.filters-form {
-    padding-top: 20px;
-}
-
-.filter-label {
-    display: block;
-    padding: 5px 0;
-    cursor: pointer;
-}
-
-.filter-span {
-    font-size: 18px;
-    line-height: 24px;
-}
-
-.form_radio {
-	margin-bottom: 10px;
-}
-.form_radio input[type=radio] {
-	display: none;
-}
-.form_radio label {
-	display: inline-block;
-	cursor: pointer;
-	position: relative;
-	padding-left: 25px;
-	margin-right: 0;
-	line-height: 18px;
-	user-select: none;
-}
-.form_radio label:before {
-	content: "";
-	display: block;
-    border-radius: 50%;
-    border: 1px solid #94CBE0;
-    box-sizing: border-box;
-	width: 18px;
-	height: 18px;
-	position: absolute;
-	left: 0;
-	bottom: 1px;
-	background: #fff;
-}
-
-/* Checked */
-.form_radio input[type=radio]:checked + label:after {
-	content: "";
-	display: block;
-    border-radius: 50%;
-    border: 1px solid #94CBE0;
-    box-sizing: border-box;
-	width: 12px;
-	height: 12px;
-	position: absolute;
-    top: 2px;
-	left: 3px;
-	background: #94CBE0;
-}
-
-/* Фильтры, конец */
-
-</style>

@@ -256,4 +256,155 @@
     background-color: #dbddde;
 }
 
+.catalog-filters {
+    border-radius: 5px;
+    background: #D8D8D8;
+    margin: 0 auto 20px auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.filters-title {
+    font-size: 18px;
+    line-height: 24px;
+    color: #000;
+    font-weight: bold;
+}
+
+/* Фильтры */
+
+.filters-form {
+    padding-top: 20px;
+}
+
+.filter-label {
+    display: block;
+    padding: 5px 0;
+    cursor: pointer;
+}
+
+.filter-span {
+    font-size: 18px;
+    line-height: 24px;
+}
+
+.form_radio {
+	margin-bottom: 10px;
+}
+.form_radio input[type=radio] {
+	display: none;
+}
+.form_radio label {
+	display: inline-block;
+	cursor: pointer;
+	position: relative;
+	padding-left: 25px;
+	margin-right: 0;
+	line-height: 18px;
+	user-select: none;
+}
+.form_radio label:before {
+	content: "";
+	display: block;
+    border-radius: 50%;
+    border: 1px solid #94CBE0;
+    box-sizing: border-box;
+	width: 18px;
+	height: 18px;
+	position: absolute;
+	left: 0;
+	bottom: 1px;
+	background: #fff;
+}
+
+/* Checked */
+.form_radio input[type=radio]:checked + label:after {
+	content: "";
+	display: block;
+    border-radius: 50%;
+    border: 1px solid #94CBE0;
+    box-sizing: border-box;
+	width: 12px;
+	height: 12px;
+	position: absolute;
+    top: 2px;
+	left: 3px;
+	background: #94CBE0;
+}
+
+/* Фильтры, конец */
+
+.range-wrapper {
+    padding: 20px 0;
+}
+
+.range-slider {
+    width: 300px;
+    margin: 50px 0 20px 20px;
+}
+
+.range-slide-prices {
+    display: flex;
+}
+
+.range-slide-prices label {
+    display: block;
+}
+
+.price-range-from {
+    width: 100px;
+    height: 20px;
+    margin-right: 30px;
+    margin-left: 10px;
+    padding: 10px;
+    border: 0!important;
+    outline: 0!important;
+    cursor: pointer;
+}
+
+.price-range-to {
+    width: 100px;
+    height: 20px;
+    margin-right: 30px;
+    margin-left: 10px;
+    padding: 10px;
+    border: 0!important;
+    outline: 0!important;
+    cursor: pointer;
+}
+
+.get-range-query {
+    display: block;
+    width: 100%;
+    width: 120px;
+    border-radius: 3px;
+    padding: 10px 0;
+    background: #94CBE0;
+    color: #292B2C;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 20px;
+    cursor: pointer;
+    border: 0!important;
+    outline: 0!important;
+    transition: background .3s;
+}
+.get-range-query:hover {
+    transition: background .3s;
+    background: #72A9BE;
+}
+
+.get-range-query:active {
+    background: #AAE1F6;
+}
+
+.range-wrapper .noUi-connect {
+    background: #94CBE0;
+}
+
+.noUi-touch-area {
+    border: 0!important;
+    outline: 0!important;
+}
+
 /* Каталог, конец */

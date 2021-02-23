@@ -17,6 +17,7 @@
     "mysql-pool-cluster": "^0.1.1",
     "mysql2": "^2.1.0",
     "nodemon": "^2.0.6",
+    "nouislider": "^14.6.3",
     "pickmeup": "^3.2.1",
     "qs": "^6.9.6",
     "vue": "^3.0.2",

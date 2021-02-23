@@ -32,7 +32,6 @@ export default {
         Catalog_item, Dashboard_menu
     },
     mounted() {
-        console.log(this.$route)
         this.$store.dispatch('get_catalog_state', {
             category: this.$route.params.category
         })
