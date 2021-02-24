@@ -349,13 +349,14 @@
 
 .range-slide-prices label {
     display: block;
+    margin-right: 30px;
 }
 
 .price-range-from {
-    width: 100px;
+    width: 80px;
     height: 20px;
-    margin-right: 30px;
     margin-left: 10px;
+    margin-right: 10px;
     padding: 10px;
     border: 0!important;
     outline: 0!important;
@@ -363,10 +364,10 @@
 }
 
 .price-range-to {
-    width: 100px;
+    width: 80px;
     height: 20px;
-    margin-right: 30px;
     margin-left: 10px;
+    margin-right: 10px;
     padding: 10px;
     border: 0!important;
     outline: 0!important;

@@ -28,10 +28,12 @@
                         <label for="price-range-from">
                             <span class = "bold-text">От:</span>
                             <input type="text" class = "price-range-from" id = "price-range-from">
+                            <span class = "bold-text">руб.</span>
                         </label>
                         <label for="price-range-to">
                             <span class = "bold-text">До:</span>
                             <input type="text" class = "price-range-to" id = "price-range-to">
+                            <span class = "bold-text">руб.</span>
                         </label>
                         <button type = "button" class = "get-range-query" id = "get-range-query">Подобрать</button>
                     </div>
