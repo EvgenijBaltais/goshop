@@ -5,16 +5,18 @@
                 <a class = "filters-section__title">Разделы:</a>
                 <img :src="bottom_pic" alt="" class = "bottom_pic">
             </div>
-            <ul class = "filter-items-list" v-if = categories.length>
-                <li class = "filter-item" v-for = "item in categories" :key = "item.id">
-                    <router-link 
-                        :to = "{name: 'Category_page', params: {category: `${item.url_name}`}}"
-                        :class = "['filter-link', item.url_name == page_url ? 'category-link-choosen':'']"
-                    >
-                        {{item.name}}
-                    </router-link>
-                </li>
-            </ul>
+            <div class = "dashboard-items-w">
+                <ul class = "filter-items-list" v-if = categories.length>
+                    <li class = "filter-item" v-for = "item in categories" :key = "item.id">
+                        <router-link 
+                            :to = "{name: 'Category_page', params: {category: `${item.url_name}`}}"
+                            :class = "['filter-link', item.url_name == page_url ? 'category-link-choosen':'']"
+                        >
+                            {{item.name}}
+                        </router-link>
+                    </li>
+                </ul>
+            </div>
         </div>
         <div v-if = 'this.$route.name == "Catalog"'>
             <div class="filters-title-section">
@@ -33,54 +35,60 @@
                     <a class = "filters-section__title">Выбрать цветы</a>
                     <img :src="bottom_pic" alt="" class = "bottom_pic">
                 </div>
-                <ul :class = "['filter-items-list', 'opened-list']" v-if = flowers.length>
-                    <li class = "filter-item" v-for = "item in flowers" :key = "item.id">
-                        <router-link
-                            :to = "{path: `/catalog/${item.id}`}" 
-                            :class = "['filter-link']"
-                            :data-flowertype = item.id
-                            @click.prevent = "getFilter(e);getFilteredProducts(e)"
-                        >
-                                {{item.name}}
-                        </router-link>
-                    </li>
-                </ul>
+                <div class = "dashboard-items-w">
+                    <ul :class = "['filter-items-list', 'opened-list']" v-if = flowers.length>
+                        <li class = "filter-item" v-for = "item in flowers" :key = "item.id">
+                            <router-link
+                                :to = "{path: `/catalog/${item.id}`}" 
+                                :class = "['filter-link']"
+                                :data-flowertype = item.id
+                                @click.prevent = "getFilter(e);getFilteredProducts(e)"
+                            >
+                                    {{item.name}}
+                            </router-link>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div :class="[`filters-section`, `several-options-section`, colors.length ? `has-inside-content` : '']">
                 <div class = "filters-section__wrapper" @click = listVisibility>
                     <a class = "filters-section__title">Выбор по цвету</a>
                     <img :src="bottom_pic" alt="" class = "bottom_pic">
                 </div>
-                <ul class = "filter-items-list" v-if = colors.length>
-                    <li class = "filter-item" v-for = "item in colors" :key = "item.id">
-                        <router-link
-                            :to = "{path: `/catalog/${item.id}`}"
-                            :class = "['filter-link']"
-                            :data-color = item.id
-                            @click.prevent = "getFilter(e);getFilteredProducts(e)"
-                            >
-                                {{item.value}}
-                            </router-link>
-                    </li>
-                </ul>
+                <div class = "dashboard-items-w">
+                    <ul class = "filter-items-list" v-if = colors.length>
+                        <li class = "filter-item" v-for = "item in colors" :key = "item.id">
+                            <router-link
+                                :to = "{path: `/catalog/${item.id}`}"
+                                :class = "['filter-link']"
+                                :data-color = item.id
+                                @click.prevent = "getFilter(e);getFilteredProducts(e)"
+                                >
+                                    {{item.value}}
+                                </router-link>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div :class="[`filters-section`, occasions.length ? `has-inside-content` : '']">
                 <div class = "filters-section__wrapper" @click = listVisibility>
                     <a class = "filters-section__title">Повод</a>
                     <img :src="bottom_pic" alt="" class = "bottom_pic">
                 </div>
-                <ul class = "filter-items-list" v-if = occasions.length>
-                    <li class = "filter-item" v-for = "item in occasions" :key = "item.id">
-                        <router-link
-                            :to = "{path: `/catalog/${item.id}`}"
-                            :class = "['filter-link']"
-                            :data-occasiontype = item.id
-                            @click.prevent = "getFilter(e);getFilteredProducts(e)"
-                            >
-                                {{item.name}}
-                            </router-link>
-                    </li>
-                </ul>
+                <div class = "dashboard-items-w">
+                    <ul class = "filter-items-list" v-if = occasions.length>
+                        <li class = "filter-item" v-for = "item in occasions" :key = "item.id">
+                            <router-link
+                                :to = "{path: `/catalog/${item.id}`}"
+                                :class = "['filter-link']"
+                                :data-occasiontype = item.id
+                                @click.prevent = "getFilter(e);getFilteredProducts(e)"
+                                >
+                                    {{item.name}}
+                                </router-link>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -207,11 +215,16 @@ export default {
             if (!parent.classList.contains('has-inside-content')) return false
 
             if (parent.classList.contains('opened-list')){
+
+                parent.querySelector('.dashboard-items-w').style.height = 0
+
                 parent.classList.remove('opened-list')
                 return false
             }
             
             parent.classList.add('opened-list')
+
+            parent.querySelector('.dashboard-items-w').style.height = parent.querySelector('.filter-items-list').clientHeight + 'px'
 
             return false;
         },
@@ -274,6 +287,9 @@ export default {
             while ((el = el.parentElement) && !el.classList.contains(cls));
             return el;
         }
+    },
+    mounted(){
+
     }
 }
 </script>

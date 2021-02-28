@@ -88,7 +88,7 @@ export default {
         font-weight: bold;
     }
     .footer-menu__link {
-        display: block;
+        display: inline-block;
         color: #fff!important;
         font-size: 18px;
         line-height: 24px;

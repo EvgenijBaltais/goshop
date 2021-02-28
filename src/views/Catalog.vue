@@ -3,42 +3,47 @@
     <Dashboard_menu/>
     <div class = "catalog">
         <div class="catalog-filters">
-            <p class = "filters-title">Уточнить условия поиска:</p>
-            <form action="" class = "filters-form">
-                <div class="form_radio">
-                    <input id="radio-1" type="radio" name="filter-default" value="1" checked>
-                    <label for="radio-1">По умолчанию</label>
-                </div>
-                <div class="form_radio">
-                    <input id="radio-2" type="radio" name="filter-default" value="2">
-                    <label for="radio-2">По цене (от 100 до 100 000)</label>
-                </div>
-                <div class="form_radio">
-                    <input id="radio-3" type="radio" name="filter-default" value="3">
-                    <label for="radio-3">По цене (от 100 000 до 100)</label>
-                </div>
-                <div class="form_radio">
-                    <input id="radio-4" type="radio" name="filter-default" value="4">
-                    <label for="radio-4">По алфавиту</label>
-                </div>
-                <div class="range-wrapper">
-                    <p class = "filters-title">Выбрать по цене:</p>
-                    <div id = "range-slider" class = "range-slider"></div>
-                    <div class="range-slide-prices">
-                        <label for="price-range-from">
-                            <span class = "bold-text">От:</span>
-                            <input type="text" class = "price-range-from" id = "price-range-from">
-                            <span class = "bold-text">руб.</span>
-                        </label>
-                        <label for="price-range-to">
-                            <span class = "bold-text">До:</span>
-                            <input type="text" class = "price-range-to" id = "price-range-to">
-                            <span class = "bold-text">руб.</span>
-                        </label>
-                        <button type = "button" class = "get-range-query" id = "get-range-query">Подобрать</button>
+            <div class = "show-vars-w">
+                <span class = "filters-title">Уточнить условия поиска:</span>
+                <a class = "show-filter-variants" @click.prevent = "showFilterVariants">Показать</a>
+            </div>
+            <div class = "filters-form-w" id = "filters-form-w">
+                <form action="" class = "filters-form" id = "filters-form">
+                    <div class="form_radio">
+                        <input id="radio-1" type="radio" name="filter-default" value="1" checked>
+                        <label for="radio-1">По умолчанию</label>
                     </div>
-                </div>
-            </form>
+                    <div class="form_radio">
+                        <input id="radio-2" type="radio" name="filter-default" value="2">
+                        <label for="radio-2">По цене (от 100 до 100 000)</label>
+                    </div>
+                    <div class="form_radio">
+                        <input id="radio-3" type="radio" name="filter-default" value="3">
+                        <label for="radio-3">По цене (от 100 000 до 100)</label>
+                    </div>
+                    <div class="form_radio">
+                        <input id="radio-4" type="radio" name="filter-default" value="4">
+                        <label for="radio-4">По алфавиту</label>
+                    </div>
+                    <div class="range-wrapper">
+                        <p class = "filters-title">Выбрать по цене:</p>
+                        <div id = "range-slider" class = "range-slider"></div>
+                        <div class="range-slide-prices">
+                            <label for="price-range-from">
+                                <span class = "bold-text">От:</span>
+                                <input type="text" class = "price-range-from" id = "price-range-from">
+                                <span class = "bold-text">руб.</span>
+                            </label>
+                            <label for="price-range-to">
+                                <span class = "bold-text">До:</span>
+                                <input type="text" class = "price-range-to" id = "price-range-to">
+                                <span class = "bold-text">руб.</span>
+                            </label>
+                            <button type = "button" class = "get-range-query" id = "get-range-query">Подобрать</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
         <div class = "catalog-section">
             <Catalog_item
@@ -138,6 +143,23 @@ export default {
                     }
                 })
         },
+        showFilterVariants(){
+
+            let parent = this.getParent(event.target, 'catalog-filters')
+
+            if (parent.classList.contains('opened-item')) {
+
+                document.getElementById('filters-form-w').style.height = 0
+
+                parent.classList.remove('opened-item')
+                event.target.innerText = "Показать"
+            }
+            else {
+                document.getElementById('filters-form-w').style.height = document.getElementById('filters-form').clientHeight + 'px'
+                parent.classList.add('opened-item')
+                event.target.innerText = "Скрыть"
+            }
+        },
         getMoreItems(){
 
             let allProducts = this.products
@@ -180,75 +202,6 @@ export default {
                 rect.bottom <= (window.innerHeight || html.clientHeight) &&
                 rect.right <= (window.innerWidth || html.clientWidth)
             )
-        },
-        listVisibility(){
-
-            let parent = this.getParent(event.target, 'filters-section')
-
-            if (!parent.classList.contains('has-inside-content')) return false
-
-            if (parent.classList.contains('opened-list')){
-                parent.classList.remove('opened-list')
-                return false
-            }
-            
-            parent.classList.add('opened-list')
-
-            return false;
-        },
-        getFilter: function() {
-
-            if (!document.getElementById('choosen-filters')) return false
-
-            let copiedElement = ''
-
-            if (!event.target.classList.contains('filter-link-choosen')) {
-                event.target.classList.add('filter-link-choosen')
-                copiedElement = document.createElement('a')
-
-                for (let i = 0; i < event.target.classList.length; i++) {
-                    copiedElement.classList.add(event.target.classList[i])
-                }
-
-                for (let key in event.target.dataset) {
-                    copiedElement.setAttribute('data-' + key.toLowerCase(), event.target.dataset[key])
-                }
-
-                copiedElement.innerText = event.target.innerText
-
-                copiedElement.addEventListener('click', this.clearSelectedItem)
-
-                document.getElementById('choosen-filters').insertAdjacentElement('beforeend', copiedElement)
-                return false
-            }
-
-            let selectedItems = document.getElementById('choosen-filters').childNodes
-
-            for (let i = 0; i < selectedItems.length; i++) {
-                if (selectedItems[i].innerText != event.target.innerText) continue
-
-                selectedItems[i].remove()
-                break
-            }
-            event.target.classList.remove('filter-link-choosen')
-        },
-        clearAll: function(){
-            document.getElementById('choosen-filters').innerHTML = ''
-
-            document.querySelectorAll('.filter-link').forEach(element => {
-                element.classList.remove('filter-link-choosen')
-            })
-
-            this.products = this.productsFullList
-        },
-        clearSelectedItem: function(event){
-            document.querySelectorAll('.filter-link').forEach(element => {
-                if (element.innerText == event.target.innerText) {
-                    element.classList.remove('filter-link-choosen')
-                    return false
-                }
-            })
-            event.target.remove()
         },
         getParent: function(el, cls){
             while ((el = el.parentElement) && !el.classList.contains(cls));
