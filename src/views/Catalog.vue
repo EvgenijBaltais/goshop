@@ -11,19 +11,19 @@
                 <form action="" class = "filters-form" id = "filters-form">
                     <div class="form_radio">
                         <input id="radio-1" type="radio" name="filter-default" value="1" checked>
-                        <label for="radio-1">По умолчанию</label>
+                        <label for="radio-1" class = "price-change" id = "price-default" @click = "remakeCatalog">По умолчанию</label>
                     </div>
                     <div class="form_radio">
                         <input id="radio-2" type="radio" name="filter-default" value="2">
-                        <label for="radio-2">По цене (от 100 до 100 000)</label>
+                        <label for="radio-2" class = "price-change" id = "price-min-to-max" @click = "remakeCatalog">По цене (от 100 до 100 000)</label>
                     </div>
                     <div class="form_radio">
                         <input id="radio-3" type="radio" name="filter-default" value="3">
-                        <label for="radio-3">По цене (от 100 000 до 100)</label>
+                        <label for="radio-3" class = "price-change" id = "price-max-to-min" @click = "remakeCatalog">По цене (от 100 000 до 100)</label>
                     </div>
                     <div class="form_radio">
                         <input id="radio-4" type="radio" name="filter-default" value="4">
-                        <label for="radio-4">По алфавиту</label>
+                        <label for="radio-4" class = "price-change" id = "price-alfabet" @click = "remakeCatalog">По алфавиту</label>
                     </div>
                     <div class="range-wrapper">
                         <p class = "filters-title">Выбрать по цене:</p>
@@ -116,32 +116,32 @@ export default {
                 }
             }
 
-                this.productsFullList.forEach(element => {
+            this.productsFullList.forEach(element => {
 
-                    for (let i = 0; i < filters.length; i++) {
-                        if (filters[i].getAttribute('data-color')) {
-                            for (let k = 0; k < colors.length; k++) {
-                                if (element.color == colors[k]) {
-                                    let exists = newItems.some(function(el){
-                                        return el.id == element.id
-                                    })
-                                    if (!exists) newItems.push(element) 
-                                }
-                            }
-                        }
-
-                        if (filters[i].getAttribute('data-flowertype')) {
-                            for (let k = 0; k < flowers.length; k++) {
-                                if (element.flowers_category == flowers[k]) {
-                                    let exists = newItems.some(function(el){
-                                        return el.id == element.id
-                                    })
-                                    if (!exists) newItems.push(element) 
-                                }
+                for (let i = 0; i < filters.length; i++) {
+                    if (filters[i].getAttribute('data-color')) {
+                        for (let k = 0; k < colors.length; k++) {
+                            if (element.color == colors[k]) {
+                                let exists = newItems.some(function(el){
+                                    return el.id == element.id
+                                })
+                                if (!exists) newItems.push(element) 
                             }
                         }
                     }
-                })
+
+                    if (filters[i].getAttribute('data-flowertype')) {
+                        for (let k = 0; k < flowers.length; k++) {
+                            if (element.flowers_category == flowers[k]) {
+                                let exists = newItems.some(function(el){
+                                    return el.id == element.id
+                                })
+                                if (!exists) newItems.push(element) 
+                            }
+                        }
+                    }
+                }
+            })
         },
         showFilterVariants(){
 
@@ -159,6 +159,29 @@ export default {
                 parent.classList.add('opened-item')
                 event.target.innerText = "Скрыть"
             }
+        },
+        remakeCatalog(){
+
+            new Promise((resolve) => {
+
+                this.remakeBackground(document.querySelector('.catalog-section'))
+
+                setTimeout(() => {
+                    resolve()
+                }, 500)
+            }).then(() => {
+                this.remakeBackground(document.querySelector('.catalog-section'))
+            })
+        },
+        remakeBackground(catalogBlock){
+
+            if (catalogBlock.querySelectorAll('.remaking-loading').length) {
+                for (let i = 0; i < catalogBlock.querySelectorAll('.remaking-loading').length; i++) {
+                    catalogBlock.querySelectorAll('.remaking-loading')[i].remove()
+                }
+                return false
+            }
+            catalogBlock.insertAdjacentHTML('beforeend', '<div class = "remaking-loading"></div>')
         },
         getMoreItems(){
 
