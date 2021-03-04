@@ -59,6 +59,28 @@ const store = createStore({
         },
         CHANGE_SEARCH_DATA: (state, arr) => {
             state.search = arr
+        },
+        SORT_CATALOG: (state, data) => {
+
+            let arr = [],
+                obj = {}
+            // Сортировка по алфавиту
+            if (data.type == 'price-alfabet') {
+                for (let i = 0; i < state.catalog_state.length; i++) {
+                    arr.push(state.catalog_state[i]['title'])
+                }
+
+                arr = arr.sort()
+
+                for (let i = 0; i < arr.length; i++) {
+                    for (let k = 0; k < state.catalog_state.length; k++) {
+                        if (state.catalog_state[k]['title'] == arr[i]) {
+                            obj[i] = state.catalog_state[k]
+                        }
+                    }
+                }
+                state.catalog_state = obj
+            }
         }
     },
     actions: {
@@ -119,6 +141,10 @@ const store = createStore({
                 console.log(e)
                 return e
             })
+        },
+        sort_catalog({state}, data) {
+            state
+            this.commit('SORT_CATALOG', data)
         },
         get_flowers_types() {
             return axios('//localhost:3000/get_flowers_types', {

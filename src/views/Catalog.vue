@@ -46,8 +46,9 @@
             </div>
         </div>
         <div class = "catalog-section">
+            <!-- v-for = 'item in products.slice(0, visibleProduct)' -->
             <Catalog_item
-                v-for = 'item in products.slice(0, visibleProduct)'
+                v-for = 'item in products'
                 :key = 'item.id'
                 :items = 'item'
             />
@@ -166,9 +167,12 @@ export default {
 
                 this.remakeBackground(document.querySelector('.catalog-section'))
 
-                setTimeout(() => {
+                this.$store.dispatch('sort_catalog', {
+                    'type': event.target.getAttribute('id')
+                }).then(() => {
                     resolve()
-                }, 500)
+                })
+
             }).then(() => {
                 this.remakeBackground(document.querySelector('.catalog-section'))
             })
