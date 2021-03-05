@@ -48,8 +48,8 @@
         <div class = "catalog-section">
             <!-- v-for = 'item in products.slice(0, visibleProduct)' -->
             <Catalog_item
-                v-for = 'item in products'
-                :key = 'item.id'
+                v-for = '(item, i) in products'
+                :key = 'i'
                 :items = 'item'
             />
         </div>
@@ -163,18 +163,24 @@ export default {
         },
         remakeCatalog(){
 
+            let ev = event.target
+
+            if (this.getParent(ev, 'form_radio').querySelector('input[type="radio"]').checked) return false
+
             new Promise((resolve) => {
 
                 this.remakeBackground(document.querySelector('.catalog-section'))
 
-                this.$store.dispatch('sort_catalog', {
-                    'type': event.target.getAttribute('id')
-                }).then(() => {
+                setTimeout(() => {
                     resolve()
-                })
+                }, 500)
 
             }).then(() => {
-                this.remakeBackground(document.querySelector('.catalog-section'))
+                this.$store.dispatch('sort_catalog', {
+                    'type': ev.getAttribute('id')
+                }).then(() => {
+                    this.remakeBackground(document.querySelector('.catalog-section'))
+                })
             })
         },
         remakeBackground(catalogBlock){

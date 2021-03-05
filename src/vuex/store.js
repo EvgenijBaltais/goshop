@@ -61,25 +61,35 @@ const store = createStore({
             state.search = arr
         },
         SORT_CATALOG: (state, data) => {
+            
+            // Сортировка по умолчанию
+            if (data.type == 'price-default') {
+                state.catalog_state = state.products.data
+                return false
+            }
 
-            let arr = [],
-                obj = {}
+            // Сортировка по цене - от min до max
+            if (data.type == 'price-min-to-max') {
+                state.catalog_state.sort((a, b) => {
+                    return a.price-b.price
+                })
+                return false
+            }
+
+            // Сортировка по цене - от max до min
+            if (data.type == 'price-max-to-min') {
+                state.catalog_state.sort((a, b) => {
+                    return b.price - a.price
+                })
+                return false
+            }
+
             // Сортировка по алфавиту
             if (data.type == 'price-alfabet') {
-                for (let i = 0; i < state.catalog_state.length; i++) {
-                    arr.push(state.catalog_state[i]['title'])
-                }
-
-                arr = arr.sort()
-
-                for (let i = 0; i < arr.length; i++) {
-                    for (let k = 0; k < state.catalog_state.length; k++) {
-                        if (state.catalog_state[k]['title'] == arr[i]) {
-                            obj[i] = state.catalog_state[k]
-                        }
-                    }
-                }
-                state.catalog_state = obj
+                state.catalog_state.sort((a, b) => {
+                    return b.title - a.title
+                })
+                return false
             }
         }
     },
