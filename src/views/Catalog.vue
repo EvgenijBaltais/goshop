@@ -15,11 +15,11 @@
                     </div>
                     <div class="form_radio">
                         <input id="radio-2" type="radio" name="filter-default" value="2">
-                        <label for="radio-2" class = "price-change" id = "price-min-to-max" @click = "remakeCatalog">По цене (от 100 до 100 000)</label>
+                        <label for="radio-2" class = "price-change" id = "price-min-to-max" @click = "remakeCatalog">По цене (от <span class = "min-val"></span> до <span class = "max-val"></span> рублей)</label>
                     </div>
                     <div class="form_radio">
                         <input id="radio-3" type="radio" name="filter-default" value="3">
-                        <label for="radio-3" class = "price-change" id = "price-max-to-min" @click = "remakeCatalog">По цене (от 100 000 до 100)</label>
+                        <label for="radio-3" class = "price-change" id = "price-max-to-min" @click = "remakeCatalog">По цене (от <span class = "max-val"></span> до <span class = "min-val"></span> рублей)</label>
                     </div>
                     <div class="form_radio">
                         <input id="radio-4" type="radio" name="filter-default" value="4">
@@ -173,7 +173,7 @@ export default {
 
                 setTimeout(() => {
                     resolve()
-                }, 500)
+                }, 250)
 
             }).then(() => {
                 this.$store.dispatch('sort_catalog', {
@@ -236,12 +236,28 @@ export default {
                 rect.right <= (window.innerWidth || html.clientWidth)
             )
         },
+        clearFilters(){
+
+            if (!document.querySelectorAll('input[name="filter-default"]').length) return false
+
+            for (let i = 0; i < document.querySelectorAll('input[name="filter-default"]').length; i++) {
+                if (i == 0) {
+                    document.querySelectorAll('input[name="filter-default"]')[i].checked = true
+                }
+                else {
+                    document.querySelectorAll('input[name="filter-default"]')[i].checked = false
+                }
+            }
+        },
         getParent: function(el, cls){
             while ((el = el.parentElement) && !el.classList.contains(cls));
             return el;
         }
     },
     beforeMount(){
+
+        let $this = this
+
         this.$store.dispatch('get_catalog_state').then(() => {
 
                 let min = 0, max = 1,
@@ -250,7 +266,7 @@ export default {
                     inputs = [from, to],
                     stepsSlider = document.getElementById('range-slider')
 
-                this.$store.state.catalog_state
+                // Определить минимальную и максимальную цены
 
                 for (let i = 0; i < this.$store.state.catalog_state.length; i++) {
 
@@ -260,6 +276,18 @@ export default {
                     if (min == 0) min = item
                     if (min > item) min = item
                 }
+
+                // Записать минимальную и максимальную цены в соответствующие классы
+
+                for (let i = 0; i < document.querySelectorAll('.min-val').length; i++) {
+                    document.querySelectorAll('.min-val')[i].innerText = min
+                }
+
+                for (let i = 0; i < document.querySelectorAll('.max-val').length; i++) {
+                    document.querySelectorAll('.max-val')[i].innerText = max
+                }
+
+                // Ползунок-слайдер с минимальной и максимальной ценой
 
                 noUiSlider.create(stepsSlider, {
                     start: [min, max],
@@ -284,18 +312,49 @@ export default {
                 inputs[handle].value = values[handle];
             })
 
+            stepsSlider.noUiSlider.on('start', function () {
+
+                $this.clearFilters()
+                $this.remakeBackground(document.querySelector('.catalog-section'))
+            })
+
+            stepsSlider.noUiSlider.on('end', function (values) {
+
+                $this.$store.dispatch('sort_catalog', {
+                    'type': 'slider',
+                    'min': values[0],
+                    'max': values[1]
+                }).then(() => {
+                    $this.remakeBackground(document.querySelector('.catalog-section'))
+                })
+            })
+
             // Listen to keydown events on the input field.
             inputs.forEach(function (input, handle) {
                 input.addEventListener('keydown', function () {
-                    stepsSlider.noUiSlider.setHandle(handle, this.value)
+                    if (event.keyCode == 13) stepsSlider.noUiSlider.setHandle(handle, this.value)
                 })
             })
 
             document.querySelector('.get-range-query').addEventListener('click', function(e){
                 e.preventDefault()
-                inputs.forEach(function (input, handle) {
-                    stepsSlider.noUiSlider.setHandle(handle, input.value)
-                })
+                //inputs.forEach(function (input, handle) {
+                //    stepsSlider.noUiSlider.setHandle(handle, input.value)
+                //})
+
+                $this.remakeBackground(document.querySelector('.catalog-section'))
+
+                $this.clearFilters()
+
+                setTimeout(() => {
+                    $this.$store.dispatch('sort_catalog', {
+                        'type': 'slider',
+                        'min': inputs[0].value,
+                        'max': inputs[1].value
+                    }).then(() => {
+                        $this.remakeBackground(document.querySelector('.catalog-section'))
+                    })
+                }, 250)
             })
         })
     },

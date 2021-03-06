@@ -91,6 +91,20 @@ const store = createStore({
                 })
                 return false
             }
+
+            // Сортировка при помощи ползунка
+            if (data.type == 'slider') {
+
+                state.catalog_state = []
+
+                for (let i = 0; i < state.products.data.length; i++) {
+
+                    if (state.products.data[i].price < data.min || state.products.data[i].price > data.max) continue
+                    
+                    state.catalog_state.push(state.products.data[i])
+                }
+                return false
+            }
         }
     },
     actions: {
