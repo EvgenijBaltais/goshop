@@ -124,7 +124,6 @@ export default {
         }
     },
     computed: {
-
         bestsellers(){
             let i = 0,
                 bestsellers = []

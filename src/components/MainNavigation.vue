@@ -4,10 +4,10 @@
             <router-link :to = "{name: 'Home'}" class = "main-navigation__link">Главная</router-link>
         </div>
         <div class = "main-navigation__item">
-            <router-link :to = "{name: 'Category_page', params: {category: 'flowers'}}" class = "main-navigation__link">Выбрать цветы</router-link>
+            <router-link :to = "{name: 'Catalog'}" class = "main-navigation__link">Каталог товаров</router-link>
         </div>
         <div class = "main-navigation__item">
-            <router-link :to = "{name: 'Catalog'}" class = "main-navigation__link">Каталог товаров</router-link>
+            <router-link :to = "{name: 'Category_page', params: {category: 'flowers'}}" class = "main-navigation__link">Выбрать цветы</router-link>
         </div>
         <div class = "main-navigation__item">
             <router-link :to = "{path: '/myfavorite'}" class = "main-navigation__link">Избранное</router-link>

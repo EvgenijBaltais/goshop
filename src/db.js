@@ -137,7 +137,7 @@ app.get('/catalog_products', (req, res) => {
 })
 
 // Получить данные для отображения каталога с фильтрами
-
+/*
 app.get('/catalog_products_filters', (req, res) => {
 
     let queryStr = 'SELECT * from product_category'
@@ -199,6 +199,7 @@ app.get('/catalog_products_filters', (req, res) => {
         }
     })
 })
+*/
 
 // Get all prices
 app.get('/prices', (req, res) => {

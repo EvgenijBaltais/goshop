@@ -1,6 +1,54 @@
 import { createStore } from 'vuex'
 import axios from 'axios'
 
+// Функция принимает объект с выбранными фильтрами по категориям в левом меню, применяет их
+// и возвращает объект для дальнейшей фильтрации по алфавиту, цене и прочим
+ 
+ function applyUserFiltersToCatalog(filters, products, category = 0) {
+
+    let mySet = new Set(),
+        arr = [],
+        iteration = 0,
+        noFilters = true,
+        category_filter = category
+
+        category_filter
+
+    for (let key in filters) {
+        if (filters[key].length) {
+            for (let item in products) {
+                for (let i = 0; i < filters[key].length; i++) {
+                    if (products[item][key] != filters[key][i]) continue
+                        mySet.add(products[item])
+                }
+            }
+            noFilters = 0
+        }
+    }
+
+    for (let key of mySet) {
+        arr[iteration] = key
+        iteration++
+    }
+
+    // На случай если фильтров нет
+    if (noFilters || filters.length) arr = products
+
+    // Отфильтровать по категории если она есть
+
+    if (category_filter) {
+        let arr2 = []
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i]['category_url'] == category_filter) {
+                arr2.push(arr[i])
+            }
+        }
+        arr = arr2
+    }
+
+    return arr
+}
+
 const store = createStore({
     state () {
         return {
@@ -12,6 +60,7 @@ const store = createStore({
             flowers: [],
             colors: [],
             occasions: [],
+            filters: {},
             favorite: [],
             search: [],
             visibleProducts: 21          // Количество видимых элементов в каталоге
@@ -60,48 +109,72 @@ const store = createStore({
         CHANGE_SEARCH_DATA: (state, arr) => {
             state.search = arr
         },
+        ADD_FILTERS: (state, data) => {
+            state.filters = data
+        },
+        APPLY_FILTERS: (state, data) => {
+
+            if (data.clear == 1) {
+                state.catalog_state = state.products.data
+                return false
+            }
+
+            state.catalog_state = applyUserFiltersToCatalog(state.filters, state.products.data)
+        },
         SORT_CATALOG: (state, data) => {
-            
+
+            let arr = []
+
             // Сортировка по умолчанию
             if (data.type == 'price-default') {
-                state.catalog_state = state.products.data
+
+               state.catalog_state = applyUserFiltersToCatalog(state.filters, state.products.data, data.category)
                 return false
             }
 
             // Сортировка по цене - от min до max
             if (data.type == 'price-min-to-max') {
-                state.catalog_state.sort((a, b) => {
+
+                arr = applyUserFiltersToCatalog(state.filters, state.products.data, data.category)
+                arr.sort((a, b) => {
                     return a.price-b.price
                 })
+                state.catalog_state = arr
                 return false
             }
 
             // Сортировка по цене - от max до min
             if (data.type == 'price-max-to-min') {
-                state.catalog_state.sort((a, b) => {
+
+                arr = applyUserFiltersToCatalog(state.filters, state.products.data, data.category)
+                arr.sort((a, b) => {
                     return b.price - a.price
                 })
+                state.catalog_state = arr
                 return false
             }
 
             // Сортировка по алфавиту
             if (data.type == 'price-alfabet') {
-                state.catalog_state.sort((a, b) => {
+
+                arr = applyUserFiltersToCatalog(state.filters, state.products.data, data.category)
+                arr.sort((a, b) => {
                     return b.title - a.title
                 })
+                state.catalog_state = arr
                 return false
             }
 
             // Сортировка при помощи ползунка
             if (data.type == 'slider') {
 
+                arr = applyUserFiltersToCatalog(state.filters, state.products.data, data.category)
+
                 state.catalog_state = []
 
-                for (let i = 0; i < state.products.data.length; i++) {
-
-                    if (state.products.data[i].price < data.min || state.products.data[i].price > data.max) continue
-                    
-                    state.catalog_state.push(state.products.data[i])
+                for (let i = 0; i < arr.length; i++) {
+                    if (arr[i].price < data.min || arr[i].price > data.max) continue
+                    state.catalog_state.push(arr[i])
                 }
                 return false
             }
@@ -190,6 +263,14 @@ const store = createStore({
             }).then(items => {
                 this.commit('SET_OCCASIONS', items.data)
             })
+        },
+        add_filters({state}, data) {
+            state
+            this.commit('ADD_FILTERS', data)
+        },
+        apply_filters({state}, data) {
+            state
+            this.commit('APPLY_FILTERS', data)
         },
         addToCart({state}, data){
 

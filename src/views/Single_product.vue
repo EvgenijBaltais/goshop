@@ -510,10 +510,8 @@ export default {
 
 .product-slider__simg {
     flex-basis: 100px;
-    border: 2px solid transparent;
-    box-sizing: border-box;
-    width: 97px;
-    height: 97px;
+    width: 100px;
+    height: 100px;
     margin-right: 10px;
     background-repeat: no-repeat;
     background-size: cover;
@@ -522,8 +520,20 @@ export default {
 }
 
 .product-slider__active-img {
+    position: relative;
+}
+
+.product-slider__active-img:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
     box-sizing: border-box;
-    border: 3px solid rgb(139,191,211);
+    border: 3px solid rgb(139, 191, 211);
 }
 
 .product-slider__wrapper {

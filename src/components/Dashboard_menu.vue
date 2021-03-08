@@ -21,7 +21,7 @@
         <div v-if = 'this.$route.name == "Catalog"'>
             <div class="filters-title-section">
                 <div class = "filters-title-wrapper">
-                    <span class = "filters-text">Фильтры:</span>
+                    <span class = "filters-text">Уточнить:</span>
                     <a class = "clear-text"
                         @click.prevent = clearAll
                     >
@@ -96,8 +96,6 @@
 
 <script>
 
-import axios from 'axios'
-
 export default {
 
     data(){
@@ -139,16 +137,18 @@ export default {
     methods: {
            getFilteredProducts(){
 
-            let //newItems = [],
-                filters = document.getElementById('choosen-filters').querySelectorAll('.filter-link-choosen')
+            let filters = document.getElementById('choosen-filters').querySelectorAll('.filter-link-choosen')
 
-                console.log(111)
+            // При добавлении фильтров в левой колонке сбрасываем фильтры в каталоге
+
+            this.clearCatalogFilters()
 
             // категории фильтров
 
             let color = [],
                 flowers_category = [],
-                occasion = []
+                occasion = [],
+                clear = 0
 
             for (let i = 0; i < filters.length; i++) {
 
@@ -163,50 +163,28 @@ export default {
                 }
             }
 
-            console.log(color)
-            console.log(flowers_category)
-            console.log(occasion)
+                // Если все фильтры удаляются, то обнуляется каталог товаров
 
-            axios.get('//localhost:3000/catalog_products_filters', {
-                params: {
-                    'flowers_category': JSON.stringify(flowers_category),
-                    'color': JSON.stringify(color),
-                    'occasion': JSON.stringify(occasion)
+                if (color.length == 0 && flowers_category.length == 0 && occasion.length == 0) {
+                    clear = 1
                 }
-            })
-                .then(response => {
-                    this.products = response.data
-                    this.productsFullList = response.data
 
-                    window.addEventListener('scroll', this.getMoreItems)
+            this.remakeBackground(document.querySelector('.catalog-section'))
+
+            setTimeout(() => {
+                this.$store.dispatch('add_filters', {
+                    'color': color,
+                    'flowers_category': flowers_category,
+                    'occasion': occasion
+                }).then(() => {
+
+                    this.$store.dispatch('apply_filters', {
+                        'clear': clear
+                    }).then(() => {
+                        this.remakeBackground(document.querySelector('.catalog-section'))
+                    })
                 })
-
-                //this.productsFullList.forEach(element => {
-
-                    /*
-                    for (let i = 0; i < filters.length; i++) {
-                        if (filters[i].getAttribute('data-color')) {
-                            for (let k = 0; k < colors.length; k++) {
-                                if (element.color == colors[k]) {
-                                    let exists = newItems.some(function(el){
-                                        return el.id == element.id
-                                    })
-                                    if (!exists) newItems.push(element) 
-                                }
-                            }
-                        }
-                        if (filters[i].getAttribute('data-flowertype')) {
-                            for (let k = 0; k < flowers.length; k++) {
-                                if (element.flowers_category == flowers[k]) {
-                                    let exists = newItems.some(function(el){
-                                        return el.id == element.id
-                                    })
-                                    if (!exists) newItems.push(element) 
-                                }
-                            }
-                        }
-                    }*/
-                //})
+            }, 250)
         },
         listVisibility(){
 
@@ -227,6 +205,16 @@ export default {
             parent.querySelector('.dashboard-items-w').style.height = parent.querySelector('.filter-items-list').clientHeight + 'px'
 
             return false;
+        },
+        remakeBackground(catalogBlock){
+
+            if (catalogBlock.querySelectorAll('.remaking-loading').length) {
+                for (let i = 0; i < catalogBlock.querySelectorAll('.remaking-loading').length; i++) {
+                    catalogBlock.querySelectorAll('.remaking-loading')[i].remove()
+                }
+                return false
+            }
+            catalogBlock.insertAdjacentHTML('beforeend', '<div class = "remaking-loading"></div>')
         },
         getFilter: function() {
 
@@ -274,22 +262,50 @@ export default {
 
             this.products = this.productsFullList
         },
-        clearSelectedItem: function(event){
-            document.querySelectorAll('.filter-link').forEach(element => {
-                if (element.innerText == event.target.innerText) {
-                    element.classList.remove('filter-link-choosen')
-                    return false
+        clearCatalogFilters(){
+
+            // Обновить фильтры по алфавиту, цене и ползунки
+
+            if (!document.querySelectorAll('input[name="filter-default"]').length) return false
+
+            for (let i = 0; i < document.querySelectorAll('input[name="filter-default"]').length; i++) {
+                if (i == 0) {
+                    document.querySelectorAll('input[name="filter-default"]')[i].checked = true
                 }
+                else {
+                    document.querySelectorAll('input[name="filter-default"]')[i].checked = false
+                }
+            }
+
+            if (!document.querySelectorAll('.price-range').length) return false
+
+            for (let i = 0; i < document.querySelectorAll('.price-range').length; i++) {
+                document.querySelectorAll('.price-range')[i].value = document.querySelectorAll('.price-range')[i].dataset.numValue
+            }
+
+            document.querySelectorAll('.price-range').forEach(function (input, handle) {
+                document.getElementById('range-slider').noUiSlider.setHandle(handle, input.value)
             })
-            event.target.remove()
+        },
+        clearSelectedItem: function(event){
+
+            new Promise((resolve) => {
+                document.querySelectorAll('.filter-link').forEach(element => {
+                    if (element.innerText == event.target.innerText) {
+                        element.classList.remove('filter-link-choosen')
+                        return false
+                    }
+                })
+                event.target.remove()
+                resolve()
+            }).then(() => {
+                this.getFilteredProducts()
+            })
         },
         getParent: function(el, cls){
             while ((el = el.parentElement) && !el.classList.contains(cls));
             return el;
         }
-    },
-    mounted(){
-
     }
 }
 </script>

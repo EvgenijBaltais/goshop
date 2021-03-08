@@ -2,12 +2,20 @@
 <div class = "catalog-wrapper">
     <Dashboard_menu/>
     <div class = "catalog">
+        <Catalog_filters />
         <div class = "catalog-section">
             <Catalog_item
                 v-for = 'item in products.slice(0, visibleProduct)'
                 :key = 'item.id'
                 :items = 'item'
             />
+           <div class = "no-search-results" v-if = !products.length>
+               <p class = "no-data-catalog">Не удалось найти товары по выбранным параметрам.</p>
+               <p class = "no-data-catalog">
+                   <a href = "/catalog" class = "clear-filters-user">Обновите страницу</a> 
+                   чтобы попробовать снова или выберите другие значения фильтров.
+                </p>
+           </div>
         </div>
         <div class = "preloader-wrapper"></div>
     </div>
@@ -18,6 +26,7 @@
 
 import Catalog_item from '../components/Catalog_item'
 import Dashboard_menu from '../components/Dashboard_menu'
+import Catalog_filters from '../components/Catalog_filters'
 
 export default {
     data(){
@@ -29,7 +38,7 @@ export default {
         }
     },
     components: {
-        Catalog_item, Dashboard_menu
+        Catalog_item, Dashboard_menu, Catalog_filters
     },
     mounted() {
         this.$store.dispatch('get_catalog_state', {

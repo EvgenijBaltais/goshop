@@ -2,10 +2,31 @@
 <div class = "slider-section">
     <div class = "main-slider__wrapper">
         <div class = "main-slider">
-            <div class = "main-slider__carousel">
-                <router-link :to = "{path: `/catalog/bouquets/1`}">
-                    <img :src="require('../assets/pics/bouquets/1/1.jpg')" alt="" class = "main-slider__mainpic">
-                </router-link>
+            <div class = "glide">
+                <div data-glide-el="track" class="glide__track">
+                    <ul class="glide__slides">
+                        <li class = "main-slider__carousel">
+                            <router-link :to = "{path: `/catalog/bouquets/1`}">
+                                <img :src="require('../assets/pics/bouquets/1/1.jpg')" alt="" class = "main-slider__mainpic">
+                            </router-link>
+                        </li>
+                        <li class = "main-slider__carousel">
+                            <router-link :to = "{path: `/catalog/bouquets/1`}">
+                                <img :src="require('../assets/pics/bouquets/1/1.jpg')" alt="" class = "main-slider__mainpic">
+                            </router-link>
+                        </li>
+                        <li class = "main-slider__carousel">
+                            <router-link :to = "{path: `/catalog/bouquets/1`}">
+                                <img :src="require('../assets/pics/bouquets/1/1.jpg')" alt="" class = "main-slider__mainpic">
+                            </router-link>
+                        </li>
+                        <li class = "main-slider__carousel">
+                            <router-link :to = "{path: `/catalog/bouquets/1`}">
+                                <img :src="require('../assets/pics/bouquets/1/1.jpg')" alt="" class = "main-slider__mainpic">
+                            </router-link>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class = "main-slider__title">
                 <p class = "slider-title">
@@ -56,22 +77,34 @@
 
 <script>
 
+import Glide from '@glidejs/glide'
+
 export default {
   name: 'SlideSection',
   data(){
       return {}
+  },
+  mounted(){
+
+        let glide = new Glide('.glide', {
+            autoplay: 3500,
+            type: 'carousel',
+            hoverpause: true,
+            animationDuration: 1000
+        })
+
+        glide.mount()
   }
 }
 </script>
 
 <style scoped>
 
+ @import '~@glidejs/glide/dist/css/glide.core.min.css';
+
     .slider-section {
         display: flex;
         justify-content: space-between;
-    }
-
-    .main-slider__carousel {
     }
 
     .main-slider__mainpic {
