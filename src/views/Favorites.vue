@@ -64,4 +64,9 @@ export default {
     flex-wrap: wrap;
 }
 
+.favorite-items-w::after {
+  content: "";
+  flex: auto;
+}
+
 </style>
