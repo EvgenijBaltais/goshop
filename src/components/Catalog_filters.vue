@@ -73,6 +73,65 @@ export default {
         },
         remakeCatalog(){
 
+            // Объект со всеми параметрами для фильтрации, а именно
+            // - Тэги и категории из левого меню
+            // В каталоге:
+            // - Ползунок-слайдер
+            // - Сортировка по алфавиту, цене от-до и наоборот
+            // - Категория товара
+
+            let filters = new Object({
+                tags: {},
+                category: 0
+            });
+
+            // Тэги и категории из левого меню
+
+            if (document.getElementById('choosen-filters')) {
+                let leftTags = document.getElementById('choosen-filters').querySelectorAll('.filter-link-choosen')
+
+                // Добавить категории фильтров
+
+                for (let i = 0; i < document.querySelectorAll('.tags-section').length; i++) {
+                    filters['tags'][document.querySelectorAll('.tags-section')[i].getAttribute('data-category')] = []
+                }
+
+                // Добавить значения выбранных тэгов
+
+                for (let i = 0; i < leftTags.length; i++) {
+                    let tagName = Object.keys(leftTags[i].dataset)[0]
+                    if (filters['tags'][tagName]) {
+                        filters['tags'][tagName].push(leftTags[i].getAttribute('data-' + tagName))
+                    }
+                }
+
+                console.log(filters)
+                /*
+
+                let color = [],
+                    flowers_category = [],
+                    occasion = []
+
+                for (let i = 0; i < filters.length; i++) {
+
+                    if (filters[i].getAttribute('data-flowertype')) {
+                        flowers_category.push(filters[i].getAttribute('data-flowertype'))
+                    }
+                    if (filters[i].getAttribute('data-color')) {
+                        color.push(filters[i].getAttribute('data-color'))
+                    }
+                    if (filters[i].getAttribute('data-occasiontype')) {
+                        occasion.push(filters[i].getAttribute('data-occasiontype'))
+                    }
+                }
+
+                for (let i = 0; i < leftTags.length; i++) {
+                    1
+                }*/
+            }
+
+            filters
+
             let ev = event.target,
                 id = this.getParent(ev, 'form_radio').querySelector('.price-change').getAttribute('id')
 

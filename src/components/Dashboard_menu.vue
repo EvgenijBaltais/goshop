@@ -30,7 +30,10 @@
                 </div>
                 <div class = "choosen-filters" id = "choosen-filters"></div>
             </div>
-            <div :class="[`filters-section`, flowers.length ? `has-inside-content` : '']">
+            <div 
+                :class="[`filters-section`, `tags-section`, flowers.length ? `has-inside-content` : '']"
+                data-category = 'flowertype'
+            >
                 <div class = "filters-section__wrapper" @click = listVisibility>
                     <a class = "filters-section__title">Выбрать цветы</a>
                     <img :src="bottom_pic" alt="" class = "bottom_pic">
@@ -50,7 +53,10 @@
                     </ul>
                 </div>
             </div>
-            <div :class="[`filters-section`, `several-options-section`, colors.length ? `has-inside-content` : '']">
+            <div 
+                :class="[`filters-section`, `tags-section`, colors.length ? `has-inside-content` : '']"
+                data-category = 'color'
+            >
                 <div class = "filters-section__wrapper" @click = listVisibility>
                     <a class = "filters-section__title">Выбор по цвету</a>
                     <img :src="bottom_pic" alt="" class = "bottom_pic">
@@ -70,7 +76,10 @@
                     </ul>
                 </div>
             </div>
-            <div :class="[`filters-section`, occasions.length ? `has-inside-content` : '']">
+            <div 
+                :class="[`filters-section`, `tags-section`, occasions.length ? `has-inside-content` : '']"
+                data-category = 'occasiontype'
+            >
                 <div class = "filters-section__wrapper" @click = listVisibility>
                     <a class = "filters-section__title">Повод</a>
                     <img :src="bottom_pic" alt="" class = "bottom_pic">
