@@ -82,6 +82,9 @@ export default {
 
             let filters = new Object({
                 tags: {},
+                radioFilter: 0,
+                from: 0,
+                to: 0,
                 category: 0
             });
 
@@ -104,33 +107,30 @@ export default {
                         filters['tags'][tagName].push(leftTags[i].getAttribute('data-' + tagName))
                     }
                 }
-
-                console.log(filters)
-                /*
-
-                let color = [],
-                    flowers_category = [],
-                    occasion = []
-
-                for (let i = 0; i < filters.length; i++) {
-
-                    if (filters[i].getAttribute('data-flowertype')) {
-                        flowers_category.push(filters[i].getAttribute('data-flowertype'))
-                    }
-                    if (filters[i].getAttribute('data-color')) {
-                        color.push(filters[i].getAttribute('data-color'))
-                    }
-                    if (filters[i].getAttribute('data-occasiontype')) {
-                        occasion.push(filters[i].getAttribute('data-occasiontype'))
-                    }
-                }
-
-                for (let i = 0; i < leftTags.length; i++) {
-                    1
-                }*/
             }
 
-            filters
+            // Добавить значение радиокнопок в каталоге
+
+            let radioFilters = document.querySelectorAll('.form_radio')
+
+            for (let i = 0; i < radioFilters.length; i++) {
+
+                if (radioFilters[i].querySelector('input[name="filter-default"]').checked) {
+                    filters.radioFilter = radioFilters[i].querySelector('.price-change').getAttribute('id')
+                    break
+                }
+            }
+
+            // Значение ползунка-слайдера
+
+            if (document.getElementById('price-range-from')) {
+                filters.from = document.getElementById('price-range-from').value
+            }
+            if (document.getElementById('price-range-to')) {
+                filters.to = document.getElementById('price-range-to').value
+            }
+
+            console.log(filters)
 
             let ev = event.target,
                 id = this.getParent(ev, 'form_radio').querySelector('.price-change').getAttribute('id')
