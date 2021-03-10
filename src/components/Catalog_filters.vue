@@ -7,20 +7,20 @@
             <div class = "filters-form-w" id = "filters-form-w">
                 <form action="" class = "filters-form" id = "filters-form">
                     <div class="form_radio">
-                        <input id="radio-1" type="radio" name="filter-default" value="1" checked>
-                        <label for="radio-1" class = "price-change" id = "price-default" @click = "remakeCatalog">По умолчанию</label>
+                        <input id="radio-1" type="radio" name="filter-default" value="1" @change = "remakeCatalog" checked>
+                        <label for="radio-1" class = "price-change" id = "price-default">По умолчанию</label>
                     </div>
                     <div class="form_radio">
-                        <input id="radio-2" type="radio" name="filter-default" value="2">
-                        <label for="radio-2" class = "price-change" id = "price-min-to-max" @click = "remakeCatalog">По цене (от <span class = "min-val"></span> до <span class = "max-val"></span> рублей)</label>
+                        <input id="radio-2" type="radio" name="filter-default" value="2" @change = "remakeCatalog">
+                        <label for="radio-2" class = "price-change" id = "price-min-to-max">По цене (от <span class = "min-val"></span> до <span class = "max-val"></span> рублей)</label>
                     </div>
                     <div class="form_radio">
-                        <input id="radio-3" type="radio" name="filter-default" value="3">
-                        <label for="radio-3" class = "price-change" id = "price-max-to-min" @click = "remakeCatalog">По цене (от <span class = "max-val"></span> до <span class = "min-val"></span> рублей)</label>
+                        <input id="radio-3" type="radio" name="filter-default" value="3" @change = "remakeCatalog">
+                        <label for="radio-3" class = "price-change" id = "price-max-to-min">По цене (от <span class = "max-val"></span> до <span class = "min-val"></span> рублей)</label>
                     </div>
                     <div class="form_radio">
-                        <input id="radio-4" type="radio" name="filter-default" value="4">
-                        <label for="radio-4" class = "price-change" id = "price-alfabet" @click = "remakeCatalog">По алфавиту</label>
+                        <input id="radio-4" type="radio" name="filter-default" value="4" @change = "remakeCatalog">
+                        <label for="radio-4" class = "price-change" id = "price-alfabet">По алфавиту</label>
                     </div>
                     <div class="range-wrapper">
                         <p class = "filters-title">Выбрать по цене:</p>
@@ -85,7 +85,7 @@ export default {
                 radioFilter: 0,
                 from: 0,
                 to: 0,
-                category: 0
+                category: this.$route.params.category
             });
 
             // Тэги и категории из левого меню
