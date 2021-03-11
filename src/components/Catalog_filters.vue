@@ -130,13 +130,6 @@ export default {
                 filters.to = document.getElementById('price-range-to').value
             }
 
-            console.log(filters)
-
-            let ev = event.target,
-                id = this.getParent(ev, 'form_radio').querySelector('.price-change').getAttribute('id')
-
-            if (this.getParent(ev, 'form_radio').querySelector('input[type="radio"]').checked) return false
-
             new Promise((resolve) => {
 
                 this.remakeBackground(document.querySelector('.catalog-section'))
@@ -144,11 +137,9 @@ export default {
                 setTimeout(() => {
                     resolve()
                 }, 250)
-
             }).then(() => {
                 this.$store.dispatch('sort_catalog', {
-                    'type': id,
-                    'category': this.$route.params.category
+                    'filters': filters
                 }).then(() => {
                     this.remakeBackground(document.querySelector('.catalog-section'))
                 })

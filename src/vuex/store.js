@@ -4,15 +4,27 @@ import axios from 'axios'
 // Функция принимает объект с выбранными фильтрами по категориям в левом меню, применяет их
 // и возвращает объект для дальнейшей фильтрации по алфавиту, цене и прочим
  
- function applyUserFiltersToCatalog(filters, products, category = 0) {
+function applyUserFiltersToCatalog(data, products) {
 
+    console.log(data)
+    //console.log(products)
+    products
+
+    for (let key in data.filters) {
+
+        console.log(key + ' ' + data.filters[key])
+    }
+
+    for (let key in data.filters.tags) {
+        console.log(data.filters.tags[key])
+    }
+
+/*
     let mySet = new Set(),
         arr = [],
         iteration = 0,
         noFilters = true,
         category_filter = category
-
-        category_filter
 
     for (let key in filters) {
         if (filters[key].length) {
@@ -35,7 +47,6 @@ import axios from 'axios'
     if (noFilters || filters.length) arr = products
 
     // Отфильтровать по категории если она есть
-
     if (category_filter) {
         let arr2 = []
         for (let i = 0; i < arr.length; i++) {
@@ -45,8 +56,8 @@ import axios from 'axios'
         }
         arr = arr2
     }
-
-    return arr
+*/
+   // return arr
 }
 
 const store = createStore({
@@ -123,19 +134,21 @@ const store = createStore({
         },
         SORT_CATALOG: (state, data) => {
 
+            applyUserFiltersToCatalog(data, state.products.data)
+
             let arr = []
 
             // Сортировка по умолчанию
             if (data.type == 'price-default') {
 
-               state.catalog_state = applyUserFiltersToCatalog(state.filters, state.products.data, data.category)
+               state.catalog_state = applyUserFiltersToCatalog(state.filters, state.products.data)
                 return false
             }
 
             // Сортировка по цене - от min до max
             if (data.type == 'price-min-to-max') {
 
-                arr = applyUserFiltersToCatalog(state.filters, state.products.data, data.category)
+                arr = applyUserFiltersToCatalog(state.filters, state.products.data)
                 arr.sort((a, b) => {
                     return a.price-b.price
                 })
@@ -146,7 +159,7 @@ const store = createStore({
             // Сортировка по цене - от max до min
             if (data.type == 'price-max-to-min') {
 
-                arr = applyUserFiltersToCatalog(state.filters, state.products.data, data.category)
+                arr = applyUserFiltersToCatalog(state.filters, state.products.data)
                 arr.sort((a, b) => {
                     return b.price - a.price
                 })
@@ -157,7 +170,7 @@ const store = createStore({
             // Сортировка по алфавиту
             if (data.type == 'price-alfabet') {
 
-                arr = applyUserFiltersToCatalog(state.filters, state.products.data, data.category)
+                arr = applyUserFiltersToCatalog(state.filters, state.products.data)
                 arr.sort((a, b) => {
                     return b.title - a.title
                 })
