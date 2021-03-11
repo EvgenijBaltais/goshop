@@ -14,10 +14,32 @@ function applyUserFiltersToCatalog(data, products) {
 
         console.log(key + ' ' + data.filters[key])
     }
+    
+    let mySet = new Set(),
+        noFilters = true
+        /*arr = [],
+        iteration = 0,
+        noFilters = true*/
 
     for (let key in data.filters.tags) {
-        console.log(data.filters.tags[key])
+        if (data.filters.tags[key].length) {
+            for (let item in products) {
+                for (let i = 0; i < data.filters.tags[key].length; i++) {
+                    if (products[item][key] != data.filters.tags[key][i]) continue
+
+                        if (data.filters.min >= products[item].price && data.filters.max <= products[item].price) {
+                            console.log(data.filters.min)
+                            console.log(data.filters.max)
+                            console.log(products[item].price)
+                            mySet.add(products[item])
+                        }
+                }
+            }
+            noFilters = 0
+        }
     }
+    console.log(mySet)
+    noFilters
 
 /*
     let mySet = new Set(),
