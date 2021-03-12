@@ -6,80 +6,60 @@ import axios from 'axios'
  
 function applyUserFiltersToCatalog(data, products) {
 
-    console.log(data)
-    //console.log(products)
-    products
-
-    for (let key in data.filters) {
-
-        console.log(key + ' ' + data.filters[key])
-    }
-    
     let mySet = new Set(),
-        noFilters = true
-        /*arr = [],
-        iteration = 0,
-        noFilters = true*/
+        arr = []
+    // Применить фильтры по категориям
 
     for (let key in data.filters.tags) {
         if (data.filters.tags[key].length) {
             for (let item in products) {
                 for (let i = 0; i < data.filters.tags[key].length; i++) {
-                    if (products[item][key] != data.filters.tags[key][i]) continue
-
-                        if (data.filters.min >= products[item].price && data.filters.max <= products[item].price) {
-                            console.log(data.filters.min)
-                            console.log(data.filters.max)
-                            console.log(products[item].price)
-                            mySet.add(products[item])
-                        }
+                    if (products[item][key] == data.filters.tags[key][i]) mySet.add(products[item])
                 }
             }
-            noFilters = 0
-        }
-    }
-    console.log(mySet)
-    noFilters
-
-/*
-    let mySet = new Set(),
-        arr = [],
-        iteration = 0,
-        noFilters = true,
-        category_filter = category
-
-    for (let key in filters) {
-        if (filters[key].length) {
-            for (let item in products) {
-                for (let i = 0; i < filters[key].length; i++) {
-                    if (products[item][key] != filters[key][i]) continue
-                        mySet.add(products[item])
-                }
-            }
-            noFilters = 0
         }
     }
 
-    for (let key of mySet) {
-        arr[iteration] = key
-        iteration++
-    }
-
-    // На случай если фильтров нет
-    if (noFilters || filters.length) arr = products
-
-    // Отфильтровать по категории если она есть
-    if (category_filter) {
-        let arr2 = []
-        for (let i = 0; i < arr.length; i++) {
-            if (arr[i]['category_url'] == category_filter) {
-                arr2.push(arr[i])
-            }
+    console.log(data)
+    
+    // Если массив пустой то 
+    if (mySet.size == 0) {
+        for (let i = 0; i < products.length; i++) {
+            mySet.add(products[i])
         }
-        arr = arr2
     }
-*/
-   // return arr
+
+    // Фильтр по ценам
+
+    for (let item of mySet) {
+        if (item.price < data.filters.from || item.price > data.filters.to) {
+            mySet.delete(item)
+        }
+    }
+
+    arr = Array.from(mySet)
+
+    // Сортировка по цене - от min до max
+    if (data.filters.radioFilter == 'price-min-to-max') {
+        arr.sort((a, b) => {
+            return a.price-b.price
+        })
+    }
+
+    // Сортировка по цене - от max до min
+    if (data.filters.radioFilter == 'price-max-to-min') {
+        arr.sort((a, b) => {
+            return b.price - a.price
+        })
+    }
+
+    // Сортировка по алфавиту
+    if (data.filters.radioFilter == 'price-alfabet') {
+        arr.sort((a, b) => {
+            return b.title - a.title
+        })
+    }
+    return arr
 }
 
 const store = createStore({
@@ -145,74 +125,8 @@ const store = createStore({
         ADD_FILTERS: (state, data) => {
             state.filters = data
         },
-        APPLY_FILTERS: (state, data) => {
-
-            if (data.clear == 1) {
-                state.catalog_state = state.products.data
-                return false
-            }
-
-            state.catalog_state = applyUserFiltersToCatalog(state.filters, state.products.data)
-        },
         SORT_CATALOG: (state, data) => {
-
-            applyUserFiltersToCatalog(data, state.products.data)
-
-            let arr = []
-
-            // Сортировка по умолчанию
-            if (data.type == 'price-default') {
-
-               state.catalog_state = applyUserFiltersToCatalog(state.filters, state.products.data)
-                return false
-            }
-
-            // Сортировка по цене - от min до max
-            if (data.type == 'price-min-to-max') {
-
-                arr = applyUserFiltersToCatalog(state.filters, state.products.data)
-                arr.sort((a, b) => {
-                    return a.price-b.price
-                })
-                state.catalog_state = arr
-                return false
-            }
-
-            // Сортировка по цене - от max до min
-            if (data.type == 'price-max-to-min') {
-
-                arr = applyUserFiltersToCatalog(state.filters, state.products.data)
-                arr.sort((a, b) => {
-                    return b.price - a.price
-                })
-                state.catalog_state = arr
-                return false
-            }
-
-            // Сортировка по алфавиту
-            if (data.type == 'price-alfabet') {
-
-                arr = applyUserFiltersToCatalog(state.filters, state.products.data)
-                arr.sort((a, b) => {
-                    return b.title - a.title
-                })
-                state.catalog_state = arr
-                return false
-            }
-
-            // Сортировка при помощи ползунка
-            if (data.type == 'slider') {
-
-                arr = applyUserFiltersToCatalog(state.filters, state.products.data, data.category)
-
-                state.catalog_state = []
-
-                for (let i = 0; i < arr.length; i++) {
-                    if (arr[i].price < data.min || arr[i].price > data.max) continue
-                    state.catalog_state.push(arr[i])
-                }
-                return false
-            }
+            state.catalog_state = applyUserFiltersToCatalog(data, state.products.data)
         }
     },
     actions: {
@@ -275,8 +189,7 @@ const store = createStore({
             })
         },
         sort_catalog({state}, data) {
-            state
-            this.commit('SORT_CATALOG', data)
+            this.commit('SORT_CATALOG', data, state)
         },
         get_flowers_types() {
             return axios('//localhost:3000/get_flowers_types', {
@@ -300,12 +213,7 @@ const store = createStore({
             })
         },
         add_filters({state}, data) {
-            state
-            this.commit('ADD_FILTERS', data)
-        },
-        apply_filters({state}, data) {
-            state
-            this.commit('APPLY_FILTERS', data)
+            this.commit('ADD_FILTERS', data, state)
         },
         addToCart({state}, data){
 

@@ -52,7 +52,7 @@ app.get('/get_occasions', (req, res) => {
 // Get all flowers
 
 app.get('/get_flowers_types', (req, res) => {
-    pool.query('SELECT * from flowers', (err, rows, fields) => {
+    pool.query('SELECT * from flowers_category', (err, rows, fields) => {
         if (!err) {
             res.send(rows)
         }

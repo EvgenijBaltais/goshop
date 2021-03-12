@@ -146,53 +146,16 @@ export default {
     methods: {
            getFilteredProducts(){
 
-            let filters = document.getElementById('choosen-filters').querySelectorAll('.filter-link-choosen')
-
-            // При добавлении фильтров в левой колонке сбрасываем фильтры в каталоге
-
-            this.clearCatalogFilters()
-
-            // категории фильтров
-
-            let color = [],
-                flowers_category = [],
-                occasion = [],
-                clear = 0
-
-            for (let i = 0; i < filters.length; i++) {
-
-                if (filters[i].getAttribute('data-flowertype')) {
-                    flowers_category.push(filters[i].getAttribute('data-flowertype'))
-                }
-                if (filters[i].getAttribute('data-color')) {
-                    color.push(filters[i].getAttribute('data-color'))
-                }
-                if (filters[i].getAttribute('data-occasiontype')) {
-                    occasion.push(filters[i].getAttribute('data-occasiontype'))
-                }
-            }
-
-                // Если все фильтры удаляются, то обнуляется каталог товаров
-
-                if (color.length == 0 && flowers_category.length == 0 && occasion.length == 0) {
-                    clear = 1
-                }
+            let $this = this
 
             this.remakeBackground(document.querySelector('.catalog-section'))
 
             setTimeout(() => {
-                this.$store.dispatch('add_filters', {
-                    'color': color,
-                    'flowers_category': flowers_category,
-                    'occasion': occasion
-                }).then(() => {
-
-                    this.$store.dispatch('apply_filters', {
-                        'clear': clear
+                    this.$store.dispatch('sort_catalog', {
+                        'filters': $this.collectFilters()
                     }).then(() => {
                         this.remakeBackground(document.querySelector('.catalog-section'))
                     })
-                })
             }, 250)
         },
         listVisibility(){
@@ -270,6 +233,67 @@ export default {
             })
 
             this.products = this.productsFullList
+        },
+        collectFilters(){
+
+            // Объект со всеми параметрами для фильтрации, а именно
+            // - Тэги и категории из левого меню
+            // В каталоге:
+            // - Ползунок-слайдер
+            // - Сортировка по алфавиту, цене от-до и наоборот
+            // - Категория товара
+
+            let filters = new Object({
+                tags: {},
+                radioFilter: 0,
+                from: 0,
+                to: 0,
+                category: this.$route.params.category
+            })
+
+            // Тэги и категории из левого меню
+
+            if (document.getElementById('choosen-filters')) {
+                let leftTags = document.getElementById('choosen-filters').querySelectorAll('.filter-link-choosen')
+
+                // Добавить категории фильтров
+
+                for (let i = 0; i < document.querySelectorAll('.tags-section').length; i++) {
+                    filters['tags'][document.querySelectorAll('.tags-section')[i].getAttribute('data-category')] = []
+                }
+
+                // Добавить значения выбранных тэгов
+
+                for (let i = 0; i < leftTags.length; i++) {
+                    let tagName = Object.keys(leftTags[i].dataset)[0]
+                    if (filters['tags'][tagName]) {
+                        filters['tags'][tagName].push(leftTags[i].getAttribute('data-' + tagName))
+                    }
+                }
+            }
+
+            // Добавить значение радиокнопок в каталоге
+
+            let radioFilters = document.querySelectorAll('.form_radio')
+
+            for (let i = 0; i < radioFilters.length; i++) {
+
+                if (radioFilters[i].querySelector('input[name="filter-default"]').checked) {
+                    filters.radioFilter = radioFilters[i].querySelector('.price-change').getAttribute('id')
+                    break
+                }
+            }
+
+            // Значение ползунка-слайдера
+
+            if (document.getElementById('price-range-from')) {
+                filters.from = document.getElementById('price-range-from').value
+            }
+            if (document.getElementById('price-range-to')) {
+                filters.to = document.getElementById('price-range-to').value
+            }
+
+            return filters
         },
         clearCatalogFilters(){
 

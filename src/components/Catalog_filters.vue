@@ -73,6 +73,33 @@ export default {
         },
         remakeCatalog(){
 
+            new Promise((resolve) => {
+
+                this.remakeBackground(document.querySelector('.catalog-section'))
+
+                setTimeout(() => {
+                    resolve()
+                }, 250)
+            }).then(() => {
+                this.$store.dispatch('sort_catalog', {
+                    'filters': this.collectFilters()
+                }).then(() => {
+                    this.remakeBackground(document.querySelector('.catalog-section'))
+                })
+            })
+        },
+        remakeBackground(catalogBlock){
+
+            if (catalogBlock.querySelectorAll('.remaking-loading').length) {
+                for (let i = 0; i < catalogBlock.querySelectorAll('.remaking-loading').length; i++) {
+                    catalogBlock.querySelectorAll('.remaking-loading')[i].remove()
+                }
+                return false
+            }
+            catalogBlock.insertAdjacentHTML('beforeend', '<div class = "remaking-loading"></div>')
+        },
+        collectFilters(){
+
             // Объект со всеми параметрами для фильтрации, а именно
             // - Тэги и категории из левого меню
             // В каталоге:
@@ -86,7 +113,7 @@ export default {
                 from: 0,
                 to: 0,
                 category: this.$route.params.category
-            });
+            })
 
             // Тэги и категории из левого меню
 
@@ -114,7 +141,6 @@ export default {
             let radioFilters = document.querySelectorAll('.form_radio')
 
             for (let i = 0; i < radioFilters.length; i++) {
-
                 if (radioFilters[i].querySelector('input[name="filter-default"]').checked) {
                     filters.radioFilter = radioFilters[i].querySelector('.price-change').getAttribute('id')
                     break
@@ -130,30 +156,7 @@ export default {
                 filters.to = document.getElementById('price-range-to').value
             }
 
-            new Promise((resolve) => {
-
-                this.remakeBackground(document.querySelector('.catalog-section'))
-
-                setTimeout(() => {
-                    resolve()
-                }, 250)
-            }).then(() => {
-                this.$store.dispatch('sort_catalog', {
-                    'filters': filters
-                }).then(() => {
-                    this.remakeBackground(document.querySelector('.catalog-section'))
-                })
-            })
-        },
-        remakeBackground(catalogBlock){
-
-            if (catalogBlock.querySelectorAll('.remaking-loading').length) {
-                for (let i = 0; i < catalogBlock.querySelectorAll('.remaking-loading').length; i++) {
-                    catalogBlock.querySelectorAll('.remaking-loading')[i].remove()
-                }
-                return false
-            }
-            catalogBlock.insertAdjacentHTML('beforeend', '<div class = "remaking-loading"></div>')
+            return filters
         },
         clearFilters(){
 
@@ -235,17 +238,12 @@ export default {
             })
 
             stepsSlider.noUiSlider.on('start', function () {
-
-                $this.clearFilters()
                 $this.remakeBackground(document.querySelector('.catalog-section'))
             })
 
-            stepsSlider.noUiSlider.on('end', function (values) {
-
+            stepsSlider.noUiSlider.on('end', function () {
                 $this.$store.dispatch('sort_catalog', {
-                    'type': 'slider',
-                    'min': values[0],
-                    'max': values[1]
+                    'filters': $this.collectFilters()
                 }).then(() => {
                     $this.remakeBackground(document.querySelector('.catalog-section'))
                 })
@@ -262,14 +260,11 @@ export default {
                 e.preventDefault()
 
                 $this.remakeBackground(document.querySelector('.catalog-section'))
-
                 $this.clearFilters()
 
                 setTimeout(() => {
                     $this.$store.dispatch('sort_catalog', {
-                        'type': 'slider',
-                        'min': inputs[0].value,
-                        'max': inputs[1].value
+                        'filters': $this.collectFilters()
                     }).then(() => {
                         $this.remakeBackground(document.querySelector('.catalog-section'))
                     })
