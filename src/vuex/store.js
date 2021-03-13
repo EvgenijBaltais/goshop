@@ -37,6 +37,20 @@ function applyUserFiltersToCatalog(data, products) {
         }
     }
 
+    // Фильтр по категории
+
+    console.log(mySet)
+
+    if (data.filters.category) {
+        for (let item of mySet) {
+            if (item.category_url != data.filters.category) {
+                mySet.delete(item)
+            }
+        }
+    }
+
+    console.log(mySet)
+
     arr = Array.from(mySet)
 
     // Сортировка по цене - от min до max

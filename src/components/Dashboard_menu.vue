@@ -32,7 +32,7 @@
             </div>
             <div 
                 :class="[`filters-section`, `tags-section`, flowers.length ? `has-inside-content` : '']"
-                data-category = 'flowertype'
+                data-category = 'flowers_category'
             >
                 <div class = "filters-section__wrapper" @click = listVisibility>
                     <a class = "filters-section__title">Выбрать цветы</a>
@@ -44,7 +44,7 @@
                             <router-link
                                 :to = "{path: `/catalog/${item.id}`}" 
                                 :class = "['filter-link']"
-                                :data-flowertype = item.id
+                                :data-flowers_category = item.id
                                 @click.prevent = "getFilter(e);getFilteredProducts(e)"
                             >
                                     {{item.name}}
@@ -78,7 +78,7 @@
             </div>
             <div 
                 :class="[`filters-section`, `tags-section`, occasions.length ? `has-inside-content` : '']"
-                data-category = 'occasiontype'
+                data-category = 'occasion'
             >
                 <div class = "filters-section__wrapper" @click = listVisibility>
                     <a class = "filters-section__title">Повод</a>
@@ -90,7 +90,7 @@
                             <router-link
                                 :to = "{path: `/catalog/${item.id}`}"
                                 :class = "['filter-link']"
-                                :data-occasiontype = item.id
+                                :data-occasion = item.id
                                 @click.prevent = "getFilter(e);getFilteredProducts(e)"
                                 >
                                     {{item.name}}
