@@ -145,7 +145,7 @@ const store = createStore({
     },
     actions: {
         get_products({commit}) {
-            return axios('//localhost:3000/catalog_products', {
+            return axios('//localhost:3001/catalog_products', {
                 method: 'GET'
             }).then(products => {
                 commit('SET_PRODUCTS_TO_STATE', products)
@@ -156,7 +156,7 @@ const store = createStore({
             })
         },
         get_categories_data({commit}) {
-            return axios('//localhost:3000/get_categories', {
+            return axios('//localhost:3001/get_categories', {
                 method: 'GET'
             }).then(items => {
 
@@ -165,7 +165,7 @@ const store = createStore({
                 if (items.data.length == 0) return false
 
                 for (let i = 0; i < items.data.length; i++) {
-                    return axios('//localhost:3000/get_all_products_by_categories', {
+                    return axios('//localhost:3001/get_all_products_by_categories', {
                         method: 'GET',
                         params: {
                             'category': items.data[i].id
@@ -178,7 +178,7 @@ const store = createStore({
         },
         get_catalog_state({commit}, data){
 
-            return axios('//localhost:3000/catalog_products', {
+            return axios('//localhost:3001/catalog_products', {
                 method: 'GET'
             }).then(items => {
 
@@ -206,21 +206,21 @@ const store = createStore({
             this.commit('SORT_CATALOG', data, state)
         },
         get_flowers_types() {
-            return axios('//localhost:3000/get_flowers_types', {
+            return axios('//localhost:3001/get_flowers_types', {
                 methods: 'GET'
             }).then(items => {
                 this.commit('SET_FLOWERS', items.data)
             })
         },
         get_all_colors() {
-            return axios('//localhost:3000/get_all_colors', {
+            return axios('//localhost:3001/get_all_colors', {
                 methods: 'GET'
             }).then(items => {
                 this.commit('SET_COLORS', items.data)
             })
         },
         get_all_occasions() {
-            return axios('//localhost:3000/get_occasions', {
+            return axios('//localhost:3001/get_occasions', {
                 methods: 'GET'
             }).then(items => {
                 this.commit('SET_OCCASIONS', items.data)

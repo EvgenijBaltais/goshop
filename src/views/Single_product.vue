@@ -356,7 +356,7 @@ export default {
             )
 
             axios
-            .post('//localhost:3000/send_order', {
+            .post('//localhost:3001/send_order', {
                 params: {
                     'clientData': clientData
                 }
@@ -411,7 +411,7 @@ export default {
             // Инфа о товаре
 
             axios
-            .get('//localhost:3000/products/id', {
+            .get('//localhost:3001/products/id', {
                 method: 'GET',
                 params: {
                     'id': this.$route.params.id
@@ -422,7 +422,7 @@ export default {
 
             // Картинки
 
-            axios.get('//localhost:3000/images/id', {
+            axios.get('//localhost:3001/images/id', {
                 method: 'GET',
                 params: {
                     'id': this.$route.params.id

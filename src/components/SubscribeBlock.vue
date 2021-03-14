@@ -67,7 +67,7 @@ export default {
             )
 
             axios
-            .get('//localhost:3000/subscribe', {
+            .get('//localhost:3001/subscribe', {
                 params: {
                     clientData: clientData
                 }

@@ -39,7 +39,7 @@ export default {
 
                       if (!response.data) return false
 
-                      axios.get('//localhost:3000/save_client_data', {
+                      axios.get('//localhost:3001/save_client_data', {
                         params: {
                             'ip': response.data.REMOTE_ADDR,
                             'user_agent': response.data.HTTP_USER_AGENT

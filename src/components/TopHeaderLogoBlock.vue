@@ -41,7 +41,7 @@ export default {
                 return false
             }
 
-            axios.get('//localhost:3000/clients_search', {
+            axios.get('//localhost:3001/clients_search', {
                 params: {
                     text: search.value
                 }

@@ -21,7 +21,7 @@ app.use(function(req, res, next) {
     multipleStatements: true
 })
 
-app.listen(3000, () => console.log('Express server is running at post 3000'))
+app.listen(3001, () => console.log('Express server is running at post 3001'))
 
 
 // Get categories
